@@ -1,18 +1,18 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-    <id>com.github.oovm.fluentintellij</id>
-    <name>fluent-intellij</name>
-    <vendor>oovm</vendor>
+	<id>com.github.oovm.fluent_intellij</id>
+	<name>Fluent Intellij</name>
+	<vendor>oovm</vendor>
 
-    <depends>com.intellij.modules.platform</depends>
+	<depends>com.intellij.modules.platform</depends>
 
-    <extensions defaultExtensionNs="com.intellij">
-        <applicationService serviceImplementation="com.github.oovm.fluentintellij.services.MyApplicationService"/>
-        <projectService serviceImplementation="com.github.oovm.fluentintellij.services.MyProjectService"/>
-    </extensions>
+	<extensions defaultExtensionNs="com.intellij">
+		<applicationService serviceImplementation="com.github.oovm.fluent_intellij.services.MyApplicationService"/>
+		<projectService serviceImplementation="com.github.oovm.fluent_intellij.services.MyProjectService"/>
+	</extensions>
 
-    <applicationListeners>
-        <listener class="com.github.oovm.fluentintellij.listeners.MyProjectManagerListener"
-                  topic="com.intellij.openapi.project.ProjectManagerListener"/>
-    </applicationListeners>
+	<applicationListeners>
+		<listener class="com.github.oovm.fluent_intellij.listeners.MyProjectManagerListener"
+		          topic="com.intellij.openapi.project.ProjectManagerListener"/>
+	</applicationListeners>
 </idea-plugin>

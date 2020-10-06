@@ -1,4 +1,4 @@
-package com.github.oovm.fluentintellij
+package com.github.oovm.fluent_intellij
 
 import com.intellij.ide.highlighter.XmlFileType
 import com.intellij.psi.xml.XmlFile

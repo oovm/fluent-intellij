@@ -1,1 +1,1 @@
-rootProject.name = "fluent-intellij"
+rootProject.name = "Fluent Intellij"
