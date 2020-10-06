@@ -9,6 +9,13 @@
 	<extensions defaultExtensionNs="com.intellij">
 		<applicationService serviceImplementation="com.github.oovm.fluent_intellij.services.MyApplicationService"/>
 		<projectService serviceImplementation="com.github.oovm.fluent_intellij.services.MyProjectService"/>
+		<fileType
+				name="JSS"
+				language="JSS"
+				extensions="jss"
+				implementationClass="com.github.oovm.fluent_intellij.ide.view.JssFileType"
+				fieldName="INSTANCE"
+		/>
 	</extensions>
 
 	<applicationListeners>
