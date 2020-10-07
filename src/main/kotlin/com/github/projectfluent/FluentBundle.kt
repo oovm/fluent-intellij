@@ -1,6 +1,6 @@
-package com.github.oovm.fluent_intellij
+package com.github.projectfluent
 
-import com.github.oovm.fluent_intellij.FluentLanguage.Companion.BUNDLE
+import com.github.projectfluent.FluentLanguage.Companion.BUNDLE
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.PropertyKey
 import java.util.function.Supplier

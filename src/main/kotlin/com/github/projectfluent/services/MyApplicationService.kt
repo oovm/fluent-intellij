@@ -1,6 +1,6 @@
-package com.github.oovm.fluent_intellij.services
+package com.github.projectfluent.services
 
-import com.github.oovm.fluent_intellij.FluentBundle
+import com.github.projectfluent.FluentBundle
 
 class MyApplicationService {
 

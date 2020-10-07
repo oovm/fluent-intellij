@@ -1,7 +1,7 @@
-package com.github.oovm.fluent_intellij.services
+package com.github.projectfluent.services
 
 import com.intellij.openapi.project.Project
-import com.github.oovm.fluent_intellij.FluentBundle
+import com.github.projectfluent.FluentBundle
 
 class MyProjectService(project: Project) {
 

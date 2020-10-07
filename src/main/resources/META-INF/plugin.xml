@@ -7,19 +7,19 @@
 	<depends>com.intellij.modules.platform</depends>
 
 	<extensions defaultExtensionNs="com.intellij">
-		<applicationService serviceImplementation="com.github.oovm.fluent_intellij.services.MyApplicationService"/>
-		<projectService serviceImplementation="com.github.oovm.fluent_intellij.services.MyProjectService"/>
+		<applicationService serviceImplementation="com.github.projectfluent.services.MyApplicationService"/>
+		<projectService serviceImplementation="com.github.projectfluent.services.MyProjectService"/>
 		<fileType
-				name="JSS"
-				language="JSS"
-				extensions="jss"
-				implementationClass="com.github.oovm.fluent_intellij.ide.view.JssFileType"
+				name="Fluent"
+				language="Fluent"
+				extensions="ftl;awt;"
+				implementationClass="com.github.projectfluent.ide.view.FluentFileType"
 				fieldName="INSTANCE"
 		/>
 	</extensions>
 
 	<applicationListeners>
-		<listener class="com.github.oovm.fluent_intellij.listeners.MyProjectManagerListener"
+		<listener class="com.github.projectfluent.listeners.MyProjectManagerListener"
 		          topic="com.intellij.openapi.project.ProjectManagerListener"/>
 	</applicationListeners>
 </idea-plugin>

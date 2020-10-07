@@ -1,4 +1,4 @@
-package com.github.oovm.fluent_intellij
+package com.github.projectfluent
 
 import com.intellij.lang.Language
 import org.jetbrains.annotations.NonNls
