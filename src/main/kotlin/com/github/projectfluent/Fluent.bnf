@@ -1,0 +1,130 @@
+{
+    parserClass = "com.github.projectfluent.language.parser.FluentParser"
+    parserUtilClass = "com.github.projectfluent.language.psi.FluentParserExtension"
+
+
+
+    psiClassPrefix = "Fluent"
+    psiImplClassSuffix = "Node"
+    psiPackage = "com.github.projectfluent.language.psi"
+    psiImplPackage = "com.github.projectfluent.language.psi_node"
+
+    elementTypeHolderClass = "com.github.projectfluent.language.psi.FluentTypes"
+    elementTypeClass = "com.github.projectfluent.language.psi.FluentElementType"
+    tokenTypeClass = "com.github.projectfluent.language.psi.FluentTokenType"
+
+    psiImplUtilClass = "com.github.projectfluent.language.psi_node.FluentPsiExtension"
+
+    tokens = [
+        // comment
+        COMMENT_DOCUMENT = 'regexp:(///)[^\r\n]*'
+        COMMENT = 'regexp:(//)[^\r\n]*'
+        COMMENT_BLOCK = 'regexp:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]'
+
+        // literal
+        URL = 'regexp: [A-Za-z0-9]+://[\-\p{XID_Continue}./?&#]+'
+        SYMBOL = 'regexp:[\p{XID_Start}_][\p{XID_Continue}_]*'
+        STRING = 'regexp:"([^"\\]|\\.)*"'
+
+        BYTE = 'regexp:(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)'
+        INTEGER = 'regexp:(0|[1-9][0-9_]*)'
+        DECIMAL = 'regexp:([0-9]+\.[0-9]*([*][*][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)'
+        SIGN = 'regexp:[+-]'
+
+        PARENTHESIS_L = '('
+        PARENTHESIS_R = ')'
+        BRACKET_L = '['
+        BRACKET_R = ']'
+        BRACE_L = '{'
+        BRACE_R = '}'
+        ANGLE_L = '<'
+        ANGLE_R = '>'
+        ACCENT = '^'
+        EQ = '='
+        COLON = ':'
+        SEMICOLON = ';'
+        COMMA = ','
+        DOLLAR = '$'
+        DOT = '.'
+        STAR = '*'
+        AT = '@'
+//      SPACE='regexp:\s+'
+//      ANY = 'regexp:.'
+    ]
+    extends = "com.intellij.extapi.psi.ASTWrapperPsiElement"
+}
+
+Fluent ::= statement*;
+
+private statement ::=
+    schema_statement
+  | properties_statement
+  | def_statement
+  | COMMENT_DOCUMENT
+  | object
+  | ignore;
+private ignore ::= SEMICOLON | COMMA;
+// ---------------------------------------------------------------------------------------------------------------------
+// schema <ID>: <TYPE> { }
+schema_statement ::= "schema" SYMBOL [type_hint] <<brace_block properties_inner ignore>>;
+// ---------------------------------------------------------------------------------------------------------------------
+// properties <ID>: <TYPE> { }
+properties_statement ::= ("properties" | "property" | "prop"| "field" | DOT) properties_key [type_hint] [properties_block];
+properties_key ::= STRING | SYMBOL {
+    mixin = "com.github.projectfluent.language.mixin.JssPropertiesKeyMixin"
+}
+
+// used in formatter
+properties_mark ::= DOT;
+properties_block ::= <<brace_block properties_inner ignore>>;
+
+private properties_inner ::=
+    idiom_statement
+  | properties_statement
+  | anno_statement
+  | COMMENT_DOCUMENT
+  | kv_pair // consider as anno
+  ;
+// ---------------------------------------------------------------------------------------------------------------------
+def_statement ::= ("def"|"define"|"definition") properties_key [type_hint] [properties_block];
+// ---------------------------------------------------------------------------------------------------------------------
+// $schema: https://json-schema.org/draft/2020-12/schema
+idiom_statement ::= idiom_mark idiom_symbol [COLON] value;
+idiom_mark ::= DOLLAR;
+idiom_symbol ::= SYMBOL;
+// ---------------------------------------------------------------------------------------------------------------------
+// <KEY>: <VALUE>
+anno_statement ::= anno_key set value;
+private set ::= COLON;
+private anno_key ::= STRING | SYMBOL;
+// ---------------------------------------------------------------------------------------------------------------------
+type_hint ::= COLON type_symbol;
+private type_symbol ::= SYMBOL | STRING;
+// ---------------------------------------------------------------------------------------------------------------------
+//symbol_path ::= key (DOT key)*;
+//private key ::= string_inline | key_symbol | INTEGER;
+private eq ::= EQ | COLON;
+// ---------------------------------------------------------------------------------------------------------------------
+value ::= null | boolean | num | str | array | object | url_maybe_valid;
+null ::= "null";
+boolean ::= "true" | "false";
+// used in annotation
+url_maybe_valid ::= URL;
+// ---------------------------------------------------------------------------------------------------------------------
+private num ::= [SIGN] (INTEGER | DECIMAL) | [SIGN] BYTE;
+// ---------------------------------------------------------------------------------------------------------------------
+private str ::= (string_inline|string_multi);
+string_inline ::= STRING;
+string_multi ::= STRING;
+// ---------------------------------------------------------------------------------------------------------------------
+array ::= <<bracket_block value ignore>>;
+object ::= <<brace_block kv_pair ignore>>;
+kv_pair ::= (string_inline|SYMBOL) eq value;
+// ---------------------------------------------------------------------------------------------------------------------
+// parenthesis ( )
+private meta parenthesis ::= PARENTHESIS_L <<param>> PARENTHESIS_R;
+// bracket [ ]
+meta bracket_block ::= BRACKET_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] BRACKET_R;
+// brace { }
+meta brace_block ::=BRACE_L (<<item>>|<<sp>>)* BRACE_R;
+
