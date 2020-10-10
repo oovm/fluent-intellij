@@ -1,11 +1,11 @@
-package com.github.projectfluent.language;
+package com.github.voml.jss_intellij.language;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
-import static com.github.voml.jss_intellij.language.psi.FluentTypes.*;
+import static com.github.voml.jss_intellij.language.psi.JssTypes.*;
 
 %%
 
@@ -16,7 +16,7 @@ public _JssLexer() {
 %}
 
 %public
-%class _FluentLexer
+%class _JssLexer
 %implements FlexLexer
 %function advance
 %type IElementType

@@ -10,7 +10,7 @@ object FluentBundle : DynamicBundle(BUNDLE) {
 
     @Suppress("SpreadOperator")
     @JvmStatic
-    fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any): String {
+    fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any):String {
         return getMessage(key, *params)
     }
 

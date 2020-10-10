@@ -1,14 +1,13 @@
-<!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
-	<id>com.github.oovm.fluent_intellij</id>
-	<name>Fluent Intellij</name>
-	<vendor>oovm</vendor>
-
+	<id>FluentLanguage</id>
+	<name>Fluent Language</name>
+	<vendor>voml</vendor>
+	<!-- Product and plugin compatibility requirements -->
+	<!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
 	<depends>com.intellij.modules.platform</depends>
-
+	<!--    <depends optional="true" config-file="plugin-with-rust.xml">org.rust.lang</depends>-->
+	<resource-bundle>messages.FluentBundle</resource-bundle>
 	<extensions defaultExtensionNs="com.intellij">
-		<applicationService serviceImplementation="com.github.projectfluent.services.MyApplicationService"/>
-		<projectService serviceImplementation="com.github.projectfluent.services.MyProjectService"/>
 		<fileType
 				name="Fluent"
 				language="Fluent"
@@ -16,10 +15,85 @@
 				implementationClass="com.github.projectfluent.ide.view.FluentFileType"
 				fieldName="INSTANCE"
 		/>
-	</extensions>
+		<lang.parserDefinition
+				language="Fluent"
+				implementationClass="com.github.voml.jss_intellij.language.psi.FluentParserDefinition"
+		/>
+		<projectViewNestingRulesProvider implementation="com.github.voml.jss_intellij.ide.file_view.JssFileGroup"/>
+		<!-- Highlight -->
+		<additionalTextAttributes scheme="Default" file="colors/JssDefault.xml"/>
+		<additionalTextAttributes scheme="Darcula" file="colors/JssDarcula.xml"/>
+		<colorSettingsPage implementation="com.github.voml.jss_intellij.ide.highlight.JssColorSettingsPage"/>
+		<highlightVisitor implementation="com.github.voml.jss_intellij.ide.highlight.JssHighlightVisitor"/>
+		<lang.syntaxHighlighter
+				language="Fluent"
+				implementationClass="com.github.voml.jss_intellij.ide.highlight.JssSyntaxHighlighter"
+		/>
+		<!-- Formatter -->
+		<lang.formatter
+				language="Fluent"
+				implementationClass="com.github.voml.jss_intellij.ide.formatter.JssFormattingModelBuilder"
+		/>
+		<lang.commenter
+				language="Fluent"
+				implementationClass="com.github.voml.jss_intellij.ide.formatter.JssCommenter"
+		/>
+		<lang.smartEnterProcessor
+				language="Fluent"
+				implementationClass="com.github.voml.jss_intellij.ide.formatter.JssSmartEnter"
+		/>
+		<!-- Document -->
+		<!--documentationProvider implementation="com.github.voml.jss_intellij.ide.doc.JssDocumentationExtender"-->
+		<psi.referenceContributor implementation="com.github.voml.jss_intellij.ide.doc.JssUrlReferenceContributor"/>
+		<lang.documentationProvider
+				language="Fluent"
+				implementationClass="com.github.voml.jss_intellij.ide.doc.JssDocumentationProvider"
+		/>
 
-	<applicationListeners>
-		<listener class="com.github.projectfluent.listeners.MyProjectManagerListener"
-		          topic="com.intellij.openapi.project.ProjectManagerListener"/>
-	</applicationListeners>
+		<lang.braceMatcher
+				language="Fluent"
+				implementationClass="com.github.voml.jss_intellij.ide.matcher.JssBraceMatcher"
+		/>
+		<lang.quoteHandler
+				language="Fluent"
+				implementationClass="com.github.voml.jss_intellij.ide.matcher.JssQuoteHandler"
+		/>
+		<lang.foldingBuilder
+				language="Fluent"
+				implementationClass="com.github.voml.jss_intellij.ide.matcher.JssFoldingBuilder"
+		/>
+		<indexPatternBuilder
+				implementation="com.github.voml.jss_intellij.ide.todo.VomlTodoIndexPatternBuilder"
+		/>
+		<todoIndexer
+				filetype="Fluent"
+				implementationClass="com.github.voml.jss_intellij.ide.todo.VomlTodoIndexer"
+		/>
+		<completion.contributor
+				language="Fluent"
+				implementationClass="com.github.voml.jss_intellij.ide.completion.VomlOptionCompletionContributor"
+		/>
+
+		<annotator language="Fluent" implementationClass="com.github.voml.jss_intellij.ide.annotator.LiteralChecker"/>
+
+		<langCodeStyleSettingsProvider
+				implementation="com.github.voml.jss_intellij.ide.codeStyle.VomlLanguageCodeStyleSettingsProvider"
+		/>
+
+	</extensions>
+	<actions>
+		<action id="NewJssFile" class="com.github.voml.jss_intellij.ide.actions.JssCreateFile">
+			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
+		</action>
+		<action id="jss.JssConvertJson"
+		        class="com.github.voml.jss_intellij.ide.actions.JssConvertJson"/>
+		<group id="jss.JssGenerator" popup="true" text="JssGenerator">
+			<reference ref="NewJssFile"/>
+			<reference ref="jss.JssConvertJson"/>
+			<add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
+			<add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
+			<add-to-group group-id="EditorTabPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
+			<add-to-group group-id="ConsoleEditorPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
+		</group>
+	</actions>
 </idea-plugin>

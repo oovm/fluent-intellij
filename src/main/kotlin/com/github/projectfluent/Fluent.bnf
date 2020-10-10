@@ -1,19 +1,19 @@
 {
-    parserClass = "com.github.projectfluent.language.parser.FluentParser"
-    parserUtilClass = "com.github.projectfluent.language.psi.FluentParserExtension"
+    parserClass = "com.github.voml.jss_intellij.language.parser.JssParser"
+    parserUtilClass = "com.github.voml.jss_intellij.language.psi.JssParserExtension"
 
+    extends = "com.intellij.extapi.psi.ASTWrapperPsiElement"
 
-
-    psiClassPrefix = "Fluent"
+    psiClassPrefix = "Jss"
     psiImplClassSuffix = "Node"
-    psiPackage = "com.github.projectfluent.language.psi"
-    psiImplPackage = "com.github.projectfluent.language.psi_node"
+    psiPackage = "com.github.voml.jss_intellij.language.psi"
+    psiImplPackage = "com.github.voml.jss_intellij.language.psi_node"
 
-    elementTypeHolderClass = "com.github.projectfluent.language.psi.FluentTypes"
-    elementTypeClass = "com.github.projectfluent.language.psi.FluentElementType"
-    tokenTypeClass = "com.github.projectfluent.language.psi.FluentTokenType"
+    elementTypeHolderClass = "com.github.voml.jss_intellij.language.psi.JssTypes"
+    elementTypeClass = "com.github.voml.jss_intellij.language.psi.JssElementType"
+    tokenTypeClass = "com.github.voml.jss_intellij.language.psi.JssTokenType"
 
-    psiImplUtilClass = "com.github.projectfluent.language.psi_node.FluentPsiExtension"
+    psiImplUtilClass = "com.github.voml.jss_intellij.language.psi_node.JssPsiImplUtil"
 
     tokens = [
         // comment
@@ -51,10 +51,9 @@
 //      SPACE='regexp:\s+'
 //      ANY = 'regexp:.'
     ]
-    extends = "com.intellij.extapi.psi.ASTWrapperPsiElement"
 }
 
-Fluent ::= statement*;
+JSS ::= statement*;
 
 private statement ::=
     schema_statement
@@ -70,7 +69,9 @@ schema_statement ::= "schema" SYMBOL [type_hint] <<brace_block properties_inner 
 // ---------------------------------------------------------------------------------------------------------------------
 // properties <ID>: <TYPE> { }
 properties_statement ::= ("properties" | "property" | "prop"| "field" | DOT) properties_key [type_hint] [properties_block];
-properties_key ::= STRING | SYMBOL;
+properties_key ::= STRING | SYMBOL {
+    mixin = "com.github.voml.jss_intellij.language.mixin.JssPropertiesKeyMixin"
+}
 
 // used in formatter
 properties_mark ::= DOT;

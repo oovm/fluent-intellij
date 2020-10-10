@@ -1,6 +1,6 @@
-package com.github.voml.jss_intellij.language.psi
+package com.github.projectfluent.language.psi
 
-import com.github.voml.jss_intellij.JssLanguage
+import com.github.projectfluent.FluentLanguage
 import com.github.voml.jss_intellij.ide.file_view.JssFile
 import com.github.voml.jss_intellij.language.parser.JssParser
 import com.intellij.lang.ASTNode
@@ -15,7 +15,7 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 
 
-class JssParserDefinition : ParserDefinition {
+class FluentParserDefinition : ParserDefinition {
     override fun createLexer(project: Project): Lexer = JssLexerAdapter()
 
     override fun createParser(project: Project): PsiParser = JssParser()
@@ -37,6 +37,6 @@ class JssParserDefinition : ParserDefinition {
     companion object {
         val COMMENTS = TokenSet.create(JssTypes.COMMENT, JssTypes.COMMENT_BLOCK)
         val STRING_LITERALS = TokenSet.create(JssTypes.STRING_INLINE, JssTypes.STRING_MULTI)
-        val FILE = IFileElementType(JssLanguage.INSTANCE)
+        val FILE = IFileElementType(com.github.projectfluent.FluentLanguage.INSTANCE)
     }
 }

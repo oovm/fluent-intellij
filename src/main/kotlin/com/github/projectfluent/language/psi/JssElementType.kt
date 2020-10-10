@@ -1,6 +1,6 @@
-package com.github.voml.jss_intellij.language.psi
+package com.github.projectfluent.language.psi
 
-import com.github.voml.jss_intellij.JssLanguage
+import com.github.projectfluent.FluentLanguage
 import com.intellij.psi.tree.IElementType
 
-class JssElementType(debugName: String) : IElementType(debugName, JssLanguage.INSTANCE)
+class JssElementType(debugName: String) : IElementType(debugName, com.github.projectfluent.FluentLanguage.INSTANCE)

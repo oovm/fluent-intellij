@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NonNls
 class FluentLanguage private constructor() : Language("Fluent") {
     companion object {
         @JvmStatic
-        val INSTANCE = FluentLanguage()
+        val INSTANCE = com.github.projectfluent.FluentLanguage()
 
         @NonNls
         const val BUNDLE = "messages.FluentBundle"
