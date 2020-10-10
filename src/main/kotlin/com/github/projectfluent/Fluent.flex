@@ -10,9 +10,9 @@ import static com.github.voml.jss_intellij.language.psi.FluentTypes.*;
 %%
 
 %{
-  public _JssLexer() {
-    this((java.io.Reader)null);
-  }
+public _JssLexer() {
+	this((java.io.Reader)null);
+}
 %}
 
 %public

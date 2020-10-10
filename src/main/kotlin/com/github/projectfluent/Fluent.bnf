@@ -70,9 +70,7 @@ schema_statement ::= "schema" SYMBOL [type_hint] <<brace_block properties_inner 
 // ---------------------------------------------------------------------------------------------------------------------
 // properties <ID>: <TYPE> { }
 properties_statement ::= ("properties" | "property" | "prop"| "field" | DOT) properties_key [type_hint] [properties_block];
-properties_key ::= STRING | SYMBOL {
-    mixin = "com.github.projectfluent.language.mixin.JssPropertiesKeyMixin"
-}
+properties_key ::= STRING | SYMBOL;
 
 // used in formatter
 properties_mark ::= DOT;
