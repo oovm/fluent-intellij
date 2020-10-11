@@ -1,7 +1,6 @@
 package com.github.projectfluent.ide.view
 
 import com.github.projectfluent.FluentBundle
-import com.github.projectfluent.FluentLanguage.Companion
 import com.intellij.openapi.fileTypes.LanguageFileType
 import javax.swing.Icon
 
@@ -12,7 +11,7 @@ class FluentFileType private constructor() : LanguageFileType(com.github.project
 
     override fun getDefaultExtension(): String = "ftl;awt;"
 
-    override fun getIcon(): Icon = FluentIcons.FILE
+    override fun getIcon(): Icon = FluentIconProvider.FILE
 
     companion object {
         @JvmStatic
