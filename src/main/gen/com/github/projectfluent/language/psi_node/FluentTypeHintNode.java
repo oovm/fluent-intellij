@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.projectfluent.language.psi.FluentTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.intellij.extapi.psi.FluentAST;
 import com.github.projectfluent.language.psi.*;
 
-public class FluentTypeHintNode extends ASTWrapperPsiElement implements FluentTypeHint {
+public class FluentTypeHintNode extends FluentAST implements FluentTypeHint {
 
-  public FluentTypeHintNode(@NotNull ASTNode node) {
+  public FluentTypeHintNode(ASTNode node) {
     super(node);
   }
 
@@ -25,18 +25,6 @@ public class FluentTypeHintNode extends ASTWrapperPsiElement implements FluentTy
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof FluentVisitor) accept((FluentVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getString() {
-    return findChildByType(STRING);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getSymbol() {
-    return findChildByType(SYMBOL);
   }
 
 }

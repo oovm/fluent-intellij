@@ -15,15 +15,15 @@
 				implementationClass="com.github.projectfluent.ide.view.FluentFileType"
 				fieldName="INSTANCE"
 		/>
-		<iconProvider implementation="com.github.projectfluent.ide.view.FluentIconProvider"/>
-		<projectViewNestingRulesProvider implementation="com.github.projectfluent.ide.view.FluentFileGroup"/>
-		<!-- Highlight -->
 		<lang.parserDefinition
 				language="Fluent"
 				implementationClass="com.github.projectfluent.language.psi.FluentParserDefinition"
 		/>
-		<additionalTextAttributes scheme="Default" file="colors/JssDefault.xml"/>
-		<additionalTextAttributes scheme="Darcula" file="colors/JssDarcula.xml"/>
+		<iconProvider implementation="com.github.projectfluent.ide.view.FluentIconProvider"/>
+		<projectViewNestingRulesProvider implementation="com.github.projectfluent.ide.view.FluentFileGroup"/>
+		<!-- Highlight -->
+		<additionalTextAttributes scheme="Default" file="colors/FluentDefault.xml"/>
+		<additionalTextAttributes scheme="Darcula" file="colors/FluentDarcula.xml"/>
 		<colorSettingsPage implementation="com.github.voml.jss_intellij.ide.highlight.JssColorSettingsPage"/>
 		<highlightVisitor implementation="com.github.voml.jss_intellij.ide.highlight.JssHighlightVisitor"/>
 		<lang.syntaxHighlighter

@@ -13,7 +13,4 @@ public interface FluentKvPair extends PsiElement {
   @NotNull
   FluentValue getValue();
 
-  @Nullable
-  PsiElement getSymbol();
-
 }

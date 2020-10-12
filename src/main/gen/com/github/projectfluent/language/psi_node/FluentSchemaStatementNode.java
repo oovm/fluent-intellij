@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.projectfluent.language.psi.FluentTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.intellij.extapi.psi.FluentAST;
 import com.github.projectfluent.language.psi.*;
 
-public class FluentSchemaStatementNode extends ASTWrapperPsiElement implements FluentSchemaStatement {
+public class FluentSchemaStatementNode extends FluentAST implements FluentSchemaStatement {
 
-  public FluentSchemaStatementNode(@NotNull ASTNode node) {
+  public FluentSchemaStatementNode(ASTNode node) {
     super(node);
   }
 
@@ -37,12 +37,6 @@ public class FluentSchemaStatementNode extends ASTWrapperPsiElement implements F
   @Nullable
   public FluentTypeHint getTypeHint() {
     return findChildByClass(FluentTypeHint.class);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getSymbol() {
-    return findNotNullChildByType(SYMBOL);
   }
 
 }

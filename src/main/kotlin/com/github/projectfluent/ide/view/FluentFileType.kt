@@ -11,7 +11,7 @@ class FluentFileType private constructor() : LanguageFileType(com.github.project
 
     override fun getDefaultExtension(): String = "ftl;awt;"
 
-    override fun getIcon(): Icon = FluentIconProvider.FILE
+    override fun getIcon(): Icon = FluentIconProvider.FluentFile
 
     companion object {
         @JvmStatic

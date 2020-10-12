@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.projectfluent.language.psi.FluentTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.intellij.extapi.psi.FluentAST;
 import com.github.projectfluent.language.psi.*;
 
-public class FluentPropertiesBlockNode extends ASTWrapperPsiElement implements FluentPropertiesBlock {
+public class FluentPropertiesBlockNode extends FluentAST implements FluentPropertiesBlock {
 
-  public FluentPropertiesBlockNode(@NotNull ASTNode node) {
+  public FluentPropertiesBlockNode(ASTNode node) {
     super(node);
   }
 

@@ -10,14 +10,14 @@ class FluentIconProvider : IconProvider() {
         val fileName = psiElement.containingFile.name
 
         return when {
-            fileName.endsWith(".ftl") -> Fluent
+            fileName.endsWith(".ftl") -> FluentFile
             fileName.endsWith(".awt") -> AwtFile
             else -> null
         }
     }
 
     companion object {
-        val Fluent = IconLoader.getIcon("/icons/aw.svg", FluentIconProvider::class.java)
-        val AwtFile = IconLoader.getIcon("/icons/awc.svg", FluentIconProvider::class.java)
+        val FluentFile = IconLoader.getIcon("/icons/ftl.svg", FluentIconProvider::class.java)
+        val AwtFile = IconLoader.getIcon("/icons/awt.svg", FluentIconProvider::class.java)
     }
 }

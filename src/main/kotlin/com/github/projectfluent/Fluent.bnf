@@ -1,30 +1,30 @@
 {
-    parserClass = "com.github.voml.jss_intellij.language.parser.JssParser"
-    parserUtilClass = "com.github.voml.jss_intellij.language.psi.JssParserExtension"
+    parserClass = "com.github.projectfluent.language.parser.JssParser"
+    parserUtilClass = "com.github.projectfluent.language.psi.JssParserExtension"
 
-    extends = "com.intellij.extapi.psi.ASTWrapperPsiElement"
+    extends = "com.intellij.extapi.psi.FluentAST"
 
-    psiClassPrefix = "Jss"
+    psiClassPrefix = "Fluent"
     psiImplClassSuffix = "Node"
-    psiPackage = "com.github.voml.jss_intellij.language.psi"
-    psiImplPackage = "com.github.voml.jss_intellij.language.psi_node"
+    psiPackage = "com.github.projectfluent.language.psi"
+    psiImplPackage = "com.github.projectfluent.language.psi_node"
 
-    elementTypeHolderClass = "com.github.voml.jss_intellij.language.psi.JssTypes"
-    elementTypeClass = "com.github.voml.jss_intellij.language.psi.JssElementType"
-    tokenTypeClass = "com.github.voml.jss_intellij.language.psi.JssTokenType"
+    elementTypeHolderClass = "com.github.projectfluent.language.psi.FluentTypes"
+    elementTypeClass = "com.github.projectfluent.language.psi.FluentElementType"
+    tokenTypeClass = "com.github.projectfluent.language.psi.FluentTokenType"
 
-    psiImplUtilClass = "com.github.voml.jss_intellij.language.psi_node.JssPsiImplUtil"
+    psiImplUtilClass = "com.github.projectfluent.language.psi_node.FluentPsiExtension"
 
     tokens = [
         // comment
-        COMMENT_DOCUMENT = 'regexp:(///)[^\r\n]*'
-        COMMENT = 'regexp:(//)[^\r\n]*'
-        COMMENT_BLOCK = 'regexp:[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]'
+        COMMENT_DOCUMENT = "Comment Document"
+        COMMENT = "Comment"
+        COMMENT_BLOCK = "Comment Block"
 
         // literal
-        URL = 'regexp: [A-Za-z0-9]+://[\-\p{XID_Continue}./?&#]+'
-        SYMBOL = 'regexp:[\p{XID_Start}_][\p{XID_Continue}_]*'
-        STRING = 'regexp:"([^"\\]|\\.)*"'
+        URL = "Url"
+        SYMBOL = "Symbol"
+        STRING = "String"
 
         BYTE = 'regexp:(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)'
         INTEGER = 'regexp:(0|[1-9][0-9_]*)'
@@ -53,77 +53,91 @@
     ]
 }
 
-JSS ::= statement*;
+// https://github.com/projectfluent/fluent/blob/master/spec/fluent.ebnf
+Fluent ::= fluent_item*;
+/* An FTL file defines a Resource consisting of Entries. */
+private fluent_item ::=
+	Entry
+	| Junk;
 
-private statement ::=
-    schema_statement
-  | properties_statement
-  | def_statement
-  | COMMENT_DOCUMENT
-  | object
-  | ignore;
-private ignore ::= SEMICOLON | COMMA;
-// ---------------------------------------------------------------------------------------------------------------------
-// schema <ID>: <TYPE> { }
-schema_statement ::= "schema" SYMBOL [type_hint] <<brace_block properties_inner ignore>>;
-// ---------------------------------------------------------------------------------------------------------------------
-// properties <ID>: <TYPE> { }
-properties_statement ::= ("properties" | "property" | "prop"| "field" | DOT) properties_key [type_hint] [properties_block];
-properties_key ::= STRING | SYMBOL {
-    mixin = "com.github.voml.jss_intellij.language.mixin.JssPropertiesKeyMixin"
-}
+/* Entries are the main building blocks of Fluent. They define translations and
+ * contextual and semantic information about the translations. During the AST
+ * construction, adjacent comment lines of the same comment type (defined by
+ * the number of #) are joined together. Single-# comments directly preceding
+ * Messages and Terms are attached to the Message or Term and are not
+ * standalone Entries. */
+Entry ::=
+	Message
+	| Term
+	| CommentLine;
+Message             ::= Identifier blank_inline? "=" blank_inline? ((Pattern Attribute*) | (Attribute+))
+Term                ::= "-" Identifier blank_inline? "=" blank_inline? Pattern Attribute*
 
-// used in formatter
-properties_mark ::= DOT;
-properties_block ::= <<brace_block properties_inner ignore>>;
+/* Adjacent comment lines of the same comment type are joined together during
+ * the AST construction. */
+CommentLine         ::= ("###" | "##" | "#") ("\u0020" comment_char*)? line_end
 
-private properties_inner ::=
-    idiom_statement
-  | properties_statement
-  | anno_statement
-  | COMMENT_DOCUMENT
-  | kv_pair // consider as anno
-  ;
-// ---------------------------------------------------------------------------------------------------------------------
-def_statement ::= ("def"|"define"|"definition") properties_key [type_hint] [properties_block];
-// ---------------------------------------------------------------------------------------------------------------------
-// $schema: https://json-schema.org/draft/2020-12/schema
-idiom_statement ::= idiom_mark idiom_symbol [COLON] value;
-idiom_mark ::= DOLLAR;
-idiom_symbol ::= SYMBOL;
-// ---------------------------------------------------------------------------------------------------------------------
-// <KEY>: <VALUE>
-anno_statement ::= anno_key set value;
-private set ::= COLON;
-private anno_key ::= STRING | SYMBOL;
-// ---------------------------------------------------------------------------------------------------------------------
-type_hint ::= COLON type_symbol;
-private type_symbol ::= SYMBOL | STRING;
-// ---------------------------------------------------------------------------------------------------------------------
-//symbol_path ::= key (DOT key)*;
-//private key ::= string_inline | key_symbol | INTEGER;
-private eq ::= EQ | COLON;
-// ---------------------------------------------------------------------------------------------------------------------
-value ::= null | boolean | num | str | array | object | url_maybe_valid;
-null ::= "null";
-boolean ::= "true" | "false";
-// used in annotation
-url_maybe_valid ::= URL;
-// ---------------------------------------------------------------------------------------------------------------------
-private num ::= [SIGN] (INTEGER | DECIMAL) | [SIGN] BYTE;
-// ---------------------------------------------------------------------------------------------------------------------
-private str ::= (string_inline|string_multi);
-string_inline ::= STRING;
-string_multi ::= STRING;
-// ---------------------------------------------------------------------------------------------------------------------
-array ::= <<bracket_block value ignore>>;
-object ::= <<brace_block kv_pair ignore>>;
-kv_pair ::= (string_inline|SYMBOL) eq value;
-// ---------------------------------------------------------------------------------------------------------------------
-// parenthesis ( )
-private meta parenthesis ::= PARENTHESIS_L <<param>> PARENTHESIS_R;
-// bracket [ ]
-meta bracket_block ::= BRACKET_L [<<item>> (<<sp>> <<item>>)* [<<sp>>]] BRACKET_R;
-// brace { }
-meta brace_block ::=BRACE_L (<<item>>|<<sp>>)* BRACE_R;
+/* Junk represents unparsed content.
+ *
+ * Junk is parsed line-by-line until a line is found which looks like it might
+ * be a beginning of a new message, term, or a comment. Any whitespace
+ * following a broken Entry is also considered part of Junk.
+ */
+Junk                ::= junk_line (junk_line - "#" - "-" - [a-zA-Z])*
+junk_line           ::= /[^\n]*/ ("\u000A" | EOF)
 
+/* Attributes of Messages and Terms. */
+Attribute           ::= line_end blank? "." Identifier blank_inline? "=" blank_inline? Pattern
+
+/* Patterns are values of Messages, Terms, Attributes and Variants. */
+Pattern             ::= PatternElement+
+
+/* TextElement and Placeable can occur inline or as block.
+ * Text needs to be indented and start with a non-special character.
+ * Placeables can start at the beginning of the line or be indented.
+ * Adjacent TextElements are joined in AST creation. */
+PatternElement      ::= inline_text
+                      | block_text
+                      | inline_placeable
+                      | block_placeable
+inline_text         ::= text_char+
+block_text          ::= blank_block blank_inline indented_char inline_text?
+inline_placeable    ::= "{" blank? (SelectExpression | InlineExpression) blank? "}"
+block_placeable     ::= blank_block blank_inline? inline_placeable
+
+/* Rules for validating expressions in Placeables and as selectors of
+ * SelectExpressions are documented in spec/valid.md and enforced in
+ * syntax/abstract.js. */
+InlineExpression    ::= StringLiteral
+                      | NumberLiteral
+                      | FunctionReference
+                      | MessageReference
+                      | TermReference
+                      | VariableReference
+                      | inline_placeable
+
+/* Literals */
+StringLiteral       ::= "\"" quoted_char* "\""
+NumberLiteral       ::= "-"? digits ("." digits)?
+
+/* Inline Expressions */
+FunctionReference   ::= Identifier CallArguments
+MessageReference    ::= Identifier AttributeAccessor?
+TermReference       ::= "-" Identifier AttributeAccessor? CallArguments?
+VariableReference   ::= "$" Identifier
+AttributeAccessor   ::= "." Identifier
+CallArguments       ::= blank? "(" blank? argument_list blank? ")"
+argument_list       ::= (Argument blank? "," blank?)* Argument?
+Argument            ::= NamedArgument
+                      | InlineExpression
+NamedArgument       ::= Identifier blank? ":" blank? (StringLiteral | NumberLiteral)
+
+/* Block Expressions */
+SelectExpression    ::= InlineExpression blank? "->" blank_inline? variant_list
+variant_list        ::= Variant* DefaultVariant Variant* line_end
+Variant             ::= line_end blank? VariantKey blank_inline? Pattern
+DefaultVariant      ::= line_end blank? "*" VariantKey blank_inline? Pattern
+VariantKey          ::= "[" blank? (NumberLiteral | Identifier) blank? "]"
+
+/* Identifier */
+Identifier          ::= SYMBOL;

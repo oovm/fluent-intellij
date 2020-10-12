@@ -42,9 +42,9 @@ public interface FluentTypes {
   IElementType BYTE = new FluentTokenType("BYTE");
   IElementType COLON = new FluentTokenType(":");
   IElementType COMMA = new FluentTokenType(",");
-  IElementType COMMENT = new FluentTokenType("COMMENT");
-  IElementType COMMENT_BLOCK = new FluentTokenType("COMMENT_BLOCK");
-  IElementType COMMENT_DOCUMENT = new FluentTokenType("COMMENT_DOCUMENT");
+  IElementType COMMENT = new FluentTokenType("Comment");
+  IElementType COMMENT_BLOCK = new FluentTokenType("Comment Block");
+  IElementType COMMENT_DOCUMENT = new FluentTokenType("Comment Document");
   IElementType DECIMAL = new FluentTokenType("DECIMAL");
   IElementType DOLLAR = new FluentTokenType("$");
   IElementType DOT = new FluentTokenType(".");
@@ -55,9 +55,9 @@ public interface FluentTypes {
   IElementType SEMICOLON = new FluentTokenType(";");
   IElementType SIGN = new FluentTokenType("SIGN");
   IElementType STAR = new FluentTokenType("*");
-  IElementType STRING = new FluentTokenType("STRING");
-  IElementType SYMBOL = new FluentTokenType("SYMBOL");
-  IElementType URL = new FluentTokenType("URL");
+  IElementType STRING = new FluentTokenType("String");
+  IElementType SYMBOL = new FluentTokenType("Symbol");
+  IElementType URL = new FluentTokenType("Url");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {

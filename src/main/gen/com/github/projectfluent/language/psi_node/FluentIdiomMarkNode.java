@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.projectfluent.language.psi.FluentTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.intellij.extapi.psi.FluentAST;
 import com.github.projectfluent.language.psi.*;
 
-public class FluentIdiomMarkNode extends ASTWrapperPsiElement implements FluentIdiomMark {
+public class FluentIdiomMarkNode extends FluentAST implements FluentIdiomMark {
 
-  public FluentIdiomMarkNode(@NotNull ASTNode node) {
+  public FluentIdiomMarkNode(ASTNode node) {
     super(node);
   }
 

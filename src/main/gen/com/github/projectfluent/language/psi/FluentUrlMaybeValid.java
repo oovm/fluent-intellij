@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface FluentUrlMaybeValid extends PsiElement {
 
-  @NotNull
-  PsiElement getUrl();
-
 }

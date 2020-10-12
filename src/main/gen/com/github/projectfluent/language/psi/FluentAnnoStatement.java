@@ -10,10 +10,4 @@ public interface FluentAnnoStatement extends PsiElement {
   @NotNull
   FluentValue getValue();
 
-  @Nullable
-  PsiElement getString();
-
-  @Nullable
-  PsiElement getSymbol();
-
 }

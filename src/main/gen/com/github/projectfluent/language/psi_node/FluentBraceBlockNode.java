@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.projectfluent.language.psi.FluentTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.intellij.extapi.psi.FluentAST;
 import com.github.projectfluent.language.psi.*;
 
-public class FluentBraceBlockNode extends ASTWrapperPsiElement implements FluentBraceBlock {
+public class FluentBraceBlockNode extends FluentAST implements FluentBraceBlock {
 
-  public FluentBraceBlockNode(@NotNull ASTNode node) {
+  public FluentBraceBlockNode(ASTNode node) {
     super(node);
   }
 

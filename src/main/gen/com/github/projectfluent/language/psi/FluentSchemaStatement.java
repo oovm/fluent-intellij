@@ -13,7 +13,4 @@ public interface FluentSchemaStatement extends PsiElement {
   @Nullable
   FluentTypeHint getTypeHint();
 
-  @NotNull
-  PsiElement getSymbol();
-
 }

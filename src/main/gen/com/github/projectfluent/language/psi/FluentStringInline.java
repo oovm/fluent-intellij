@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface FluentStringInline extends PsiElement {
 
-  @NotNull
-  PsiElement getString();
-
 }

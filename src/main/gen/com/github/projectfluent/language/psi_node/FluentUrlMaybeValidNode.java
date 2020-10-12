@@ -8,12 +8,12 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.projectfluent.language.psi.FluentTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.intellij.extapi.psi.FluentAST;
 import com.github.projectfluent.language.psi.*;
 
-public class FluentUrlMaybeValidNode extends ASTWrapperPsiElement implements FluentUrlMaybeValid {
+public class FluentUrlMaybeValidNode extends FluentAST implements FluentUrlMaybeValid {
 
-  public FluentUrlMaybeValidNode(@NotNull ASTNode node) {
+  public FluentUrlMaybeValidNode(ASTNode node) {
     super(node);
   }
 
@@ -25,12 +25,6 @@ public class FluentUrlMaybeValidNode extends ASTWrapperPsiElement implements Flu
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof FluentVisitor) accept((FluentVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public PsiElement getUrl() {
-    return findNotNullChildByType(URL);
   }
 
 }
