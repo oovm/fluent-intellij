@@ -40,7 +40,9 @@ DECIMAL=([0-9]+\.[0-9]*([*][*][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
 SIGN=[+-]
 
 
-ESCAPE_SPECIAL= \\(\" | \\)
+TEXT_CHAR = !(\u000D\u000A|\u000A|\R|\"|\\)[^]
+
+ESCAPE_SPECIAL= \\[^\"\\uU]
 ESCAPE_UNICODE= \\(u{HEX}{4}|U{HEX}{6})
 HEX = [0-9a-fA-F]
 
@@ -54,25 +56,23 @@ HEX = [0-9a-fA-F]
 }
 
 <YYINITIAL> {
-
-  "("                     { return PARENTHESIS_L; }
-  ")"                     { return PARENTHESIS_R; }
-  "["                     { return BRACKET_L; }
-  "]"                     { return BRACKET_R; }
-  "{"                     { return BRACE_L; }
-  "}"                     { return BRACE_R; }
-  "<"                     { return ANGLE_L; }
-  ">"                     { return ANGLE_R; }
-  "^"                     { return ACCENT; }
-  "="                     { return EQ; }
-  ":"                     { return COLON; }
-  ";"                     { return SEMICOLON; }
-  ","                     { return COMMA; }
-  "$"                     { return DOLLAR; }
-  "."                     { return DOT; }
-  "*"                     { return STAR; }
-  "@"                     { return AT; }
-
+	"(" { return PARENTHESIS_L; }
+	")" { return PARENTHESIS_R; }
+	"[" { return BRACKET_L; }
+	"]" { return BRACKET_R; }
+	"{" { return BRACE_L; }
+	"}" { return BRACE_R; }
+	"<" { return ANGLE_L; }
+	">" { return ANGLE_R; }
+	"^" { return ACCENT; }
+	"=" { return EQ; }
+	":" { return COLON; }
+	";" { return SEMICOLON; }
+	"," { return COMMA; }
+	"$" { return DOLLAR; }
+	"." { return DOT; }
+	"*" { return STAR; }
+	"@" { return AT; }
 
   {URL}                   { return URL; }
   {SYMBOL}                { return SYMBOL; }
@@ -80,16 +80,17 @@ HEX = [0-9a-fA-F]
   {INTEGER}               { return INTEGER; }
   {DECIMAL}               { return DECIMAL; }
   {SIGN}                  { return SIGN; }
+  {TEXT_CHAR}             { return TEXT_CHAR; }
 }
 
 <YYINITIAL> \" {
 	yybegin(StringQuote);
     return STRING_QUOTE;
 }
-
+// String escaped highlight
 <StringQuote> {
 	{ESCAPE_UNICODE} {return STRING_ESCAPE;}
-	{ESCAPE_SPECIAL}{return STRING_ESCAPE;}
+	{ESCAPE_SPECIAL} {return STRING_ESCAPE;}
 	[^\"] {return STRING_CHAR;}
 }
 

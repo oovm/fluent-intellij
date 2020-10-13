@@ -24,12 +24,15 @@
         // literal
         URL = "Url"
         SYMBOL = "Symbol"
-        STRING = "String"
+        STRING_QUOTE = "String Quote"
+        STRING_CHAR = "String Character"
+        STRING_ESCAPE = "String Escaped"
 
         BYTE = 'regexp:(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)'
         INTEGER = 'regexp:(0|[1-9][0-9_]*)'
         DECIMAL = 'regexp:([0-9]+\.[0-9]*([*][*][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)'
         SIGN = 'regexp:[+-]'
+        TEXT_CHAR="Text Character"
 
         PARENTHESIS_L = '('
         PARENTHESIS_R = ')'
@@ -57,8 +60,10 @@
 Fluent ::= fluent_item*;
 /* An FTL file defines a Resource consisting of Entries. */
 private fluent_item ::=
-	Entry
-	| Junk;
+	Message
+	|Term
+//	| CommentLine
+	;
 
 /* Entries are the main building blocks of Fluent. They define translations and
  * contextual and semantic information about the translations. During the AST
@@ -66,16 +71,33 @@ private fluent_item ::=
  * the number of #) are joined together. Single-# comments directly preceding
  * Messages and Terms are attached to the Message or Term and are not
  * standalone Entries. */
-Entry ::=
-	Message
-	| Term
-	| CommentLine;
-Message             ::= Identifier blank_inline? "=" blank_inline? ((Pattern Attribute*) | (Attribute+))
-Term                ::= "-" Identifier blank_inline? "=" blank_inline? Pattern Attribute*
+
+Message   ::= identifier EQ  ((pattern attribute*) | (attribute+))
+Term      ::= "-" identifier EQ pattern attribute*
+// Attributes of Messages and Terms.
+attribute ::= "." identifier EQ pattern
+// Patterns are values of Messages, Terms, Attributes and Variants.
+pattern   ::= pattern_element+
+private pattern_element ::=
+	inline_text
+//	| block_text
+//	| inline_placeable
+//	| block_placeable
+/* TextElement and Placeable can occur inline or as block.
+ * Text needs to be indented and start with a non-special character.
+ * Placeables can start at the beginning of the line or be indented.
+ * Adjacent TextElements are joined in AST creation. */
+
+inline_text         ::= TEXT_CHAR+
+//block_text          ::= blank_block blank_inline indented_char inline_text?
+//inline_placeable    ::= "{"   (SelectExpression | InlineExpression)   "}"
+//block_placeable     ::= blank_block   inline_placeable
+
+
 
 /* Adjacent comment lines of the same comment type are joined together during
  * the AST construction. */
-CommentLine         ::= ("###" | "##" | "#") ("\u0020" comment_char*)? line_end
+//CommentLine         ::= ("###" | "##" | "#") ("\u0020" comment_char*)? line_end
 
 /* Junk represents unparsed content.
  *
@@ -83,61 +105,48 @@ CommentLine         ::= ("###" | "##" | "#") ("\u0020" comment_char*)? line_end
  * be a beginning of a new message, term, or a comment. Any whitespace
  * following a broken Entry is also considered part of Junk.
  */
-Junk                ::= junk_line (junk_line - "#" - "-" - [a-zA-Z])*
-junk_line           ::= /[^\n]*/ ("\u000A" | EOF)
+//Junk                ::= junk_line (junk_line - "#" - "-" - [a-zA-Z])*
+//junk_line           ::= /[^\n]*/ ("\u000A" | EOF)
 
-/* Attributes of Messages and Terms. */
-Attribute           ::= line_end blank? "." Identifier blank_inline? "=" blank_inline? Pattern
 
-/* Patterns are values of Messages, Terms, Attributes and Variants. */
-Pattern             ::= PatternElement+
 
-/* TextElement and Placeable can occur inline or as block.
- * Text needs to be indented and start with a non-special character.
- * Placeables can start at the beginning of the line or be indented.
- * Adjacent TextElements are joined in AST creation. */
-PatternElement      ::= inline_text
-                      | block_text
-                      | inline_placeable
-                      | block_placeable
-inline_text         ::= text_char+
-block_text          ::= blank_block blank_inline indented_char inline_text?
-inline_placeable    ::= "{" blank? (SelectExpression | InlineExpression) blank? "}"
-block_placeable     ::= blank_block blank_inline? inline_placeable
+
+
 
 /* Rules for validating expressions in Placeables and as selectors of
  * SelectExpressions are documented in spec/valid.md and enforced in
  * syntax/abstract.js. */
-InlineExpression    ::= StringLiteral
-                      | NumberLiteral
-                      | FunctionReference
-                      | MessageReference
-                      | TermReference
-                      | VariableReference
-                      | inline_placeable
+//InlineExpression    ::= StringLiteral
+//                      | NumberLiteral
+//                      | FunctionReference
+//                      | MessageReference
+//                      | TermReference
+//                      | VariableReference
+//                      | inline_placeable
 
 /* Literals */
-StringLiteral       ::= "\"" quoted_char* "\""
-NumberLiteral       ::= "-"? digits ("." digits)?
+string       ::= STRING_QUOTE (STRING_CHAR|STRING_ESCAPE)* STRING_QUOTE;
+//NumberLiteral       ::= "-"? digits ("." digits)?
+/* Identifier */
+identifier          ::= SYMBOL;
 
 /* Inline Expressions */
-FunctionReference   ::= Identifier CallArguments
-MessageReference    ::= Identifier AttributeAccessor?
-TermReference       ::= "-" Identifier AttributeAccessor? CallArguments?
-VariableReference   ::= "$" Identifier
-AttributeAccessor   ::= "." Identifier
-CallArguments       ::= blank? "(" blank? argument_list blank? ")"
-argument_list       ::= (Argument blank? "," blank?)* Argument?
-Argument            ::= NamedArgument
-                      | InlineExpression
-NamedArgument       ::= Identifier blank? ":" blank? (StringLiteral | NumberLiteral)
+//FunctionReference   ::= Identifier CallArguments
+//MessageReference    ::= Identifier [AttributeAccessor]
+//TermReference       ::= "-" Identifier [AttributeAccessor] [CallArguments]
+//VariableReference   ::= "$" Identifier
+//AttributeAccessor   ::= "." Identifier
+//CallArguments       ::=   "("   argument_list   ")"
+//argument_list       ::= (Argument   ","  )* [Argument]
+//Argument            ::= NamedArgument | InlineExpression
+//NamedArgument       ::= Identifier   ":"   (StringLiteral | NumberLiteral)
 
 /* Block Expressions */
-SelectExpression    ::= InlineExpression blank? "->" blank_inline? variant_list
-variant_list        ::= Variant* DefaultVariant Variant* line_end
-Variant             ::= line_end blank? VariantKey blank_inline? Pattern
-DefaultVariant      ::= line_end blank? "*" VariantKey blank_inline? Pattern
-VariantKey          ::= "[" blank? (NumberLiteral | Identifier) blank? "]"
+//SelectExpression    ::= InlineExpression   "->"   variant_list
+//variant_list        ::= Variant* DefaultVariant Variant* line_end
+//Variant             ::= line_end   VariantKey   Pattern
+//DefaultVariant      ::= line_end   "*" VariantKey   Pattern
+//VariantKey          ::= "["   (NumberLiteral | Identifier)   "]"
 
-/* Identifier */
-Identifier          ::= SYMBOL;
+
+
