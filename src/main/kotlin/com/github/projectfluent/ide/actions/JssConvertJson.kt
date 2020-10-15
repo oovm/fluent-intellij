@@ -1,8 +1,9 @@
 package com.github.projectfluent.ide.actions
 
 import com.github.projectfluent.FluentBundle
-import com.github.voml.jss_intellij.ide.file_view.JssFileType
-import com.github.voml.jss_intellij.ide.file_view.JssIcons
+import com.github.projectfluent.ide.view.FluentFileType
+import com.github.projectfluent.ide.view.FluentIconProvider
+import com.github.projectfluent.ide.view.FluentIconProvider.Companion.FluentFile
 import com.intellij.ide.actions.CreateFileAction
 import com.intellij.json.psi.JsonFile
 import com.intellij.json.psi.JsonObject
@@ -14,7 +15,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiFileFactory
 
-class JssConvertJson : CreateFileAction(name, description, JssIcons.FILE) {
+class JssConvertJson : CreateFileAction(name, description, FluentFile) {
     companion object {
         private val name = com.github.projectfluent.FluentBundle.message("action.convert_json")
         private val description = com.github.projectfluent.FluentBundle.message("action.convert_json.description")
@@ -51,7 +52,7 @@ fun createFromJson(source: JsonFile, name: String): PsiFile? {
         """${document.propertyList}
 """
     )
-    return PsiFileFactory.getInstance(source.project).createFileFromText(name, JssFileType.INSTANCE, buffer)
+    return PsiFileFactory.getInstance(source.project).createFileFromText(name, FluentFileType.INSTANCE, buffer)
 }
 
 fun tryGetJsonSchema(file: PsiFile): JsonObject? {

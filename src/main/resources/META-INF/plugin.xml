@@ -24,70 +24,70 @@
 		<!-- Highlight -->
 		<additionalTextAttributes scheme="Default" file="colors/FluentDefault.xml"/>
 		<additionalTextAttributes scheme="Darcula" file="colors/FluentDarcula.xml"/>
-		<colorSettingsPage implementation="com.github.voml.jss_intellij.ide.highlight.JssColorSettingsPage"/>
-		<highlightVisitor implementation="com.github.voml.jss_intellij.ide.highlight.JssHighlightVisitor"/>
+		<colorSettingsPage implementation="com.github.projectfluent.ide.highlight.JssColorSettingsPage"/>
+		<highlightVisitor implementation="com.github.projectfluent.ide.highlight.JssHighlightVisitor"/>
 		<lang.syntaxHighlighter
 				language="Fluent"
-				implementationClass="com.github.voml.jss_intellij.ide.highlight.JssSyntaxHighlighter"
+				implementationClass="com.github.projectfluent.ide.highlight.JssSyntaxHighlighter"
 		/>
 		<!-- Formatter -->
 		<lang.formatter
 				language="Fluent"
-				implementationClass="com.github.voml.jss_intellij.ide.formatter.JssFormattingModelBuilder"
+				implementationClass="com.github.projectfluent.ide.formatter.JssFormattingModelBuilder"
 		/>
 		<lang.commenter
 				language="Fluent"
-				implementationClass="com.github.voml.jss_intellij.ide.formatter.JssCommenter"
+				implementationClass="com.github.projectfluent.ide.formatter.JssCommenter"
 		/>
 		<lang.smartEnterProcessor
 				language="Fluent"
-				implementationClass="com.github.voml.jss_intellij.ide.formatter.JssSmartEnter"
+				implementationClass="com.github.projectfluent.ide.formatter.JssSmartEnter"
 		/>
 		<!-- Document -->
-		<!--documentationProvider implementation="com.github.voml.jss_intellij.ide.doc.JssDocumentationExtender"-->
-		<psi.referenceContributor implementation="com.github.voml.jss_intellij.ide.doc.JssUrlReferenceContributor"/>
+		<!--documentationProvider implementation="com.github.projectfluent.ide.doc.JssDocumentationExtender"-->
+		<psi.referenceContributor implementation="com.github.projectfluent.ide.doc.JssUrlReferenceContributor"/>
 		<lang.documentationProvider
 				language="Fluent"
-				implementationClass="com.github.voml.jss_intellij.ide.doc.JssDocumentationProvider"
+				implementationClass="com.github.projectfluent.ide.doc.JssDocumentationProvider"
 		/>
 
 		<lang.braceMatcher
 				language="Fluent"
-				implementationClass="com.github.voml.jss_intellij.ide.matcher.JssBraceMatcher"
+				implementationClass="com.github.projectfluent.ide.matcher.JssBraceMatcher"
 		/>
 		<lang.quoteHandler
 				language="Fluent"
-				implementationClass="com.github.voml.jss_intellij.ide.matcher.JssQuoteHandler"
+				implementationClass="com.github.projectfluent.ide.matcher.JssQuoteHandler"
 		/>
 		<lang.foldingBuilder
 				language="Fluent"
-				implementationClass="com.github.voml.jss_intellij.ide.matcher.JssFoldingBuilder"
+				implementationClass="com.github.projectfluent.ide.matcher.JssFoldingBuilder"
 		/>
 		<indexPatternBuilder
-				implementation="com.github.voml.jss_intellij.ide.todo.VomlTodoIndexPatternBuilder"
+				implementation="com.github.projectfluent.ide.todo.VomlTodoIndexPatternBuilder"
 		/>
 		<todoIndexer
 				filetype="Fluent"
-				implementationClass="com.github.voml.jss_intellij.ide.todo.VomlTodoIndexer"
+				implementationClass="com.github.projectfluent.ide.todo.VomlTodoIndexer"
 		/>
 		<completion.contributor
 				language="Fluent"
-				implementationClass="com.github.voml.jss_intellij.ide.completion.VomlOptionCompletionContributor"
+				implementationClass="com.github.projectfluent.ide.completion.VomlOptionCompletionContributor"
 		/>
 
-		<annotator language="Fluent" implementationClass="com.github.voml.jss_intellij.ide.annotator.LiteralChecker"/>
+		<annotator language="Fluent" implementationClass="com.github.projectfluent.ide.annotator.LiteralChecker"/>
 
 		<langCodeStyleSettingsProvider
-				implementation="com.github.voml.jss_intellij.ide.codeStyle.VomlLanguageCodeStyleSettingsProvider"
+				implementation="com.github.projectfluent.ide.codeStyle.VomlLanguageCodeStyleSettingsProvider"
 		/>
 
 	</extensions>
 	<actions>
-		<action id="NewJssFile" class="com.github.voml.jss_intellij.ide.actions.JssCreateFile">
+		<action id="NewJssFile" class="com.github.projectfluent.ide.actions.JssCreateFile">
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
 		<action id="jss.JssConvertJson"
-		        class="com.github.voml.jss_intellij.ide.actions.JssConvertJson"/>
+		        class="com.github.projectfluent.ide.actions.JssConvertJson"/>
 		<group id="jss.JssGenerator" popup="true" text="JssGenerator">
 			<reference ref="NewJssFile"/>
 			<reference ref="jss.JssConvertJson"/>

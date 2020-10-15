@@ -1,7 +1,7 @@
 package com.github.projectfluent.ide.matcher
 
-import com.github.voml.jss_intellij.ide.file_view.JssFile
-import com.github.voml.jss_intellij.language.psi.JssTypes
+
+import com.github.projectfluent.ide.view.FluentFile
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.CustomFoldingBuilder
 import com.intellij.lang.folding.FoldingDescriptor
@@ -18,7 +18,7 @@ class JssFoldingBuilder : CustomFoldingBuilder(), DumbAware {
         document: Document,
         quick: Boolean
     ) {
-        if (root !is JssFile) return
+        if (root !is FluentFile) return
         val visitor = FluentFoldingVisitor(descriptors)
         PsiTreeUtil.processElements(root) {
             it.accept(visitor);
@@ -28,8 +28,8 @@ class JssFoldingBuilder : CustomFoldingBuilder(), DumbAware {
 
     override fun getLanguagePlaceholderText(node: ASTNode, range: TextRange) =
         when (node.elementType) {
-            JssTypes.BRACKET_BLOCK -> "[...]"
-            JssTypes.BRACE_BLOCK -> "{...}"
+            FluentTypes.BRACKET_BLOCK -> "[...]"
+            FluentTypes.BRACE_BLOCK -> "{...}"
             else -> "..."
         }
 

@@ -1,7 +1,7 @@
 package com.github.projectfluent.ide.formatter
 
 import com.github.projectfluent.FluentLanguage
-import com.github.voml.jss_intellij.language.psi.JssTypes
+import com.github.projectfluent.language.psi.JssTypes
 import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings

@@ -1,7 +1,7 @@
 package com.github.projectfluent.ide.highlight
 
-import com.github.voml.jss_intellij.ide.file_view.JssFile
-import com.github.voml.jss_intellij.language.psi.*
+import com.github.projectfluent.ide.file_view.JssFile
+import com.github.projectfluent.language.psi.*
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor

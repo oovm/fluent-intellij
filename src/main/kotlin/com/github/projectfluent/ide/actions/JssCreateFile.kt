@@ -1,14 +1,15 @@
 package com.github.projectfluent.ide.actions
 
 import com.github.projectfluent.FluentBundle
-import com.github.voml.jss_intellij.ide.file_view.JssIcons
+import com.github.projectfluent.ide.view.FluentIconProvider
+import com.github.projectfluent.ide.view.FluentIconProvider.Companion.FluentFile
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog.*
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDirectory
 
 class JssCreateFile :
-    CreateFileFromTemplateAction(name, description, JssIcons.FILE) {
+    CreateFileFromTemplateAction(name, description, FluentFile) {
     companion object {
         private val name = com.github.projectfluent.FluentBundle.message("action.create_file")
         private val description = com.github.projectfluent.FluentBundle.message("action.create_file.description")
@@ -19,7 +20,7 @@ class JssCreateFile :
         builder
             .setTitle(name)
             // See [resources/colors/fileTemplate]
-            .addKind("Empty file", JssIcons.FILE, "Jss File")
+            .addKind("Empty file", FluentFile, "Jss File")
     }
 
 

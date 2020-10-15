@@ -1,8 +1,8 @@
 // Copyright 2000-2020 JetBrains s.r.o. and other contributors. Use of this source code is governed by the Apache 2.0 license that can be found in the LICENSE file.
 package com.github.projectfluent.ide.annotator
 
-import com.github.voml.jss_intellij.language.psi.JssStringInline
-import com.github.voml.jss_intellij.language.psi.JssUrlMaybeValid
+import com.github.projectfluent.language.psi.JssStringInline
+import com.github.projectfluent.language.psi.JssUrlMaybeValid
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity

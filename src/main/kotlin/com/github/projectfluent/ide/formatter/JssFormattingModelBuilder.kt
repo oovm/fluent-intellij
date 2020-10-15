@@ -1,6 +1,6 @@
 package com.github.projectfluent.ide.formatter
 
-import com.github.voml.jss_intellij.language.ast.JssAstBlock
+import com.github.projectfluent.language.ast.JssAstBlock
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange

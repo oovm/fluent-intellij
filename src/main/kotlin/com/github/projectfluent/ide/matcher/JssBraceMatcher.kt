@@ -1,12 +1,13 @@
 package com.github.projectfluent.ide.matcher
 
 import com.github.projectfluent.FluentLanguage
-import com.github.voml.jss_intellij.ide.file_view.JssFileType
+import com.github.projectfluent.ide.view.FluentFileType
+
 import com.intellij.codeInsight.highlighting.PairedBraceMatcherAdapter
 import com.intellij.openapi.editor.highlighter.HighlighterIterator
 import com.intellij.openapi.fileTypes.FileType
 
-class JssBraceMatcher : PairedBraceMatcherAdapter(BaseBraceMatcher(), com.github.projectfluent.FluentLanguage.INSTANCE) {
+class JssBraceMatcher : PairedBraceMatcherAdapter(BaseBraceMatcher(), FluentLanguage.INSTANCE) {
     override fun isLBraceToken(iterator: HighlighterIterator, fileText: CharSequence, fileType: FileType): Boolean =
         isBrace(iterator, fileText, fileType, true)
 
@@ -19,7 +20,7 @@ class JssBraceMatcher : PairedBraceMatcherAdapter(BaseBraceMatcher(), com.github
         fileType: FileType,
         left: Boolean
     ): Boolean {
-        if (fileType != JssFileType.INSTANCE) return false
+        if (fileType != FluentFileType.INSTANCE) return false
         val pair = findPair(left, iterator, fileText, fileType)
         return pair != null
     }

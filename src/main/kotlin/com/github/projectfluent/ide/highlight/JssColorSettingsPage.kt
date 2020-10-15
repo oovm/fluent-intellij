@@ -1,7 +1,7 @@
 package com.github.projectfluent.ide.highlight
 
 import com.github.projectfluent.FluentBundle
-import com.github.voml.jss_intellij.ide.file_view.JssIcons
+import com.github.projectfluent.ide.file_view.JssIcons
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 

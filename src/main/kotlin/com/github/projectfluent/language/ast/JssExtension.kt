@@ -1,8 +1,8 @@
 package com.github.projectfluent.language.ast
 
-import com.github.voml.jss_intellij.ide.formatter.JssFormatterContext
-import com.github.voml.jss_intellij.ide.formatter.JssFormattingModelBuilder
-import com.github.voml.jss_intellij.language.psi.JssTypes
+import com.github.projectfluent.ide.formatter.JssFormatterContext
+import com.github.projectfluent.ide.formatter.JssFormattingModelBuilder
+import com.github.projectfluent.language.psi.JssTypes
 import com.intellij.formatting.Block
 import com.intellij.formatting.Indent
 import com.intellij.formatting.Spacing

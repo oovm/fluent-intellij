@@ -1,6 +1,6 @@
 package com.github.projectfluent.language.psi
 
-import com.github.voml.jss_intellij.language.psi.JssTypes
+import com.github.projectfluent.language.psi.JssTypes
 import com.intellij.extapi.psi.StubBasedPsiElementBase
 import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.openapi.util.TextRange
