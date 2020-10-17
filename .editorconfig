@@ -1,0 +1,12 @@
+[*]
+charset = utf-8
+end_of_line = lf
+
+
+[*.{bnf, toml}]
+indent_style = space
+indent_size = 4
+
+[*.{xml, yaml}]
+indent_style = tab
+indent_size = 2
