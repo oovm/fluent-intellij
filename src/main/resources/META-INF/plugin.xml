@@ -19,16 +19,19 @@
 				language="Fluent"
 				implementationClass="com.github.projectfluent.language.psi.FluentParserDefinition"
 		/>
+		<!-- StructureView -->
 		<iconProvider implementation="com.github.projectfluent.ide.view.FluentIconProvider"/>
+		<lang.psiStructureViewFactory language="Fluent"
+		                              implementationClass="com.github.projectfluent.ide.view.FluentStructureViewFactory"/>
 		<projectViewNestingRulesProvider implementation="com.github.projectfluent.ide.view.FluentFileGroup"/>
 		<!-- Highlight -->
 		<additionalTextAttributes scheme="Default" file="colors/FluentDefault.xml"/>
 		<additionalTextAttributes scheme="Darcula" file="colors/FluentDarcula.xml"/>
-		<colorSettingsPage implementation="com.github.projectfluent.ide.highlight.JssColorSettingsPage"/>
-		<highlightVisitor implementation="com.github.projectfluent.ide.highlight.JssHighlightVisitor"/>
+		<colorSettingsPage implementation="com.github.projectfluent.ide.highlight.FluentColorSettingsPage"/>
+		<highlightVisitor implementation="com.github.projectfluent.ide.highlight.FluentHighlightVisitor"/>
 		<lang.syntaxHighlighter
 				language="Fluent"
-				implementationClass="com.github.projectfluent.ide.highlight.JssSyntaxHighlighter"
+				implementationClass="com.github.projectfluent.ide.highlight.FluentSyntaxHighlighter"
 		/>
 		<!-- Formatter -->
 		<lang.formatter
@@ -45,35 +48,35 @@
 		/>
 		<!-- Document -->
 		<!--documentationProvider implementation="com.github.projectfluent.ide.doc.JssDocumentationExtender"-->
-		<psi.referenceContributor implementation="com.github.projectfluent.ide.doc.JssUrlReferenceContributor"/>
-		<lang.documentationProvider
-				language="Fluent"
-				implementationClass="com.github.projectfluent.ide.doc.JssDocumentationProvider"
-		/>
+<!--		<psi.referenceContributor implementation="com.github.projectfluent.ide.doc.JssUrlReferenceContributor"/>-->
+<!--		<lang.documentationProvider-->
+<!--				language="Fluent"-->
+<!--				implementationClass="com.github.projectfluent.ide.doc.JssDocumentationProvider"-->
+<!--		/>-->
 
 		<lang.braceMatcher
 				language="Fluent"
 				implementationClass="com.github.projectfluent.ide.matcher.JssBraceMatcher"
 		/>
-		<lang.quoteHandler
-				language="Fluent"
-				implementationClass="com.github.projectfluent.ide.matcher.JssQuoteHandler"
-		/>
+<!--		<lang.quoteHandler-->
+<!--				language="Fluent"-->
+<!--				implementationClass="com.github.projectfluent.ide.matcher.JssQuoteHandler"-->
+<!--		/>-->
 		<lang.foldingBuilder
 				language="Fluent"
 				implementationClass="com.github.projectfluent.ide.matcher.JssFoldingBuilder"
 		/>
-		<indexPatternBuilder
-				implementation="com.github.projectfluent.ide.todo.VomlTodoIndexPatternBuilder"
-		/>
-		<todoIndexer
-				filetype="Fluent"
-				implementationClass="com.github.projectfluent.ide.todo.VomlTodoIndexer"
-		/>
-		<completion.contributor
-				language="Fluent"
-				implementationClass="com.github.projectfluent.ide.completion.VomlOptionCompletionContributor"
-		/>
+<!--		<indexPatternBuilder-->
+<!--				implementation="com.github.projectfluent.ide.todo.VomlTodoIndexPatternBuilder"-->
+<!--		/>-->
+<!--		<todoIndexer-->
+<!--				filetype="Fluent"-->
+<!--				implementationClass="com.github.projectfluent.ide.todo.VomlTodoIndexer"-->
+<!--		/>-->
+<!--		<completion.contributor-->
+<!--				language="Fluent"-->
+<!--				implementationClass="com.github.projectfluent.ide.completion.VomlOptionCompletionContributor"-->
+<!--		/>-->
 
 		<annotator language="Fluent" implementationClass="com.github.projectfluent.ide.annotator.LiteralChecker"/>
 
@@ -83,14 +86,14 @@
 
 	</extensions>
 	<actions>
-		<action id="NewJssFile" class="com.github.projectfluent.ide.actions.JssCreateFile">
+		<action id="NewFluentFile" class="com.github.projectfluent.ide.actions.FluentCreateFile">
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
 		<action id="jss.JssConvertJson"
 		        class="com.github.projectfluent.ide.actions.JssConvertJson"/>
 		<group id="jss.JssGenerator" popup="true" text="JssGenerator">
-			<reference ref="NewJssFile"/>
-			<reference ref="jss.JssConvertJson"/>
+			<reference ref="NewFluentFile"/>
+<!--			<reference ref="jss.JssConvertJson"/>-->
 			<add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
 			<add-to-group group-id="ProjectViewPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
 			<add-to-group group-id="EditorTabPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
