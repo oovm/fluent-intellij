@@ -1,7 +1,10 @@
 package com.github.projectfluent.language.psi
 
 
+import com.github.projectfluent.FluentLanguage
 import com.github.projectfluent.ide.view.FluentFile
+import com.github.projectfluent.language.parser.FluentParser
+
 import com.intellij.lang.ASTNode
 import com.intellij.lang.ParserDefinition
 import com.intellij.lang.PsiParser
@@ -34,8 +37,8 @@ class FluentParserDefinition : ParserDefinition {
     }
 
     companion object {
-        val COMMENTS = TokenSet.create(JssTypes.COMMENT, JssTypes.COMMENT_BLOCK)
-        val STRING_LITERALS = TokenSet.create(JssTypes.STRING_INLINE, JssTypes.STRING_MULTI)
-        val FILE = IFileElementType(com.github.projectfluent.FluentLanguage.INSTANCE)
+        val COMMENTS = TokenSet.create()
+        val STRING_LITERALS = TokenSet.create()
+        val FILE = IFileElementType(FluentLanguage.INSTANCE)
     }
 }

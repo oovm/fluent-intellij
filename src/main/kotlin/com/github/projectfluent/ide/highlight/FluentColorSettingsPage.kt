@@ -1,16 +1,17 @@
 package com.github.projectfluent.ide.highlight
 
-import com.github.projectfluent.FluentBundle
-import com.github.projectfluent.ide.file_view.JssIcons
+import com.github.projectfluent.ide.view.FluentIconProvider
+import com.github.voml.awsl_intellij.ide.highlight.FluentSyntaxHighlighter
+
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 
-class JssColorSettingsPage : ColorSettingsPage {
-    private val annotatorTags = JssColor
+class FluentColorSettingsPage : ColorSettingsPage {
+    private val annotatorTags = FluentColor
         .values()
         .associateBy({ it.name }, { it.textAttributesKey })
 
-    override fun getAttributeDescriptors() = JssColor
+    override fun getAttributeDescriptors() = FluentColor
         .values()
         .map { it.attributesDescriptor }
         .toTypedArray()
@@ -19,9 +20,9 @@ class JssColorSettingsPage : ColorSettingsPage {
 
     override fun getDisplayName() = com.github.projectfluent.FluentBundle.message("filetype.name")
 
-    override fun getIcon() = JssIcons.FILE
+    override fun getIcon() = FluentIconProvider.FluentFile
 
-    override fun getHighlighter() = JssSyntaxHighlighter()
+    override fun getHighlighter() = FluentSyntaxHighlighter()
 
     override fun getAdditionalHighlightingTagToDescriptorMap() = annotatorTags
 

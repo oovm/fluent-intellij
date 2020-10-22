@@ -369,7 +369,7 @@ public class _FluentLexer implements FlexLexer {
   private boolean zzEOFDone;
 
   /* user code: */
-public _JssLexer() {
+public _FluentLexer() {
 	this((java.io.Reader)null);
 }
 

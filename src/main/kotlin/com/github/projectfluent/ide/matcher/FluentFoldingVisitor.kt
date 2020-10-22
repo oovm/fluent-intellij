@@ -1,7 +1,6 @@
 package com.github.projectfluent.ide.matcher
 
-import com.github.projectfluent.language.psi.JssBraceBlock
-import com.github.projectfluent.language.psi.JssBracketBlock
+
 import com.github.projectfluent.language.psi.FluentRecursiveVisitor
 import com.intellij.lang.folding.FoldingDescriptor
 import com.intellij.psi.PsiElement
@@ -14,15 +13,15 @@ class FluentFoldingVisitor(private val descriptors: MutableList<FoldingDescripto
 //        super.visitSchemaStatement(o)
 //    }
 
-    override fun visitBraceBlock(o: JssBraceBlock) {
-        fold(o)
-        super.visitBraceBlock(o)
-    }
-
-    override fun visitBracketBlock(o: JssBracketBlock) {
-        fold(o)
-        super.visitBracketBlock(o)
-    }
+//    override fun visitBraceBlock(o: JssBraceBlock) {
+//        fold(o)
+//        super.visitBraceBlock(o)
+//    }
+//
+//    override fun visitBracketBlock(o: JssBracketBlock) {
+//        fold(o)
+//        super.visitBracketBlock(o)
+//    }
 
 
 //    override fun visitObjectBody(o: VomlObjectBody) {

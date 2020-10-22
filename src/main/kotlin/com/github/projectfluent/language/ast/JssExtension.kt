@@ -2,7 +2,7 @@ package com.github.projectfluent.language.ast
 
 import com.github.projectfluent.ide.formatter.JssFormatterContext
 import com.github.projectfluent.ide.formatter.JssFormattingModelBuilder
-import com.github.projectfluent.language.psi.JssTypes
+
 import com.intellij.formatting.Block
 import com.intellij.formatting.Indent
 import com.intellij.formatting.Spacing
@@ -12,14 +12,14 @@ import com.intellij.psi.TokenType
 private fun JssAstBlock.computeIndent(child: ASTNode): Indent? {
     val isCornerChild = node.firstChildNode == child || node.lastChildNode == child
     return when (node.elementType) {
-        JssTypes.BRACKET_BLOCK -> when {
-            isCornerChild -> Indent.getNoneIndent()
-            else -> Indent.getNormalIndent()
-        }
-        JssTypes.BRACE_BLOCK -> when {
-            isCornerChild -> Indent.getNoneIndent()
-            else -> Indent.getNormalIndent()
-        }
+//        BRACKET_BLOCK -> when {
+//            isCornerChild -> Indent.getNoneIndent()
+//            else -> Indent.getNormalIndent()
+//        }
+//        BRACE_BLOCK -> when {
+//            isCornerChild -> Indent.getNoneIndent()
+//            else -> Indent.getNormalIndent()
+//        }
         else -> Indent.getNoneIndent()
     }
 }

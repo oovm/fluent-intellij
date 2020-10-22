@@ -1,6 +1,6 @@
 package com.github.projectfluent.language.psi
 
-import com.github.projectfluent.language.psi.JssTypes
+
 import com.intellij.extapi.psi.StubBasedPsiElementBase
 import com.intellij.openapi.roots.ProjectRootManager
 import com.intellij.openapi.util.TextRange
@@ -185,10 +185,3 @@ fun PsiWhiteSpace.isMultiLine(): Boolean = getLineCount() > 1
 @Suppress("UNCHECKED_CAST")
 inline val <T : StubElement<*>> StubBasedPsiElement<T>.greenStub: T?
     get() = (this as? StubBasedPsiElementBase<T>)?.greenStub
-
-
-val JSS_COMMENT = TokenSet.create(
-    JssTypes.COMMENT,
-    JssTypes.COMMENT_BLOCK,
-    JssTypes.COMMENT_DOCUMENT
-)

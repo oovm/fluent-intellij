@@ -1,8 +1,8 @@
 {
-    parserClass = "com.github.projectfluent.language.parser.JssParser"
+    parserClass = "com.github.projectfluent.language.parser.FluentParser"
     parserUtilClass = "com.github.projectfluent.language.psi.FluentParserExtension"
 
-    extends = "com.intellij.extapi.psi.FluentElement"
+    extends = "com.github.projectfluent.language.psi.FluentElement"
 
     psiClassPrefix = "Fluent"
     psiImplClassSuffix = "Node"

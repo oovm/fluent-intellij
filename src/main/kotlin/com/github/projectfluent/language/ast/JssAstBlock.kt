@@ -1,7 +1,6 @@
 package com.github.projectfluent.language.ast
 
 import com.github.projectfluent.ide.formatter.JssFormatterContext
-import com.github.projectfluent.language.psi.JssTypes
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
@@ -33,7 +32,7 @@ class JssAstBlock(
 
     override fun getChildAttributes(newChildIndex: Int): ChildAttributes {
         val indent = when (node.elementType) {
-            JssTypes.ARRAY -> Indent.getNormalIndent()
+//            JssTypes.ARRAY -> Indent.getNormalIndent()
             else -> Indent.getNoneIndent()
         }
         return ChildAttributes(indent, null)

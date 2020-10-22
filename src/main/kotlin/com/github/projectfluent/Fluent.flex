@@ -10,7 +10,7 @@ import static com.github.projectfluent.language.psi.FluentTypes.*;
 %%
 
 %{
-public _JssLexer() {
+public _FluentLexer() {
 	this((java.io.Reader)null);
 }
 %}
