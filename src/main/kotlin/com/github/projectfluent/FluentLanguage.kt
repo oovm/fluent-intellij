@@ -1,15 +1,17 @@
 package com.github.projectfluent
 
 import com.intellij.lang.Language
-import org.jetbrains.annotations.NonNls
 
-class FluentLanguage private constructor() : Language("Fluent") {
+class FluentLanguage private constructor() : Language(LanguageID) {
     companion object {
         @JvmStatic
-        val INSTANCE = com.github.projectfluent.FluentLanguage()
+        val INSTANCE = FluentLanguage()
 
-        @NonNls
-        const val BUNDLE = "messages.FluentBundle"
+        const val Bundle = "messages.FluentBundle"
+
+        const val LanguageID = "Fluent"
+        const val Extensions = "ftl;awt;"
+
     }
 }
 

@@ -7,15 +7,11 @@ import com.intellij.psi.PsiElement;
 
 public class FluentVisitor extends PsiElementVisitor {
 
-  public void visitMessage(@NotNull FluentMessage o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTerm(@NotNull FluentTerm o) {
-    visitPsiElement(o);
-  }
-
   public void visitAttribute(@NotNull FluentAttribute o) {
+    visitPsiElement(o);
+  }
+
+  public void visitBlockText(@NotNull FluentBlockText o) {
     visitPsiElement(o);
   }
 
@@ -27,11 +23,19 @@ public class FluentVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitMessage(@NotNull FluentMessage o) {
+    visitPsiElement(o);
+  }
+
   public void visitPattern(@NotNull FluentPattern o) {
     visitPsiElement(o);
   }
 
   public void visitString(@NotNull FluentString o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTerm(@NotNull FluentTerm o) {
     visitPsiElement(o);
   }
 

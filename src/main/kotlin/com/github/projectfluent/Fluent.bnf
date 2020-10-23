@@ -60,8 +60,8 @@
 Fluent ::= fluent_item*;
 /* An FTL file defines a Resource consisting of Entries. */
 private fluent_item ::=
-	Message
-	|Term
+	message
+	|term
 //	| CommentLine
 	;
 
@@ -72,15 +72,15 @@ private fluent_item ::=
  * Messages and Terms are attached to the Message or Term and are not
  * standalone Entries. */
 
-Message   ::= identifier EQ  ((pattern attribute*) | (attribute+))
-Term      ::= "-" identifier EQ pattern attribute*
+message   ::= identifier EQ  (pattern attribute* | attribute+)
+term      ::= "-" identifier EQ pattern attribute*
 // Attributes of Messages and Terms.
 attribute ::= "." identifier EQ pattern
 // Patterns are values of Messages, Terms, Attributes and Variants.
 pattern   ::= pattern_element+
 private pattern_element ::=
 	inline_text
-//	| block_text
+	| block_text
 //	| inline_placeable
 //	| block_placeable
 /* TextElement and Placeable can occur inline or as block.
@@ -89,7 +89,7 @@ private pattern_element ::=
  * Adjacent TextElements are joined in AST creation. */
 
 inline_text         ::= TEXT_CHAR+
-//block_text          ::= blank_block blank_inline indented_char inline_text?
+block_text          ::= inline_text?
 //inline_placeable    ::= "{"   (SelectExpression | InlineExpression)   "}"
 //block_placeable     ::= blank_block   inline_placeable
 

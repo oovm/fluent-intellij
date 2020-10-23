@@ -9,6 +9,7 @@ import com.github.projectfluent.language.psi_node.*;
 public interface FluentTypes {
 
   IElementType ATTRIBUTE = new FluentElementType("ATTRIBUTE");
+  IElementType BLOCK_TEXT = new FluentElementType("BLOCK_TEXT");
   IElementType IDENTIFIER = new FluentElementType("IDENTIFIER");
   IElementType INLINE_TEXT = new FluentElementType("INLINE_TEXT");
   IElementType MESSAGE = new FluentElementType("MESSAGE");
@@ -52,6 +53,9 @@ public interface FluentTypes {
       IElementType type = node.getElementType();
       if (type == ATTRIBUTE) {
         return new FluentAttributeNode(node);
+      }
+      else if (type == BLOCK_TEXT) {
+        return new FluentBlockTextNode(node);
       }
       else if (type == IDENTIFIER) {
         return new FluentIdentifierNode(node);
