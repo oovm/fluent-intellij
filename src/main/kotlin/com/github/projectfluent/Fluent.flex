@@ -23,6 +23,7 @@ public _FluentLexer() {
 %unicode
 
 %state StringQuote
+%state TextContext
 
 EOL=\R
 WHITE_SPACE=\s+
@@ -39,8 +40,13 @@ INTEGER=(0|[1-9][0-9_]*)
 DECIMAL=([0-9]+\.[0-9]*([*][*][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
 SIGN=[+-]
 
+TEXT_FIRST_LINE = {TEXT_CHAR}+
+TEXT_INDENT_LINE = [\t ]+{TEXT_FIRST_LINE}
+TEXT_CHAR = [^\\\"\r\n\R]
 
-TEXT_CHAR = !(\u000D\u000A|\u000A|\R|\"|\\)[^]
+BLANK_INLINE = \s+
+CRLF = \r\n | \n | \r | \R
+DIGITS = [0-9]+
 
 ESCAPE_SPECIAL= \\[^\"\\uU]
 ESCAPE_UNICODE= \\(u{HEX}{4}|U{HEX}{6})
@@ -65,7 +71,6 @@ HEX = [0-9a-fA-F]
 	"<" { return ANGLE_L; }
 	">" { return ANGLE_R; }
 	"^" { return ACCENT; }
-	"=" { return EQ; }
 	":" { return COLON; }
 	";" { return SEMICOLON; }
 	"," { return COMMA; }
@@ -80,9 +85,16 @@ HEX = [0-9a-fA-F]
   {INTEGER}               { return INTEGER; }
   {DECIMAL}               { return DECIMAL; }
   {SIGN}                  { return SIGN; }
-  {TEXT_CHAR}             { return TEXT_CHAR; }
 }
-
+// =====================================================================================================================
+<YYINITIAL> = {
+	yybegin(TextContext);
+	return EQ;
+}
+<TextContext> {TEXT_CHAR} {
+	return TEXT_CHAR;
+}
+// =====================================================================================================================
 <YYINITIAL> \" {
 	yybegin(StringQuote);
     return STRING_QUOTE;
@@ -98,5 +110,8 @@ HEX = [0-9a-fA-F]
 	yybegin(YYINITIAL);
 	return STRING_QUOTE;
 }
+// =====================================================================================================================
+
+
 
 [^] { return BAD_CHARACTER; }

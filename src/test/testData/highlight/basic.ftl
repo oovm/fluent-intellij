@@ -1,5 +1,3 @@
-# $title (String) - The title of the bookmark to remove.
-remove-bookmark = Are you sure you want to remove { $title }?
 
 multi = Text can also span multiple lines as long as
 	each new line is indented by at least one space.
