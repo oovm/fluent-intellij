@@ -30,9 +30,10 @@
 
         BYTE = 'regexp:(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)'
         INTEGER = 'regexp:(0|[1-9][0-9_]*)'
-        DECIMAL = 'regexp:([0-9]+\.[0-9]*([*][*][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)'
+        DECIMAL = 'Decimal'
         SIGN = 'regexp:[+-]'
         TEXT_CHAR="Text Character"
+        CRLF = "Newline"
 
         PARENTHESIS_L = '('
         PARENTHESIS_R = ')'
@@ -57,7 +58,7 @@
 }
 
 // https://github.com/projectfluent/fluent/blob/master/spec/fluent.ebnf
-Fluent ::= (Entry | blank_block | Junk)*
+Fluent ::= entry*
 /* Entries are the main building blocks of Fluent. They define translations and
  * contextual and semantic information about the translations. During the AST
  * construction, adjacent comment lines of the same comment type (defined by
@@ -70,44 +71,29 @@ Fluent ::= (Entry | blank_block | Junk)*
  * the number of #) are joined together. Single-# comments directly preceding
  * Messages and Terms are attached to the Message or Term and are not
  * standalone Entries. */
-Entry               ::= (Message line_end)
-                      | (Term line_end)
-                      | CommentLine
-Message             ::= Identifier blank_inline? "=" blank_inline? ((Pattern Attribute*) | (Attribute+))
-Term                ::= "-" Identifier blank_inline? "=" blank_inline? Pattern Attribute*
-
-/* Adjacent comment lines of the same comment type are joined together during
- * the AST construction. */
-CommentLine         ::= ("###" | "##" | "#") ("\u0020" comment_char*)? line_end
-comment_char        ::= any_char - line_end
-
-/* Junk represents unparsed content.
- *
- * Junk is parsed line-by-line until a line is found which looks like it might
- * be a beginning of a new message, term, or a comment. Any whitespace
- * following a broken Entry is also considered part of Junk.
- */
-Junk                ::= junk_line (junk_line - "#" - "-" - [a-zA-Z])*
-junk_line           ::= /[^\n]*/ ("\u000A" | EOF)
-
+private entry ::=
+    message
+    | term
+    | COMMENT_LINE
+message ::= Identifier EQ ((pattern attribute*) | (attribute+))
+term    ::= "-" Identifier EQ pattern attribute*
 /* Attributes of Messages and Terms. */
-Attribute           ::= line_end blank? "." Identifier blank_inline? "=" blank_inline? Pattern
-
+attribute  ::= "." Identifier EQ pattern
 /* Patterns are values of Messages, Terms, Attributes and Variants. */
-Pattern             ::= PatternElement+
-
+pattern    ::= pattern_element+
 /* TextElement and Placeable can occur inline or as block.
  * Text needs to be indented and start with a non-special character.
  * Placeables can start at the beginning of the line or be indented.
  * Adjacent TextElements are joined in AST creation. */
-PatternElement      ::= inline_text
-                      | block_text
-                      | inline_placeable
-                      | block_placeable
-inline_text         ::= text_char+
-block_text          ::= blank_block blank_inline indented_char inline_text?
-inline_placeable    ::= "{" blank? (SelectExpression | InlineExpression) blank? "}"
-block_placeable     ::= blank_block blank_inline? inline_placeable
+private pattern_element ::=
+    inline_text
+//    | block_text
+//    | inline_placeable
+//    | block_placeable
+inline_text         ::= TEXT_LINE
+block_text          ::= BLANK_BLOCK BLANK_INLINE INDENT [inline_text]
+inline_placeable    ::= "{" [BLANK] (SelectExpression | InlineExpression) [BLANK] "}"
+block_placeable     ::= BLANK_BLOCK [BLANK_INLINE] inline_placeable
 
 /* Rules for validating expressions in Placeables and as selectors of
  * SelectExpressions are documented in spec/valid.md and enforced in
@@ -121,82 +107,30 @@ InlineExpression    ::= StringLiteral
                       | inline_placeable
 
 /* Literals */
-StringLiteral       ::= "\"" quoted_char* "\""
-NumberLiteral       ::= "-"? digits ("." digits)?
+StringLiteral       ::= STRING_QUOTE STRING_ESCAPE STRING_CHAR STRING_QUOTE
+NumberLiteral       ::= ["-"] DIGITS ["." DIGITS]
 
 /* Inline Expressions */
 FunctionReference   ::= Identifier CallArguments
-MessageReference    ::= Identifier AttributeAccessor?
-TermReference       ::= "-" Identifier AttributeAccessor? CallArguments?
+MessageReference    ::= Identifier [AttributeAccessor]
+TermReference       ::= "-" Identifier [AttributeAccessor] [CallArguments]
 VariableReference   ::= "$" Identifier
 AttributeAccessor   ::= "." Identifier
-CallArguments       ::= blank? "(" blank? argument_list blank? ")"
-argument_list       ::= (Argument blank? "," blank?)* Argument?
+CallArguments       ::= [BLANK] "(" [BLANK] argument_list [BLANK] ")"
+argument_list       ::= (Argument [BLANK] "," [BLANK])* [Argument]
 Argument            ::= NamedArgument
                       | InlineExpression
-NamedArgument       ::= Identifier blank? ":" blank? (StringLiteral | NumberLiteral)
+NamedArgument       ::= Identifier [BLANK] ":" [BLANK] (StringLiteral | NumberLiteral)
 
 /* Block Expressions */
-SelectExpression    ::= InlineExpression blank? "->" blank_inline? variant_list
-variant_list        ::= Variant* DefaultVariant Variant* line_end
-Variant             ::= line_end blank? VariantKey blank_inline? Pattern
-DefaultVariant      ::= line_end blank? "*" VariantKey blank_inline? Pattern
-VariantKey          ::= "[" blank? (NumberLiteral | Identifier) blank? "]"
+SelectExpression    ::= InlineExpression [BLANK] "->" [BLANK_INLINE] variant_list
+variant_list        ::= Variant* DefaultVariant Variant* CRLF
+Variant             ::= CRLF [BLANK] VariantKey [BLANK_INLINE] pattern
+DefaultVariant      ::= CRLF [BLANK] "*" VariantKey [BLANK_INLINE] pattern
+VariantKey          ::= "[" [BLANK] (NumberLiteral | Identifier) [BLANK] "]"
 
 /* Identifier */
-Identifier          ::= [a-zA-Z] [a-zA-Z0-9_-]*
+Identifier          ::= SYMBOL
 
-/* Content Characters
- *
- * Translation content can be written using any Unicode characters. However,
- * some characters are considered special depending on the type of content
- * they're in. See text_char and quoted_char for more information.
- *
- * Some Unicode characters, even if allowed, should be avoided in Fluent
- * resources. See spec/recommendations.md.
- */
-any_char            ::= [\\u{0}-\\u{10FFFF}]
-
-/* Text elements
- *
- * The primary storage for content are text elements. Text elements are not
- * delimited with quotes and may span multiple lines as long as all lines are
- * indented. The opening brace ({) marks a start of a placeable in the pattern
- * and may not be used in text elements verbatim. Due to the indentation
- * requirement some text characters may not appear as the first character on a
- * new line.
- */
-special_text_char   ::= "{"
-                      | "}"
-text_char           ::= any_char - special_text_char - line_end
-indented_char       ::= text_char - "[" - "*" - "."
-
-/* String literals
- *
- * For special-purpose content, quoted string literals can be used where text
- * elements are not a good fit. String literals are delimited with double
- * quotes and may not contain line breaks. String literals use the backslash
- * (\) as the escape character. The literal double quote can be inserted via
- * the \" escape sequence. The literal backslash can be inserted with \\. The
- * literal opening brace ({) is allowed in string literals because they may not
- * comprise placeables.
- */
-special_quoted_char ::= "\""
-                      | "\\"
-special_escape      ::= "\\" special_quoted_char
-unicode_escape      ::= ("\\u" /[0-9a-fA-F]{4}/)
-                      | ("\\U" /[0-9a-fA-F]{6}/)
-quoted_char         ::= (any_char - special_quoted_char - line_end)
-                      | special_escape
-                      | unicode_escape
-
-/* Numbers */
-digits              ::= [0-9]+
-
-/* Whitespace */
-blank_inline        ::= "\u0020"+
-line_end            ::= "\u000D\u000A"
-                      | "\u000A"
-                      | EOF
-blank_block         ::= (blank_inline? line_end)+
-blank               ::= (blank_inline | line_end)+
+BLANK_BLOCK ::= ([BLANK_INLINE] CRLF)+
+BLANK       ::= (BLANK_INLINE | CRLF)+

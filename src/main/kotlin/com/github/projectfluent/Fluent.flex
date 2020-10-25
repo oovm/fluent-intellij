@@ -10,6 +10,8 @@ import static com.github.projectfluent.language.psi.FluentTypes.*;
 %%
 
 %{
+private static int indent_balance = 0;
+
 public _FluentLexer() {
 	this((java.io.Reader)null);
 }
@@ -29,9 +31,8 @@ EOL=\R
 WHITE_SPACE=\s+
 
 COMMENT_DOCUMENT=("///")[^\r\n]*
-COMMENT = #{1,3}[^\r\n]*
+COMMENT_LINE = #{1,3}[^\r\n]*
 COMMENT_BLOCK=[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
-URL= [A-Za-z0-9]+:"//"[\-\p{XID_Continue}./?&#]+
 //SYMBOL=[\p{XID_Start}_][\p{XID_Continue}_]*
 SYMBOL = [a-zA-Z][a-zA-Z0-9_-]*
 //STRING=\"([^\"\\]|\\.)*\"
@@ -39,14 +40,20 @@ BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
 INTEGER=(0|[1-9][0-9_]*)
 DECIMAL=([0-9]+\.[0-9]*([*][*][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
 SIGN=[+-]
-
-TEXT_FIRST_LINE = {TEXT_CHAR}+
-TEXT_INDENT_LINE = [\t ]+{TEXT_FIRST_LINE}
-TEXT_CHAR = [^\\\"\r\n\R]
-
-BLANK_INLINE = \s+
-CRLF = \r\n | \n | \r | \R
 DIGITS = [0-9]+
+
+TEXT_FIRST_LINE  = {TEXT_LINE}+
+TEXT_INDENT_LINE = [\t ]+{TEXT_FIRST_LINE}
+TEXT_LINE        = [^\\\"\r\n\R]+
+INDENT           = [^\\\"\r\n\R\[*.]
+TEXT_INLINE      = {TEXT_LINE}+
+
+CRLF         = \r\n | \n | \r | \R
+BLANK_INLINE = [\t\s]*
+BLANK_BLOCK  = ({BLANK_INLINE}? {CRLF})+
+BLANK        = ({BLANK_INLINE} | {CRLF})+
+
+
 
 ESCAPE_SPECIAL= \\[^\"\\uU]
 ESCAPE_UNICODE= \\(u{HEX}{4}|U{HEX}{6})
@@ -55,11 +62,17 @@ HEX = [0-9a-fA-F]
 %%
 
 <YYINITIAL> {
-	{WHITE_SPACE}      { return WHITE_SPACE; }
+    {WHITE_SPACE}      { return WHITE_SPACE; }
 	{COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
-	{COMMENT}          { return COMMENT; }
+	{COMMENT_LINE}     { return COMMENT_LINE; }
 	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
 }
+
+//<YYINITIAL> {
+////	{TEXT_FIRST_LINE}      { return TEXT_FIRST_LINE; }
+////	{TEXT_INDENT_LINE} { return TEXT_INDENT_LINE; }
+//
+//}
 
 <YYINITIAL> {
 	"(" { return PARENTHESIS_L; }
@@ -79,20 +92,25 @@ HEX = [0-9a-fA-F]
 	"*" { return STAR; }
 	"@" { return AT; }
 
-  {URL}                   { return URL; }
-  {SYMBOL}                { return SYMBOL; }
-  {BYTE}                  { return BYTE; }
-  {INTEGER}               { return INTEGER; }
-  {DECIMAL}               { return DECIMAL; }
-  {SIGN}                  { return SIGN; }
+	{SYMBOL}                { return SYMBOL; }
+	{BYTE}                  { return BYTE; }
+	{INTEGER}               { return INTEGER; }
+	{DECIMAL}               { return DECIMAL; }
 }
 // =====================================================================================================================
 <YYINITIAL> = {
 	yybegin(TextContext);
 	return EQ;
 }
-<TextContext> {TEXT_CHAR} {
-	return TEXT_CHAR;
+// 如果首行无缩进, 直接结束
+<TextContext> {CRLF}[a-zA-Z] {
+	yypushback(1);
+    yybegin(YYINITIAL);
+    return WHITE_SPACE;
+}
+<TextContext> {
+	{TEXT_LINE}    { return TEXT_LINE; }
+	{CRLF}    { return WHITE_SPACE; }
 }
 // =====================================================================================================================
 <YYINITIAL> \" {
@@ -111,7 +129,4 @@ HEX = [0-9a-fA-F]
 	return STRING_QUOTE;
 }
 // =====================================================================================================================
-
-
-
 [^] { return BAD_CHARACTER; }

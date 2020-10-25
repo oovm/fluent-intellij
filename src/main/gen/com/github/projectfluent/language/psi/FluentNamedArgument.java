@@ -5,15 +5,18 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FluentTerm extends PsiElement {
+public interface FluentNamedArgument extends PsiElement {
+
+  @NotNull
+  List<FluentBlank> getBlankList();
 
   @NotNull
   FluentIdentifier getIdentifier();
 
-  @NotNull
-  List<FluentAttribute> getAttributeList();
+  @Nullable
+  FluentNumberLiteral getNumberLiteral();
 
-  @NotNull
-  FluentPattern getPattern();
+  @Nullable
+  FluentStringLiteral getStringLiteral();
 
 }

@@ -5,9 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FluentPattern extends PsiElement {
+public interface FluentSelectExpression extends PsiElement {
+
+  @Nullable
+  FluentBlank getBlank();
 
   @NotNull
-  List<FluentInlineText> getInlineTextList();
+  FluentInlineExpression getInlineExpression();
+
+  @NotNull
+  FluentVariantList getVariantList();
 
 }

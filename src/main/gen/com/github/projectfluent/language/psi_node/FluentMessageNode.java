@@ -29,14 +29,14 @@ public class FluentMessageNode extends FluentElement implements FluentMessage {
 
   @Override
   @NotNull
-  public List<FluentAttribute> getAttributeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentAttribute.class);
+  public FluentIdentifier getIdentifier() {
+    return findNotNullChildByClass(FluentIdentifier.class);
   }
 
   @Override
   @NotNull
-  public FluentIdentifier getIdentifier() {
-    return findNotNullChildByClass(FluentIdentifier.class);
+  public List<FluentAttribute> getAttributeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentAttribute.class);
   }
 
   @Override

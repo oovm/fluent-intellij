@@ -37,8 +37,8 @@ class FluentParserDefinition : ParserDefinition {
     }
 
     companion object {
-        val COMMENTS = TokenSet.create()
-        val STRING_LITERALS = TokenSet.create()
+        val COMMENTS = TokenSet.create(FluentTypes.COMMENT_LINE)
+        val STRING_LITERALS = TokenSet.create(FluentTypes.STRING_LITERAL)
         val FILE = IFileElementType(FluentLanguage.INSTANCE)
     }
 }
