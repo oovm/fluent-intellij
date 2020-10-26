@@ -1,9 +1,8 @@
 package com.github.projectfluent.ide.highlight
 
 
-import com.github.projectfluent.ide.highlight.FluentColor
 import com.github.projectfluent.language.psi.FluentLexerAdapter
-import com.github.projectfluent.language.psi.FluentTypes.SYMBOL
+import com.github.projectfluent.language.psi.FluentTypes.*
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
@@ -28,12 +27,12 @@ class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
 //            PARENTHESIS_L, PARENTHESIS_R -> FluentColor.PARENTHESES
 //            BRACKET_L, BRACKET_R -> AwslColor.BRACKETS
 //            BRACE_L, BRACE_R -> AwslColor.BRACES
-            //COLON, EQ -> JssColor.SET
+            COLON, EQ -> FluentColor.SET
 //            COMMA -> AwslColor.COMMA
             // atom
             //INTEGER -> JssColor.INTEGER
             //DECIMAL -> JssColor.DECIMAL
-            //URL -> JssColor.URL
+            TEXT_LINE -> FluentColor.TEXT
 //            STRING -> AwslColor.STRING
             SYMBOL -> FluentColor.IDENTIFIER
             // 模板
@@ -42,7 +41,7 @@ class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
 //            HTML_TAG_SYMBOL -> AwslColor.HTML_TAG
 //            HTML_TEXT -> AwslColor.HTML_TEXT
             // 注释
-//            COMMENT_LINE -> AwslColor.LINE_COMMENT
+            COMMENT_LINE -> FluentColor.LINE_COMMENT
 //            COMMENT_BLOCK -> AwslColor.BLOCK_COMMENT
 //            COMMENT_DOCUMENT -> AwslColor.DOC_COMMENT
             // 错误

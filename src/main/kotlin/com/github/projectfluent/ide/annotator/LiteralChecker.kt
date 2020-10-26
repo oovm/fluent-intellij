@@ -12,7 +12,7 @@ import com.intellij.psi.PsiElement
 class LiteralChecker : Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
-        TODO("Not yet implemented")
+
     }
 
     private fun validEscape(offset: Int, length: Int, holder: AnnotationHolder) {

@@ -23,13 +23,13 @@ enum class FluentColor(humanName: Supplier<@AttributeDescriptor String>, default
     DECIMAL(FluentBundle.messagePointer("color.token.decimal"), Default.NUMBER),
     INTEGER(FluentBundle.messagePointer("color.token.integer"), Default.NUMBER),
     STRING(FluentBundle.messagePointer("color.token.string"), Default.STRING),
-    URL(FluentBundle.messagePointer("color.token.url"), STRING.textAttributesKey),
+    TEXT(FluentBundle.messagePointer("color.token.url"), STRING.textAttributesKey),
 
     // 标识符
     IDENTIFIER(OptionsBundle.messagePointer("options.language.defaults.identifier"), Default.IDENTIFIER),
-    SYM_MESSAGE(FluentBundle.messagePointer("color.token.symbol.property"), Default.STATIC_FIELD),
-    SYM_TERM(FluentBundle.messagePointer("color.token.symbol.annotation"), Default.STATIC_METHOD),
-    SYM_ATTRIBUTE(FluentBundle.messagePointer("color.token.symbol.schema"), Default.PREDEFINED_SYMBOL),
+    SYM_MESSAGE(FluentBundle.messagePointer("color.token.symbol.message"), Default.STATIC_FIELD),
+    SYM_TERM(FluentBundle.messagePointer("color.token.symbol.term"), Default.STATIC_METHOD),
+    SYM_ATTRIBUTE(FluentBundle.messagePointer("color.token.symbol.attribute"), Default.PREDEFINED_SYMBOL),
 
     //
     TYPE_HINT(FluentBundle.messagePointer("color.token.symbol.type"), Default.CLASS_NAME),
