@@ -5,15 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface FluentMessage extends PsiElement {
-
-  @NotNull
-  FluentMessageID getMessageID();
-
-  @NotNull
-  List<FluentAttribute> getAttributeList();
-
-  @Nullable
-  FluentPattern getPattern();
+public interface FluentAttributeID extends PsiElement {
 
 }

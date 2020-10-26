@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface FluentVariableReference extends PsiElement {
 
   @NotNull
-  FluentIdentifier getIdentifier();
+  FluentMessageID getMessageID();
 
 }

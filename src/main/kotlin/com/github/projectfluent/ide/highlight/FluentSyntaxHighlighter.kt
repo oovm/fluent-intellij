@@ -1,8 +1,9 @@
-package com.github.voml.awsl_intellij.ide.highlight
+package com.github.projectfluent.ide.highlight
 
 
 import com.github.projectfluent.ide.highlight.FluentColor
 import com.github.projectfluent.language.psi.FluentLexerAdapter
+import com.github.projectfluent.language.psi.FluentTypes.SYMBOL
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
@@ -34,7 +35,7 @@ class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
             //DECIMAL -> JssColor.DECIMAL
             //URL -> JssColor.URL
 //            STRING -> AwslColor.STRING
-//            SYMBOL -> AwslColor.IDENTIFIER
+            SYMBOL -> FluentColor.IDENTIFIER
             // 模板
 //            HTML_END_L, HTML_START_CODE_L, HTML_START_TEXT_L -> FluentColor.HTML_BEGIN
 //            HTML_END_R, HTML_START_R, HTML_SELF_END_R -> AwslColor.HTML_END

@@ -29,8 +29,8 @@ public class FluentMessageNode extends FluentElement implements FluentMessage {
 
   @Override
   @NotNull
-  public FluentIdentifier getIdentifier() {
-    return findNotNullChildByClass(FluentIdentifier.class);
+  public FluentMessageID getMessageID() {
+    return findNotNullChildByClass(FluentMessageID.class);
   }
 
   @Override

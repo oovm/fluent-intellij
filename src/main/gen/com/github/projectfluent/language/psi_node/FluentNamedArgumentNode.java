@@ -35,8 +35,8 @@ public class FluentNamedArgumentNode extends FluentElement implements FluentName
 
   @Override
   @NotNull
-  public FluentIdentifier getIdentifier() {
-    return findNotNullChildByClass(FluentIdentifier.class);
+  public FluentMessageID getMessageID() {
+    return findNotNullChildByClass(FluentMessageID.class);
   }
 
   @Override

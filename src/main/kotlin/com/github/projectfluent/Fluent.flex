@@ -29,7 +29,7 @@ public _FluentLexer() {
 
 EOL=\R
 WHITE_SPACE=\s+
-
+HYPHEN="-"
 COMMENT_DOCUMENT=("///")[^\r\n]*
 COMMENT_LINE = #{1,3}[^\r\n]*
 COMMENT_BLOCK=[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
@@ -44,8 +44,8 @@ DIGITS = [0-9]+
 
 TEXT_FIRST_LINE  = {TEXT_LINE}+
 TEXT_INDENT_LINE = [\t ]+{TEXT_FIRST_LINE}
-TEXT_LINE        = [^\\\"\r\n\R]+
-INDENT           = [^\\\"\r\n\R\[*.]
+TEXT_LINE        = [^\\\"\r\n]+
+INDENT           = [^\\\"\r\n\[*.]
 TEXT_INLINE      = {TEXT_LINE}+
 
 CRLF         = \r\n | \n | \r | \R
@@ -103,14 +103,14 @@ HEX = [0-9a-fA-F]
 	return EQ;
 }
 // 如果首行无缩进, 直接结束
-<TextContext> {CRLF}[a-zA-Z] {
+<TextContext> {CRLF}[-a-zA-Z] {
 	yypushback(1);
     yybegin(YYINITIAL);
     return WHITE_SPACE;
 }
 <TextContext> {
-	{TEXT_LINE}    { return TEXT_LINE; }
-	{CRLF}    { return WHITE_SPACE; }
+	{TEXT_LINE} { return TEXT_LINE; }
+	{CRLF}      { return WHITE_SPACE; }
 }
 // =====================================================================================================================
 <YYINITIAL> \" {

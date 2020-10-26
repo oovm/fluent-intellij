@@ -11,38 +11,20 @@ import static com.github.projectfluent.language.psi.FluentTypes.*;
 import com.github.projectfluent.language.psi.FluentElement;
 import com.github.projectfluent.language.psi.*;
 
-public class FluentVariantKeyNode extends FluentElement implements FluentVariantKey {
+public class FluentAttributeIDNode extends FluentElement implements FluentAttributeID {
 
-  public FluentVariantKeyNode(@NotNull ASTNode node) {
+  public FluentAttributeIDNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FluentVisitor visitor) {
-    visitor.visitVariantKey(this);
+    visitor.visitAttributeID(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof FluentVisitor) accept((FluentVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<FluentBlank> getBlankList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentBlank.class);
-  }
-
-  @Override
-  @Nullable
-  public FluentMessageID getMessageID() {
-    return findChildByClass(FluentMessageID.class);
-  }
-
-  @Override
-  @Nullable
-  public FluentNumberLiteral getNumberLiteral() {
-    return findChildByClass(FluentNumberLiteral.class);
   }
 
 }

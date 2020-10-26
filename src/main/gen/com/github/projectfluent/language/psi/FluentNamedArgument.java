@@ -11,7 +11,7 @@ public interface FluentNamedArgument extends PsiElement {
   List<FluentBlank> getBlankList();
 
   @NotNull
-  FluentIdentifier getIdentifier();
+  FluentMessageID getMessageID();
 
   @Nullable
   FluentNumberLiteral getNumberLiteral();

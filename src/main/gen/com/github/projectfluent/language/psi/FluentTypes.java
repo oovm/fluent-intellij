@@ -12,6 +12,7 @@ public interface FluentTypes {
   IElementType ARGUMENT_LIST = new FluentElementType("ARGUMENT_LIST");
   IElementType ATTRIBUTE = new FluentElementType("ATTRIBUTE");
   IElementType ATTRIBUTE_ACCESSOR = new FluentElementType("ATTRIBUTE_ACCESSOR");
+  IElementType ATTRIBUTE_ID = new FluentElementType("ATTRIBUTE_ID");
   IElementType BLANK = new FluentElementType("BLANK");
   IElementType BLANK_BLOCK = new FluentElementType("BLANK_BLOCK");
   IElementType BLOCK_PLACEABLE = new FluentElementType("BLOCK_PLACEABLE");
@@ -19,11 +20,11 @@ public interface FluentTypes {
   IElementType CALL_ARGUMENTS = new FluentElementType("CALL_ARGUMENTS");
   IElementType DEFAULT_VARIANT = new FluentElementType("DEFAULT_VARIANT");
   IElementType FUNCTION_REFERENCE = new FluentElementType("FUNCTION_REFERENCE");
-  IElementType IDENTIFIER = new FluentElementType("IDENTIFIER");
   IElementType INLINE_EXPRESSION = new FluentElementType("INLINE_EXPRESSION");
   IElementType INLINE_PLACEABLE = new FluentElementType("INLINE_PLACEABLE");
   IElementType INLINE_TEXT = new FluentElementType("INLINE_TEXT");
   IElementType MESSAGE = new FluentElementType("MESSAGE");
+  IElementType MESSAGE_ID = new FluentElementType("MESSAGE_ID");
   IElementType MESSAGE_REFERENCE = new FluentElementType("MESSAGE_REFERENCE");
   IElementType NAMED_ARGUMENT = new FluentElementType("NAMED_ARGUMENT");
   IElementType NUMBER_LITERAL = new FluentElementType("NUMBER_LITERAL");
@@ -31,6 +32,7 @@ public interface FluentTypes {
   IElementType SELECT_EXPRESSION = new FluentElementType("SELECT_EXPRESSION");
   IElementType STRING_LITERAL = new FluentElementType("STRING_LITERAL");
   IElementType TERM = new FluentElementType("TERM");
+  IElementType TERM_ID = new FluentElementType("TERM_ID");
   IElementType TERM_REFERENCE = new FluentElementType("TERM_REFERENCE");
   IElementType VARIABLE_REFERENCE = new FluentElementType("VARIABLE_REFERENCE");
   IElementType VARIANT = new FluentElementType("VARIANT");
@@ -59,6 +61,7 @@ public interface FluentTypes {
   IElementType DOLLAR = new FluentTokenType("$");
   IElementType DOT = new FluentTokenType(".");
   IElementType EQ = new FluentTokenType("=");
+  IElementType HYPHEN = new FluentTokenType("-");
   IElementType INDENT = new FluentTokenType("INDENT");
   IElementType INTEGER = new FluentTokenType("INTEGER");
   IElementType PARENTHESIS_L = new FluentTokenType("(");
@@ -89,6 +92,9 @@ public interface FluentTypes {
       else if (type == ATTRIBUTE_ACCESSOR) {
         return new FluentAttributeAccessorNode(node);
       }
+      else if (type == ATTRIBUTE_ID) {
+        return new FluentAttributeIDNode(node);
+      }
       else if (type == BLANK) {
         return new FluentBlankNode(node);
       }
@@ -110,9 +116,6 @@ public interface FluentTypes {
       else if (type == FUNCTION_REFERENCE) {
         return new FluentFunctionReferenceNode(node);
       }
-      else if (type == IDENTIFIER) {
-        return new FluentIdentifierNode(node);
-      }
       else if (type == INLINE_EXPRESSION) {
         return new FluentInlineExpressionNode(node);
       }
@@ -124,6 +127,9 @@ public interface FluentTypes {
       }
       else if (type == MESSAGE) {
         return new FluentMessageNode(node);
+      }
+      else if (type == MESSAGE_ID) {
+        return new FluentMessageIDNode(node);
       }
       else if (type == MESSAGE_REFERENCE) {
         return new FluentMessageReferenceNode(node);
@@ -145,6 +151,9 @@ public interface FluentTypes {
       }
       else if (type == TERM) {
         return new FluentTermNode(node);
+      }
+      else if (type == TERM_ID) {
+        return new FluentTermIDNode(node);
       }
       else if (type == TERM_REFERENCE) {
         return new FluentTermReferenceNode(node);

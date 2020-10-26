@@ -52,13 +52,14 @@
         DOT = '.'
         STAR = '*'
         AT = '@'
+        HYPHEN = "-"
 //      SPACE='regexp:\s+'
 //      ANY = 'regexp:.'
     ]
 }
 
 // https://github.com/projectfluent/fluent/blob/master/spec/fluent.ebnf
-Fluent ::= entry*
+Fluent ::= Entry*
 /* Entries are the main building blocks of Fluent. They define translations and
  * contextual and semantic information about the translations. During the AST
  * construction, adjacent comment lines of the same comment type (defined by
@@ -71,14 +72,14 @@ Fluent ::= entry*
  * the number of #) are joined together. Single-# comments directly preceding
  * Messages and Terms are attached to the Message or Term and are not
  * standalone Entries. */
-private entry ::=
-    message
+private Entry ::=
+    Message
     | term
     | COMMENT_LINE
-message ::= Identifier EQ ((pattern attribute*) | (attribute+))
-term    ::= "-" Identifier EQ pattern attribute*
+Message ::= MessageID EQ ((pattern attribute*) | (attribute+))
+term    ::= TermID MessageID EQ pattern attribute*
 /* Attributes of Messages and Terms. */
-attribute  ::= "." Identifier EQ pattern
+attribute  ::= AttributeID MessageID EQ pattern
 /* Patterns are values of Messages, Terms, Attributes and Variants. */
 pattern    ::= pattern_element+
 /* TextElement and Placeable can occur inline or as block.
@@ -111,26 +112,28 @@ StringLiteral       ::= STRING_QUOTE STRING_ESCAPE STRING_CHAR STRING_QUOTE
 NumberLiteral       ::= ["-"] DIGITS ["." DIGITS]
 
 /* Inline Expressions */
-FunctionReference   ::= Identifier CallArguments
-MessageReference    ::= Identifier [AttributeAccessor]
-TermReference       ::= "-" Identifier [AttributeAccessor] [CallArguments]
-VariableReference   ::= "$" Identifier
-AttributeAccessor   ::= "." Identifier
+FunctionReference   ::= MessageID CallArguments
+MessageReference    ::= MessageID [AttributeAccessor]
+TermReference       ::= "-" MessageID [AttributeAccessor] [CallArguments]
+VariableReference   ::= "$" MessageID
+AttributeAccessor   ::= "." MessageID
 CallArguments       ::= [BLANK] "(" [BLANK] argument_list [BLANK] ")"
 argument_list       ::= (Argument [BLANK] "," [BLANK])* [Argument]
 Argument            ::= NamedArgument
                       | InlineExpression
-NamedArgument       ::= Identifier [BLANK] ":" [BLANK] (StringLiteral | NumberLiteral)
+NamedArgument       ::= MessageID [BLANK] ":" [BLANK] (StringLiteral | NumberLiteral)
 
 /* Block Expressions */
 SelectExpression    ::= InlineExpression [BLANK] "->" [BLANK_INLINE] variant_list
 variant_list        ::= Variant* DefaultVariant Variant* CRLF
 Variant             ::= CRLF [BLANK] VariantKey [BLANK_INLINE] pattern
 DefaultVariant      ::= CRLF [BLANK] "*" VariantKey [BLANK_INLINE] pattern
-VariantKey          ::= "[" [BLANK] (NumberLiteral | Identifier) [BLANK] "]"
+VariantKey          ::= "[" [BLANK] (NumberLiteral | MessageID) [BLANK] "]"
 
 /* Identifier */
-Identifier          ::= SYMBOL
+MessageID   ::= SYMBOL;
+TermID      ::= HYPHEN SYMBOL;
+AttributeID ::= DOT SYMBOL;
 
 BLANK_BLOCK ::= ([BLANK_INLINE] CRLF)+
 BLANK       ::= (BLANK_INLINE | CRLF)+

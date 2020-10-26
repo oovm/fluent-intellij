@@ -11,6 +11,6 @@ public interface FluentFunctionReference extends PsiElement {
   FluentCallArguments getCallArguments();
 
   @NotNull
-  FluentIdentifier getIdentifier();
+  FluentMessageID getMessageID();
 
 }

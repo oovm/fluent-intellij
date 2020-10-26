@@ -11,7 +11,7 @@ public interface FluentVariantKey extends PsiElement {
   List<FluentBlank> getBlankList();
 
   @Nullable
-  FluentIdentifier getIdentifier();
+  FluentMessageID getMessageID();
 
   @Nullable
   FluentNumberLiteral getNumberLiteral();

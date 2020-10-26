@@ -8,7 +8,10 @@ import com.intellij.psi.PsiElement;
 public interface FluentAttribute extends PsiElement {
 
   @NotNull
-  FluentIdentifier getIdentifier();
+  FluentAttributeID getAttributeID();
+
+  @NotNull
+  FluentMessageID getMessageID();
 
   @NotNull
   FluentPattern getPattern();

@@ -11,6 +11,6 @@ public interface FluentMessageReference extends PsiElement {
   FluentAttributeAccessor getAttributeAccessor();
 
   @NotNull
-  FluentIdentifier getIdentifier();
+  FluentMessageID getMessageID();
 
 }

@@ -11,14 +11,14 @@ import static com.github.projectfluent.language.psi.FluentTypes.*;
 import com.github.projectfluent.language.psi.FluentElement;
 import com.github.projectfluent.language.psi.*;
 
-public class FluentIdentifierNode extends FluentElement implements FluentIdentifier {
+public class FluentTermIDNode extends FluentElement implements FluentTermID {
 
-  public FluentIdentifierNode(@NotNull ASTNode node) {
+  public FluentTermIDNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FluentVisitor visitor) {
-    visitor.visitIdentifier(this);
+    visitor.visitTermID(this);
   }
 
   @Override

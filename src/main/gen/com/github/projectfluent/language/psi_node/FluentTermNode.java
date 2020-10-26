@@ -29,8 +29,14 @@ public class FluentTermNode extends FluentElement implements FluentTerm {
 
   @Override
   @NotNull
-  public FluentIdentifier getIdentifier() {
-    return findNotNullChildByClass(FluentIdentifier.class);
+  public FluentMessageID getMessageID() {
+    return findNotNullChildByClass(FluentMessageID.class);
+  }
+
+  @Override
+  @NotNull
+  public FluentTermID getTermID() {
+    return findNotNullChildByClass(FluentTermID.class);
   }
 
   @Override
