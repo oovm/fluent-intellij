@@ -7,9 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public interface FluentInlinePlaceable extends PsiElement {
 
-  @NotNull
-  List<FluentBlank> getBlankList();
-
   @Nullable
   FluentInlineExpression getInlineExpression();
 

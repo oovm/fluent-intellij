@@ -28,12 +28,6 @@ public class FluentVariantKeyNode extends FluentElement implements FluentVariant
   }
 
   @Override
-  @NotNull
-  public List<FluentBlank> getBlankList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentBlank.class);
-  }
-
-  @Override
   @Nullable
   public FluentMessageID getMessageID() {
     return findChildByClass(FluentMessageID.class);

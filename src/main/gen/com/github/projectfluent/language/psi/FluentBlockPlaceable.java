@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface FluentBlockPlaceable extends PsiElement {
 
   @NotNull
-  FluentBlankBlock getBlankBlock();
-
-  @NotNull
   FluentInlinePlaceable getInlinePlaceable();
 
 }

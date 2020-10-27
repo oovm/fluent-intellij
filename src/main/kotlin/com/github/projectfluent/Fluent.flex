@@ -26,6 +26,7 @@ public _FluentLexer() {
 
 %state StringQuote
 %state TextContext
+%state CodeContext
 
 EOL=\R
 WHITE_SPACE=\s+
@@ -44,7 +45,7 @@ DIGITS = [0-9]+
 
 TEXT_FIRST_LINE  = {TEXT_LINE}+
 TEXT_INDENT_LINE = [\t ]+{TEXT_FIRST_LINE}
-TEXT_LINE        = [^\\\"\r\n]+
+TEXT_LINE        = [^\\\"\r\n{]+
 INDENT           = [^\\\"\r\n\[*.]
 TEXT_INLINE      = {TEXT_LINE}+
 
@@ -61,11 +62,11 @@ HEX = [0-9a-fA-F]
 
 %%
 
-<YYINITIAL> {
+<YYINITIAL, CodeContext> {
     {WHITE_SPACE}      { return WHITE_SPACE; }
-	{COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
+//	{COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
 	{COMMENT_LINE}     { return COMMENT_LINE; }
-	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
+//	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
 }
 
 //<YYINITIAL> {
@@ -75,8 +76,7 @@ HEX = [0-9a-fA-F]
 //}
 
 <YYINITIAL> {
-	"(" { return PARENTHESIS_L; }
-	")" { return PARENTHESIS_R; }
+
 	"[" { return BRACKET_L; }
 	"]" { return BRACKET_R; }
 	"{" { return BRACE_L; }
@@ -86,7 +86,7 @@ HEX = [0-9a-fA-F]
 	"^" { return ACCENT; }
 	":" { return COLON; }
 	";" { return SEMICOLON; }
-	"," { return COMMA; }
+
 	"$" { return DOLLAR; }
 	"." { return DOT; }
 	"*" { return STAR; }
@@ -111,6 +111,24 @@ HEX = [0-9a-fA-F]
 <TextContext> {
 	{TEXT_LINE} { return TEXT_LINE; }
 	{CRLF}      { return WHITE_SPACE; }
+}
+// CodeContext =========================================================================================================
+<TextContext> \{ {
+	yybegin(CodeContext);
+	return BRACE_L;
+}
+<CodeContext> } {
+	yybegin(TextContext);
+	return BRACE_R;
+}
+<CodeContext> {
+	"(" { return PARENTHESIS_L; }
+	")" { return PARENTHESIS_R; }
+}
+<CodeContext> {
+	{SYMBOL} {return SYMBOL;}
+	\$ {return DOLLAR;}
+	"," { return COMMA; }
 }
 // =====================================================================================================================
 <YYINITIAL> \" {

@@ -30,6 +30,7 @@ enum class FluentColor(humanName: Supplier<@AttributeDescriptor String>, default
     SYM_MESSAGE(FluentBundle.messagePointer("color.token.symbol.message"), Default.STATIC_FIELD),
     SYM_TERM(FluentBundle.messagePointer("color.token.symbol.term"), Default.STATIC_METHOD),
     SYM_ATTRIBUTE(FluentBundle.messagePointer("color.token.symbol.attribute"), Default.PREDEFINED_SYMBOL),
+    SYM_VARIABLE(FluentBundle.messagePointer("color.token.symbol.variable"), Default.REASSIGNED_PARAMETER),
 
     //
     TYPE_HINT(FluentBundle.messagePointer("color.token.symbol.type"), Default.CLASS_NAME),

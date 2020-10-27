@@ -29,8 +29,8 @@ public class FluentTermReferenceNode extends FluentElement implements FluentTerm
 
   @Override
   @Nullable
-  public FluentAttributeAccessor getAttributeAccessor() {
-    return findChildByClass(FluentAttributeAccessor.class);
+  public FluentAttributeID getAttributeID() {
+    return findChildByClass(FluentAttributeID.class);
   }
 
   @Override
@@ -41,8 +41,8 @@ public class FluentTermReferenceNode extends FluentElement implements FluentTerm
 
   @Override
   @NotNull
-  public FluentMessageID getMessageID() {
-    return findNotNullChildByClass(FluentMessageID.class);
+  public FluentTermID getTermID() {
+    return findNotNullChildByClass(FluentTermID.class);
   }
 
 }

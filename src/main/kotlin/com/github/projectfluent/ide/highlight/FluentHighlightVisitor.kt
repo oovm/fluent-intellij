@@ -3,10 +3,7 @@ package com.github.projectfluent.ide.highlight
 
 import com.github.projectfluent.ide.highlight.FluentColor.*
 import com.github.projectfluent.ide.view.FluentFile
-import com.github.projectfluent.language.psi.FluentAttributeID
-import com.github.projectfluent.language.psi.FluentMessageID
-import com.github.projectfluent.language.psi.FluentTermID
-import com.github.projectfluent.language.psi.FluentVisitor
+import com.github.projectfluent.language.psi.*
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor
@@ -27,6 +24,10 @@ class FluentHighlightVisitor : FluentVisitor(), HighlightVisitor {
 
     override fun visitAttributeID(o: FluentAttributeID) {
         highlight(o, SYM_ATTRIBUTE)
+    }
+
+    override fun visitVariableID(o: FluentVariableID) {
+        highlight(o, SYM_VARIABLE)
     }
 
 //    override fun visitSchemaStatement(o: JssSchemaStatement) {

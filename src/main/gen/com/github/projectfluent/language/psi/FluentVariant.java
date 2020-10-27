@@ -7,9 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public interface FluentVariant extends PsiElement {
 
-  @Nullable
-  FluentBlank getBlank();
-
   @NotNull
   FluentVariantKey getVariantKey();
 

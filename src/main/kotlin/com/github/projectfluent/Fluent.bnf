@@ -28,13 +28,6 @@
         STRING_CHAR = "String Character"
         STRING_ESCAPE = "String Escaped"
 
-        BYTE = 'regexp:(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)'
-        INTEGER = 'regexp:(0|[1-9][0-9_]*)'
-        DECIMAL = 'Decimal'
-        SIGN = 'regexp:[+-]'
-        TEXT_CHAR="Text Character"
-        CRLF = "Newline"
-
         PARENTHESIS_L = '('
         PARENTHESIS_R = ')'
         BRACKET_L = '['
@@ -52,7 +45,11 @@
         DOT = '.'
         STAR = '*'
         AT = '@'
+        TO = "->"
         HYPHEN = "-"
+        INTEGER="INTEGER"
+        DECIMAL="DECIMAL"
+        BYTE="BYTE"
 //      SPACE='regexp:\s+'
 //      ANY = 'regexp:.'
     ]
@@ -88,52 +85,48 @@ pattern    ::= pattern_element+
  * Adjacent TextElements are joined in AST creation. */
 private pattern_element ::=
     inline_text
-//    | block_text
-//    | inline_placeable
-//    | block_placeable
+    | block_text
+    | InlinePlaceable
+    | block_placeable
 inline_text         ::= TEXT_LINE
 block_text          ::= BLANK_BLOCK BLANK_INLINE INDENT [inline_text]
-inline_placeable    ::= "{" [BLANK] (SelectExpression | InlineExpression) [BLANK] "}"
-block_placeable     ::= BLANK_BLOCK [BLANK_INLINE] inline_placeable
+InlinePlaceable    ::= BRACE_L (SelectExpression | InlineExpression) BRACE_R
+block_placeable     ::= BLANK_BLOCK  InlinePlaceable
 
 /* Rules for validating expressions in Placeables and as selectors of
  * SelectExpressions are documented in spec/valid.md and enforced in
  * syntax/abstract.js. */
-InlineExpression    ::= StringLiteral
-                      | NumberLiteral
-                      | FunctionReference
-                      | MessageReference
-                      | TermReference
-                      | VariableReference
-                      | inline_placeable
-
-/* Literals */
-StringLiteral       ::= STRING_QUOTE STRING_ESCAPE STRING_CHAR STRING_QUOTE
-NumberLiteral       ::= ["-"] DIGITS ["." DIGITS]
+InlineExpression    ::=
+    StringLiteral
+    | NumberLiteral
+    | FunctionReference
+    | MessageReference
+    | TermReference
+    | VariableID
+    | InlinePlaceable
 
 /* Inline Expressions */
 FunctionReference   ::= MessageID CallArguments
-MessageReference    ::= MessageID [AttributeAccessor]
-TermReference       ::= "-" MessageID [AttributeAccessor] [CallArguments]
-VariableReference   ::= "$" MessageID
-AttributeAccessor   ::= "." MessageID
-CallArguments       ::= [BLANK] "(" [BLANK] argument_list [BLANK] ")"
-argument_list       ::= (Argument [BLANK] "," [BLANK])* [Argument]
+MessageReference    ::= MessageID [AttributeID]
+TermReference       ::= TermID [AttributeID] [CallArguments]
+CallArguments       ::= PARENTHESIS_L ArgumentList  PARENTHESIS_R
+ArgumentList        ::= (Argument COMMA)* [Argument]
 Argument            ::= NamedArgument
                       | InlineExpression
-NamedArgument       ::= MessageID [BLANK] ":" [BLANK] (StringLiteral | NumberLiteral)
+NamedArgument       ::= MessageID  COLON  (StringLiteral | NumberLiteral)
 
 /* Block Expressions */
-SelectExpression    ::= InlineExpression [BLANK] "->" [BLANK_INLINE] variant_list
-variant_list        ::= Variant* DefaultVariant Variant* CRLF
-Variant             ::= CRLF [BLANK] VariantKey [BLANK_INLINE] pattern
-DefaultVariant      ::= CRLF [BLANK] "*" VariantKey [BLANK_INLINE] pattern
-VariantKey          ::= "[" [BLANK] (NumberLiteral | MessageID) [BLANK] "]"
+SelectExpression    ::= InlineExpression TO variant_list
+variant_list        ::= Variant* DefaultVariant Variant* 
+Variant             ::= VariantKey  pattern
+DefaultVariant      ::= STAR VariantKey  pattern
+VariantKey          ::= BRACKET_L (NumberLiteral | MessageID) BRACKET_R
 
 /* Identifier */
-MessageID   ::= SYMBOL;
-TermID      ::= HYPHEN SYMBOL;
-AttributeID ::= DOT SYMBOL;
-
-BLANK_BLOCK ::= ([BLANK_INLINE] CRLF)+
-BLANK       ::= (BLANK_INLINE | CRLF)+
+MessageID           ::= SYMBOL;
+TermID              ::= HYPHEN SYMBOL;
+AttributeID         ::= DOT SYMBOL;
+VariableID          ::= DOLLAR SYMBOL;
+/* Literals */
+StringLiteral       ::= STRING_QUOTE STRING_ESCAPE STRING_CHAR STRING_QUOTE
+NumberLiteral       ::= ["-"] DIGITS ["." DIGITS]

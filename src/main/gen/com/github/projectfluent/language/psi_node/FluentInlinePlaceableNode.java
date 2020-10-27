@@ -28,12 +28,6 @@ public class FluentInlinePlaceableNode extends FluentElement implements FluentIn
   }
 
   @Override
-  @NotNull
-  public List<FluentBlank> getBlankList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentBlank.class);
-  }
-
-  @Override
   @Nullable
   public FluentInlineExpression getInlineExpression() {
     return findChildByClass(FluentInlineExpression.class);

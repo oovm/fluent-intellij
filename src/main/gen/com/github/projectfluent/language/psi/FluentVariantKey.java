@@ -7,9 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public interface FluentVariantKey extends PsiElement {
 
-  @NotNull
-  List<FluentBlank> getBlankList();
-
   @Nullable
   FluentMessageID getMessageID();
 

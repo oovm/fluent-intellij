@@ -7,9 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public interface FluentSelectExpression extends PsiElement {
 
-  @Nullable
-  FluentBlank getBlank();
-
   @NotNull
   FluentInlineExpression getInlineExpression();
 

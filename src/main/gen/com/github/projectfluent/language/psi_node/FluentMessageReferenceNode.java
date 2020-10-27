@@ -29,8 +29,8 @@ public class FluentMessageReferenceNode extends FluentElement implements FluentM
 
   @Override
   @Nullable
-  public FluentAttributeAccessor getAttributeAccessor() {
-    return findChildByClass(FluentAttributeAccessor.class);
+  public FluentAttributeID getAttributeID() {
+    return findChildByClass(FluentAttributeID.class);
   }
 
   @Override

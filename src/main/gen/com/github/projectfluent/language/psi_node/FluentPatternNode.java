@@ -29,6 +29,24 @@ public class FluentPatternNode extends FluentElement implements FluentPattern {
 
   @Override
   @NotNull
+  public List<FluentInlinePlaceable> getInlinePlaceableList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentInlinePlaceable.class);
+  }
+
+  @Override
+  @NotNull
+  public List<FluentBlockPlaceable> getBlockPlaceableList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentBlockPlaceable.class);
+  }
+
+  @Override
+  @NotNull
+  public List<FluentBlockText> getBlockTextList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentBlockText.class);
+  }
+
+  @Override
+  @NotNull
   public List<FluentInlineText> getInlineTextList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentInlineText.class);
   }

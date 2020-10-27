@@ -11,6 +11,9 @@ public interface FluentInlineExpression extends PsiElement {
   FluentFunctionReference getFunctionReference();
 
   @Nullable
+  FluentInlinePlaceable getInlinePlaceable();
+
+  @Nullable
   FluentMessageReference getMessageReference();
 
   @Nullable
@@ -23,9 +26,6 @@ public interface FluentInlineExpression extends PsiElement {
   FluentTermReference getTermReference();
 
   @Nullable
-  FluentVariableReference getVariableReference();
-
-  @Nullable
-  FluentInlinePlaceable getInlinePlaceable();
+  FluentVariableID getVariableID();
 
 }

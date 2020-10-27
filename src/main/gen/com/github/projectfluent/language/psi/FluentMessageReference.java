@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface FluentMessageReference extends PsiElement {
 
   @Nullable
-  FluentAttributeAccessor getAttributeAccessor();
+  FluentAttributeID getAttributeID();
 
   @NotNull
   FluentMessageID getMessageID();

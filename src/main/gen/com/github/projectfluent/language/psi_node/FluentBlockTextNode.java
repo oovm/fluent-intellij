@@ -28,12 +28,6 @@ public class FluentBlockTextNode extends FluentElement implements FluentBlockTex
   }
 
   @Override
-  @NotNull
-  public FluentBlankBlock getBlankBlock() {
-    return findNotNullChildByClass(FluentBlankBlock.class);
-  }
-
-  @Override
   @Nullable
   public FluentInlineText getInlineText() {
     return findChildByClass(FluentInlineText.class);

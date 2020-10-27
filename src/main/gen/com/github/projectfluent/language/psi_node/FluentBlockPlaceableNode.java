@@ -29,12 +29,6 @@ public class FluentBlockPlaceableNode extends FluentElement implements FluentBlo
 
   @Override
   @NotNull
-  public FluentBlankBlock getBlankBlock() {
-    return findNotNullChildByClass(FluentBlankBlock.class);
-  }
-
-  @Override
-  @NotNull
   public FluentInlinePlaceable getInlinePlaceable() {
     return findNotNullChildByClass(FluentInlinePlaceable.class);
   }

@@ -28,12 +28,6 @@ public class FluentSelectExpressionNode extends FluentElement implements FluentS
   }
 
   @Override
-  @Nullable
-  public FluentBlank getBlank() {
-    return findChildByClass(FluentBlank.class);
-  }
-
-  @Override
   @NotNull
   public FluentInlineExpression getInlineExpression() {
     return findNotNullChildByClass(FluentInlineExpression.class);

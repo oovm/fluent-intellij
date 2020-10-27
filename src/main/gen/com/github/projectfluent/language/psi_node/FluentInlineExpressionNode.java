@@ -35,6 +35,12 @@ public class FluentInlineExpressionNode extends FluentElement implements FluentI
 
   @Override
   @Nullable
+  public FluentInlinePlaceable getInlinePlaceable() {
+    return findChildByClass(FluentInlinePlaceable.class);
+  }
+
+  @Override
+  @Nullable
   public FluentMessageReference getMessageReference() {
     return findChildByClass(FluentMessageReference.class);
   }
@@ -59,14 +65,8 @@ public class FluentInlineExpressionNode extends FluentElement implements FluentI
 
   @Override
   @Nullable
-  public FluentVariableReference getVariableReference() {
-    return findChildByClass(FluentVariableReference.class);
-  }
-
-  @Override
-  @Nullable
-  public FluentInlinePlaceable getInlinePlaceable() {
-    return findChildByClass(FluentInlinePlaceable.class);
+  public FluentVariableID getVariableID() {
+    return findChildByClass(FluentVariableID.class);
   }
 
 }

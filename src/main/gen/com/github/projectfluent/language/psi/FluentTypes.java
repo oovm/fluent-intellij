@@ -11,10 +11,7 @@ public interface FluentTypes {
   IElementType ARGUMENT = new FluentElementType("ARGUMENT");
   IElementType ARGUMENT_LIST = new FluentElementType("ARGUMENT_LIST");
   IElementType ATTRIBUTE = new FluentElementType("ATTRIBUTE");
-  IElementType ATTRIBUTE_ACCESSOR = new FluentElementType("ATTRIBUTE_ACCESSOR");
   IElementType ATTRIBUTE_ID = new FluentElementType("ATTRIBUTE_ID");
-  IElementType BLANK = new FluentElementType("BLANK");
-  IElementType BLANK_BLOCK = new FluentElementType("BLANK_BLOCK");
   IElementType BLOCK_PLACEABLE = new FluentElementType("BLOCK_PLACEABLE");
   IElementType BLOCK_TEXT = new FluentElementType("BLOCK_TEXT");
   IElementType CALL_ARGUMENTS = new FluentElementType("CALL_ARGUMENTS");
@@ -34,7 +31,7 @@ public interface FluentTypes {
   IElementType TERM = new FluentElementType("TERM");
   IElementType TERM_ID = new FluentElementType("TERM_ID");
   IElementType TERM_REFERENCE = new FluentElementType("TERM_REFERENCE");
-  IElementType VARIABLE_REFERENCE = new FluentElementType("VARIABLE_REFERENCE");
+  IElementType VARIABLE_ID = new FluentElementType("VARIABLE_ID");
   IElementType VARIANT = new FluentElementType("VARIANT");
   IElementType VARIANT_KEY = new FluentElementType("VARIANT_KEY");
   IElementType VARIANT_LIST = new FluentElementType("VARIANT_LIST");
@@ -43,6 +40,7 @@ public interface FluentTypes {
   IElementType ANGLE_L = new FluentTokenType("<");
   IElementType ANGLE_R = new FluentTokenType(">");
   IElementType AT = new FluentTokenType("@");
+  IElementType BLANK_BLOCK = new FluentTokenType("BLANK_BLOCK");
   IElementType BLANK_INLINE = new FluentTokenType("BLANK_INLINE");
   IElementType BRACE_L = new FluentTokenType("{");
   IElementType BRACE_R = new FluentTokenType("}");
@@ -55,8 +53,7 @@ public interface FluentTypes {
   IElementType COMMENT_BLOCK = new FluentTokenType("Comment Block");
   IElementType COMMENT_DOCUMENT = new FluentTokenType("Comment Document");
   IElementType COMMENT_LINE = new FluentTokenType("COMMENT_LINE");
-  IElementType CRLF = new FluentTokenType("Newline");
-  IElementType DECIMAL = new FluentTokenType("Decimal");
+  IElementType DECIMAL = new FluentTokenType("DECIMAL");
   IElementType DIGITS = new FluentTokenType("DIGITS");
   IElementType DOLLAR = new FluentTokenType("$");
   IElementType DOT = new FluentTokenType(".");
@@ -67,14 +64,13 @@ public interface FluentTypes {
   IElementType PARENTHESIS_L = new FluentTokenType("(");
   IElementType PARENTHESIS_R = new FluentTokenType(")");
   IElementType SEMICOLON = new FluentTokenType(";");
-  IElementType SIGN = new FluentTokenType("SIGN");
   IElementType STAR = new FluentTokenType("*");
   IElementType STRING_CHAR = new FluentTokenType("String Character");
   IElementType STRING_ESCAPE = new FluentTokenType("String Escaped");
   IElementType STRING_QUOTE = new FluentTokenType("String Quote");
   IElementType SYMBOL = new FluentTokenType("Symbol");
-  IElementType TEXT_CHAR = new FluentTokenType("Text Character");
   IElementType TEXT_LINE = new FluentTokenType("TEXT_LINE");
+  IElementType TO = new FluentTokenType("->");
   IElementType URL = new FluentTokenType("Url");
 
   class Factory {
@@ -89,17 +85,8 @@ public interface FluentTypes {
       else if (type == ATTRIBUTE) {
         return new FluentAttributeNode(node);
       }
-      else if (type == ATTRIBUTE_ACCESSOR) {
-        return new FluentAttributeAccessorNode(node);
-      }
       else if (type == ATTRIBUTE_ID) {
         return new FluentAttributeIDNode(node);
-      }
-      else if (type == BLANK) {
-        return new FluentBlankNode(node);
-      }
-      else if (type == BLANK_BLOCK) {
-        return new FluentBlankBlockNode(node);
       }
       else if (type == BLOCK_PLACEABLE) {
         return new FluentBlockPlaceableNode(node);
@@ -158,8 +145,8 @@ public interface FluentTypes {
       else if (type == TERM_REFERENCE) {
         return new FluentTermReferenceNode(node);
       }
-      else if (type == VARIABLE_REFERENCE) {
-        return new FluentVariableReferenceNode(node);
+      else if (type == VARIABLE_ID) {
+        return new FluentVariableIDNode(node);
       }
       else if (type == VARIANT) {
         return new FluentVariantNode(node);

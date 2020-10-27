@@ -33,10 +33,4 @@ public class FluentArgumentListNode extends FluentElement implements FluentArgum
     return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentArgument.class);
   }
 
-  @Override
-  @NotNull
-  public List<FluentBlank> getBlankList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentBlank.class);
-  }
-
 }

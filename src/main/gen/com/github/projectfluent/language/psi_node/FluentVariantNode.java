@@ -28,12 +28,6 @@ public class FluentVariantNode extends FluentElement implements FluentVariant {
   }
 
   @Override
-  @Nullable
-  public FluentBlank getBlank() {
-    return findChildByClass(FluentBlank.class);
-  }
-
-  @Override
   @NotNull
   public FluentVariantKey getVariantKey() {
     return findNotNullChildByClass(FluentVariantKey.class);

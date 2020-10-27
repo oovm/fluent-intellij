@@ -11,26 +11,20 @@ import static com.github.projectfluent.language.psi.FluentTypes.*;
 import com.github.projectfluent.language.psi.FluentElement;
 import com.github.projectfluent.language.psi.*;
 
-public class FluentVariableReferenceNode extends FluentElement implements FluentVariableReference {
+public class FluentVariableIDNode extends FluentElement implements FluentVariableID {
 
-  public FluentVariableReferenceNode(@NotNull ASTNode node) {
+  public FluentVariableIDNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FluentVisitor visitor) {
-    visitor.visitVariableReference(this);
+    visitor.visitVariableID(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof FluentVisitor) accept((FluentVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public FluentMessageID getMessageID() {
-    return findNotNullChildByClass(FluentMessageID.class);
   }
 
 }

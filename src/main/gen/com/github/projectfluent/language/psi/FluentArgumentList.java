@@ -10,7 +10,4 @@ public interface FluentArgumentList extends PsiElement {
   @NotNull
   List<FluentArgument> getArgumentList();
 
-  @NotNull
-  List<FluentBlank> getBlankList();
-
 }

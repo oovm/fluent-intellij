@@ -7,9 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public interface FluentBlockText extends PsiElement {
 
-  @NotNull
-  FluentBlankBlock getBlankBlock();
-
   @Nullable
   FluentInlineText getInlineText();
 

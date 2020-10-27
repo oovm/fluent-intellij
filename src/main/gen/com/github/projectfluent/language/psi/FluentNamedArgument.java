@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface FluentNamedArgument extends PsiElement {
 
   @NotNull
-  List<FluentBlank> getBlankList();
-
-  @NotNull
   FluentMessageID getMessageID();
 
   @Nullable

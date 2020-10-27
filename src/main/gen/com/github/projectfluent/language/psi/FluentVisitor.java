@@ -11,19 +11,7 @@ public class FluentVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitAttributeAccessor(@NotNull FluentAttributeAccessor o) {
-    visitPsiElement(o);
-  }
-
   public void visitAttributeID(@NotNull FluentAttributeID o) {
-    visitPsiElement(o);
-  }
-
-  public void visitBlank(@NotNull FluentBlank o) {
-    visitPsiElement(o);
-  }
-
-  public void visitBlankBlock(@NotNull FluentBlankBlock o) {
     visitPsiElement(o);
   }
 
@@ -40,6 +28,10 @@ public class FluentVisitor extends PsiElementVisitor {
   }
 
   public void visitInlineExpression(@NotNull FluentInlineExpression o) {
+    visitPsiElement(o);
+  }
+
+  public void visitInlinePlaceable(@NotNull FluentInlinePlaceable o) {
     visitPsiElement(o);
   }
 
@@ -79,7 +71,7 @@ public class FluentVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitVariableReference(@NotNull FluentVariableReference o) {
+  public void visitVariableID(@NotNull FluentVariableID o) {
     visitPsiElement(o);
   }
 
@@ -104,10 +96,6 @@ public class FluentVisitor extends PsiElementVisitor {
   }
 
   public void visitBlockText(@NotNull FluentBlockText o) {
-    visitPsiElement(o);
-  }
-
-  public void visitInlinePlaceable(@NotNull FluentInlinePlaceable o) {
     visitPsiElement(o);
   }
 

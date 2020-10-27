@@ -29,12 +29,6 @@ public class FluentNamedArgumentNode extends FluentElement implements FluentName
 
   @Override
   @NotNull
-  public List<FluentBlank> getBlankList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentBlank.class);
-  }
-
-  @Override
-  @NotNull
   public FluentMessageID getMessageID() {
     return findNotNullChildByClass(FluentMessageID.class);
   }
