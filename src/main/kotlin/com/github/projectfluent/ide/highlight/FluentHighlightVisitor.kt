@@ -30,6 +30,10 @@ class FluentHighlightVisitor : FluentVisitor(), HighlightVisitor {
         highlight(o, SYM_VARIABLE)
     }
 
+    override fun visitFunctionID(o: FluentFunctionID) {
+        highlight(o, SYM_FUNCTION)
+    }
+
 //    override fun visitSchemaStatement(o: JssSchemaStatement) {
 //        //
 //        val head = o.firstChild;

@@ -11,14 +11,14 @@ import static com.github.projectfluent.language.psi.FluentTypes.*;
 import com.github.projectfluent.language.psi.FluentElement;
 import com.github.projectfluent.language.psi.*;
 
-public class FluentInlineTextNode extends FluentElement implements FluentInlineText {
+public class FluentFunctionIDNode extends FluentElement implements FluentFunctionID {
 
-  public FluentInlineTextNode(@NotNull ASTNode node) {
+  public FluentFunctionIDNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FluentVisitor visitor) {
-    visitor.visitInlineText(this);
+    visitor.visitFunctionID(this);
   }
 
   @Override

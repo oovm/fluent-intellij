@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface FluentTermReference extends PsiElement {
 
   @Nullable
-  FluentAttributeID getAttributeID();
-
-  @Nullable
   FluentCallArguments getCallArguments();
 
   @NotNull

@@ -1,10 +1,18 @@
-# 2
-hello = Hello, world!
+# Message References
+hello   = Hello, world!
 welcome = Welcome, { $user }!
-
-time-elapsed = Time elapsed: { $duration }s.
 time-elapsed = Time elapsed: { NUMBER($duration, maximumFractionDigits: 0) }s.
+-brand-name = Firefox
+installing = Installing { -brand-name }.
 
+# Selectors
+your-score = {
+    NUMBER($score, minimumFractionDigits: 1) ->
+        [0.0]   You scored zero points. What happened?
+       *[other] You scored { NUMBER($score, minimumFractionDigits: 1)} points.
+    }
+
+# Multiline and indent
 multi = Text can also span multiple lines as long as
     each new line is indented by at least one space.
     Because all lines in this message are indented
@@ -16,5 +24,3 @@ indents =
     from the final text value.
       This line has 2 spaces in front of it.
 
-
-unread-emails = { $user } has { $email-count } unread emails.

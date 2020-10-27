@@ -8,15 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface FluentTerm extends PsiElement {
 
   @NotNull
-  FluentMessageID getMessageID();
-
-  @NotNull
-  FluentTermID getTermID();
-
-  @NotNull
   List<FluentAttribute> getAttributeList();
 
   @NotNull
   FluentPattern getPattern();
+
+  @NotNull
+  FluentTermID getTermID();
 
 }

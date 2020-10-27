@@ -29,18 +29,6 @@ public class FluentTermNode extends FluentElement implements FluentTerm {
 
   @Override
   @NotNull
-  public FluentMessageID getMessageID() {
-    return findNotNullChildByClass(FluentMessageID.class);
-  }
-
-  @Override
-  @NotNull
-  public FluentTermID getTermID() {
-    return findNotNullChildByClass(FluentTermID.class);
-  }
-
-  @Override
-  @NotNull
   public List<FluentAttribute> getAttributeList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentAttribute.class);
   }
@@ -49,6 +37,12 @@ public class FluentTermNode extends FluentElement implements FluentTerm {
   @NotNull
   public FluentPattern getPattern() {
     return findNotNullChildByClass(FluentPattern.class);
+  }
+
+  @Override
+  @NotNull
+  public FluentTermID getTermID() {
+    return findNotNullChildByClass(FluentTermID.class);
   }
 
 }

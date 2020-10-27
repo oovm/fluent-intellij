@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface FluentVariant extends PsiElement {
 
   @NotNull
-  FluentVariantKey getVariantKey();
+  FluentPattern getPattern();
 
   @NotNull
-  FluentPattern getPattern();
+  FluentVariantKey getVariantKey();
 
 }

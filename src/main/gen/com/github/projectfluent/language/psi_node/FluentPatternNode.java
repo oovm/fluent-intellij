@@ -45,10 +45,4 @@ public class FluentPatternNode extends FluentElement implements FluentPattern {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentBlockText.class);
   }
 
-  @Override
-  @NotNull
-  public List<FluentInlineText> getInlineTextList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentInlineText.class);
-  }
-
 }

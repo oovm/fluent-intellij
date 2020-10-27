@@ -16,10 +16,10 @@ public interface FluentTypes {
   IElementType BLOCK_TEXT = new FluentElementType("BLOCK_TEXT");
   IElementType CALL_ARGUMENTS = new FluentElementType("CALL_ARGUMENTS");
   IElementType DEFAULT_VARIANT = new FluentElementType("DEFAULT_VARIANT");
+  IElementType FUNCTION_ID = new FluentElementType("FUNCTION_ID");
   IElementType FUNCTION_REFERENCE = new FluentElementType("FUNCTION_REFERENCE");
   IElementType INLINE_EXPRESSION = new FluentElementType("INLINE_EXPRESSION");
   IElementType INLINE_PLACEABLE = new FluentElementType("INLINE_PLACEABLE");
-  IElementType INLINE_TEXT = new FluentElementType("INLINE_TEXT");
   IElementType MESSAGE = new FluentElementType("MESSAGE");
   IElementType MESSAGE_ID = new FluentElementType("MESSAGE_ID");
   IElementType MESSAGE_REFERENCE = new FluentElementType("MESSAGE_REFERENCE");
@@ -53,14 +53,14 @@ public interface FluentTypes {
   IElementType COMMENT_BLOCK = new FluentTokenType("Comment Block");
   IElementType COMMENT_DOCUMENT = new FluentTokenType("Comment Document");
   IElementType COMMENT_LINE = new FluentTokenType("COMMENT_LINE");
-  IElementType DECIMAL = new FluentTokenType("DECIMAL");
-  IElementType DIGITS = new FluentTokenType("DIGITS");
+  IElementType DIGIT = new FluentTokenType("Digit");
   IElementType DOLLAR = new FluentTokenType("$");
   IElementType DOT = new FluentTokenType(".");
   IElementType EQ = new FluentTokenType("=");
   IElementType HYPHEN = new FluentTokenType("-");
   IElementType INDENT = new FluentTokenType("INDENT");
   IElementType INTEGER = new FluentTokenType("INTEGER");
+  IElementType NUMBER = new FluentTokenType("NUMBER");
   IElementType PARENTHESIS_L = new FluentTokenType("(");
   IElementType PARENTHESIS_R = new FluentTokenType(")");
   IElementType SEMICOLON = new FluentTokenType(";");
@@ -100,6 +100,9 @@ public interface FluentTypes {
       else if (type == DEFAULT_VARIANT) {
         return new FluentDefaultVariantNode(node);
       }
+      else if (type == FUNCTION_ID) {
+        return new FluentFunctionIDNode(node);
+      }
       else if (type == FUNCTION_REFERENCE) {
         return new FluentFunctionReferenceNode(node);
       }
@@ -108,9 +111,6 @@ public interface FluentTypes {
       }
       else if (type == INLINE_PLACEABLE) {
         return new FluentInlinePlaceableNode(node);
-      }
-      else if (type == INLINE_TEXT) {
-        return new FluentInlineTextNode(node);
       }
       else if (type == MESSAGE) {
         return new FluentMessageNode(node);

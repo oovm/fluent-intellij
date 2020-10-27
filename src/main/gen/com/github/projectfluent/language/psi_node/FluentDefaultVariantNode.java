@@ -29,14 +29,14 @@ public class FluentDefaultVariantNode extends FluentElement implements FluentDef
 
   @Override
   @NotNull
-  public FluentVariantKey getVariantKey() {
-    return findNotNullChildByClass(FluentVariantKey.class);
+  public FluentPattern getPattern() {
+    return findNotNullChildByClass(FluentPattern.class);
   }
 
   @Override
   @NotNull
-  public FluentPattern getPattern() {
-    return findNotNullChildByClass(FluentPattern.class);
+  public FluentVariantKey getVariantKey() {
+    return findNotNullChildByClass(FluentVariantKey.class);
   }
 
 }

@@ -27,6 +27,7 @@ public _FluentLexer() {
 %state StringQuote
 %state TextContext
 %state CodeContext
+$state SelectContext
 
 EOL=\R
 WHITE_SPACE=\s+
@@ -39,7 +40,8 @@ SYMBOL = [a-zA-Z][a-zA-Z0-9_-]*
 //STRING=\"([^\"\\]|\\.)*\"
 BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
 INTEGER=(0|[1-9][0-9_]*)
-DECIMAL=([0-9]+\.[0-9]*([*][*][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
+DECIMAL=([0-9]+\.[0-9]*([Ee][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
+NUMBER = [-]?({INTEGER}|{DECIMAL})
 SIGN=[+-]
 DIGITS = [0-9]+
 
@@ -76,34 +78,27 @@ HEX = [0-9a-fA-F]
 //}
 
 <YYINITIAL> {
-
-	"[" { return BRACKET_L; }
-	"]" { return BRACKET_R; }
 	"{" { return BRACE_L; }
 	"}" { return BRACE_R; }
 	"<" { return ANGLE_L; }
 	">" { return ANGLE_R; }
 	"^" { return ACCENT; }
-	":" { return COLON; }
 	";" { return SEMICOLON; }
-
 	"$" { return DOLLAR; }
 	"." { return DOT; }
-	"*" { return STAR; }
-	"@" { return AT; }
-
-	{SYMBOL}                { return SYMBOL; }
-	{BYTE}                  { return BYTE; }
-	{INTEGER}               { return INTEGER; }
-	{DECIMAL}               { return DECIMAL; }
+	"-" { return HYPHEN; }
 }
+<YYINITIAL> {
+	{SYMBOL} { return SYMBOL; }
+}
+
 // =====================================================================================================================
 <YYINITIAL> = {
 	yybegin(TextContext);
 	return EQ;
 }
 // 如果首行无缩进, 直接结束
-<TextContext> {CRLF}[-a-zA-Z] {
+<TextContext> {CRLF}[-#a-zA-Z] {
 	yypushback(1);
     yybegin(YYINITIAL);
     return WHITE_SPACE;
@@ -124,11 +119,24 @@ HEX = [0-9a-fA-F]
 <CodeContext> {
 	"(" { return PARENTHESIS_L; }
 	")" { return PARENTHESIS_R; }
+	"[" { return BRACKET_L; }
+	"]" { return BRACKET_R; }
+	\$  {return DOLLAR;}
+	"," { return COMMA; }
+	":" { return COLON; }
+	"*" { return STAR; }
 }
 <CodeContext> {
-	{SYMBOL} {return SYMBOL;}
-	\$ {return DOLLAR;}
-	"," { return COMMA; }
+	{SYMBOL}  {return SYMBOL;}
+	{NUMBER} {return NUMBER;}
+}
+// =====================================================================================================================
+<CodeContext> -> {
+	yybegin(SelectContext);
+	return TO;
+}
+<SelectContext> {
+    {WHITE_SPACE}   { return WHITE_SPACE; }
 }
 // =====================================================================================================================
 <YYINITIAL> \" {

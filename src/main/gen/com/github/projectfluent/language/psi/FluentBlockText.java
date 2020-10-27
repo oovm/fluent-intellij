@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface FluentBlockText extends PsiElement {
 
-  @Nullable
-  FluentInlineText getInlineText();
-
 }

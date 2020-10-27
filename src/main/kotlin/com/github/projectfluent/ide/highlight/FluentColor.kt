@@ -24,14 +24,15 @@ enum class FluentColor(humanName: Supplier<@AttributeDescriptor String>, default
     INTEGER(FluentBundle.messagePointer("color.token.integer"), Default.NUMBER),
     STRING(FluentBundle.messagePointer("color.token.string"), Default.STRING),
     TEXT(FluentBundle.messagePointer("color.token.url"), STRING.textAttributesKey),
-
+    STRING_ESCAPED(FluentBundle.messagePointer("color.token.url"), Default.VALID_STRING_ESCAPE),
+    STRING_BAD(FluentBundle.messagePointer("color.token.url"), Default.INVALID_STRING_ESCAPE),
     // 标识符
     IDENTIFIER(OptionsBundle.messagePointer("options.language.defaults.identifier"), Default.IDENTIFIER),
     SYM_MESSAGE(FluentBundle.messagePointer("color.token.symbol.message"), Default.STATIC_FIELD),
     SYM_TERM(FluentBundle.messagePointer("color.token.symbol.term"), Default.STATIC_METHOD),
     SYM_ATTRIBUTE(FluentBundle.messagePointer("color.token.symbol.attribute"), Default.PREDEFINED_SYMBOL),
     SYM_VARIABLE(FluentBundle.messagePointer("color.token.symbol.variable"), Default.REASSIGNED_PARAMETER),
-
+    SYM_FUNCTION(FluentBundle.messagePointer("color.token.symbol.function"), Default.PREDEFINED_SYMBOL),
     //
     TYPE_HINT(FluentBundle.messagePointer("color.token.symbol.type"), Default.CLASS_NAME),
 

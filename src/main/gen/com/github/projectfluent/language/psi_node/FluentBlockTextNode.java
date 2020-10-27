@@ -27,10 +27,4 @@ public class FluentBlockTextNode extends FluentElement implements FluentBlockTex
     else super.accept(visitor);
   }
 
-  @Override
-  @Nullable
-  public FluentInlineText getInlineText() {
-    return findChildByClass(FluentInlineText.class);
-  }
-
 }

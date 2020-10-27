@@ -11,6 +11,14 @@ public class FluentVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitArgumentList(@NotNull FluentArgumentList o) {
+    visitPsiElement(o);
+  }
+
+  public void visitAttribute(@NotNull FluentAttribute o) {
+    visitPsiElement(o);
+  }
+
   public void visitAttributeID(@NotNull FluentAttributeID o) {
     visitPsiElement(o);
   }
@@ -20,6 +28,10 @@ public class FluentVisitor extends PsiElementVisitor {
   }
 
   public void visitDefaultVariant(@NotNull FluentDefaultVariant o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFunctionID(@NotNull FluentFunctionID o) {
     visitPsiElement(o);
   }
 
@@ -55,11 +67,19 @@ public class FluentVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitPattern(@NotNull FluentPattern o) {
+    visitPsiElement(o);
+  }
+
   public void visitSelectExpression(@NotNull FluentSelectExpression o) {
     visitPsiElement(o);
   }
 
   public void visitStringLiteral(@NotNull FluentStringLiteral o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTerm(@NotNull FluentTerm o) {
     visitPsiElement(o);
   }
 
@@ -83,31 +103,11 @@ public class FluentVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitArgumentList(@NotNull FluentArgumentList o) {
-    visitPsiElement(o);
-  }
-
-  public void visitAttribute(@NotNull FluentAttribute o) {
-    visitPsiElement(o);
-  }
-
   public void visitBlockPlaceable(@NotNull FluentBlockPlaceable o) {
     visitPsiElement(o);
   }
 
   public void visitBlockText(@NotNull FluentBlockText o) {
-    visitPsiElement(o);
-  }
-
-  public void visitInlineText(@NotNull FluentInlineText o) {
-    visitPsiElement(o);
-  }
-
-  public void visitPattern(@NotNull FluentPattern o) {
-    visitPsiElement(o);
-  }
-
-  public void visitTerm(@NotNull FluentTerm o) {
     visitPsiElement(o);
   }
 

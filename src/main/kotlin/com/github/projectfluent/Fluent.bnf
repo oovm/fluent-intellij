@@ -47,9 +47,6 @@
         AT = '@'
         TO = "->"
         HYPHEN = "-"
-        INTEGER="INTEGER"
-        DECIMAL="DECIMAL"
-        BYTE="BYTE"
 //      SPACE='regexp:\s+'
 //      ANY = 'regexp:.'
     ]
@@ -71,25 +68,24 @@ Fluent ::= Entry*
  * standalone Entries. */
 private Entry ::=
     Message
-    | term
+    | Term
     | COMMENT_LINE
-Message ::= MessageID EQ ((pattern attribute*) | (attribute+))
-term    ::= TermID MessageID EQ pattern attribute*
+Message ::= MessageID EQ ((Pattern Attribute*) | (Attribute+))
+Term    ::= TermID EQ Pattern Attribute*
 /* Attributes of Messages and Terms. */
-attribute  ::= AttributeID MessageID EQ pattern
+Attribute  ::= AttributeID MessageID EQ Pattern
 /* Patterns are values of Messages, Terms, Attributes and Variants. */
-pattern    ::= pattern_element+
+Pattern    ::= pattern_element+
 /* TextElement and Placeable can occur inline or as block.
  * Text needs to be indented and start with a non-special character.
  * Placeables can start at the beginning of the line or be indented.
  * Adjacent TextElements are joined in AST creation. */
 private pattern_element ::=
-    inline_text
+    TEXT_LINE
     | block_text
     | InlinePlaceable
     | block_placeable
-inline_text         ::= TEXT_LINE
-block_text          ::= BLANK_BLOCK BLANK_INLINE INDENT [inline_text]
+block_text          ::= BLANK_BLOCK BLANK_INLINE INDENT [TEXT_LINE]
 InlinePlaceable    ::= BRACE_L (SelectExpression | InlineExpression) BRACE_R
 block_placeable     ::= BLANK_BLOCK  InlinePlaceable
 
@@ -106,20 +102,18 @@ InlineExpression    ::=
     | InlinePlaceable
 
 /* Inline Expressions */
-FunctionReference   ::= MessageID CallArguments
+FunctionReference   ::= FunctionID CallArguments
 MessageReference    ::= MessageID [AttributeID]
-TermReference       ::= TermID [AttributeID] [CallArguments]
-CallArguments       ::= PARENTHESIS_L ArgumentList  PARENTHESIS_R
-ArgumentList        ::= (Argument COMMA)* [Argument]
-Argument            ::= NamedArgument
-                      | InlineExpression
-NamedArgument       ::= MessageID  COLON  (StringLiteral | NumberLiteral)
+TermReference       ::= TermID [CallArguments]
+CallArguments       ::= PARENTHESIS_L (Argument COMMA)* [Argument] PARENTHESIS_R
+Argument            ::= NamedArgument | InlineExpression
+NamedArgument       ::= MessageID COLON (StringLiteral | NumberLiteral)
 
 /* Block Expressions */
 SelectExpression    ::= InlineExpression TO variant_list
 variant_list        ::= Variant* DefaultVariant Variant* 
-Variant             ::= VariantKey  pattern
-DefaultVariant      ::= STAR VariantKey  pattern
+Variant             ::= VariantKey Pattern
+DefaultVariant      ::= STAR VariantKey Pattern
 VariantKey          ::= BRACKET_L (NumberLiteral | MessageID) BRACKET_R
 
 /* Identifier */
@@ -127,6 +121,7 @@ MessageID           ::= SYMBOL;
 TermID              ::= HYPHEN SYMBOL;
 AttributeID         ::= DOT SYMBOL;
 VariableID          ::= DOLLAR SYMBOL;
+FunctionID          ::= SYMBOL;
 /* Literals */
 StringLiteral       ::= STRING_QUOTE STRING_ESCAPE STRING_CHAR STRING_QUOTE
-NumberLiteral       ::= ["-"] DIGITS ["." DIGITS]
+NumberLiteral       ::= INTEGER|DECIMAL
