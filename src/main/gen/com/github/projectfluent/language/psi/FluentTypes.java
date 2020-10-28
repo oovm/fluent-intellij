@@ -9,7 +9,6 @@ import com.github.projectfluent.language.psi_node.*;
 public interface FluentTypes {
 
   IElementType ARGUMENT = new FluentElementType("ARGUMENT");
-  IElementType ARGUMENT_LIST = new FluentElementType("ARGUMENT_LIST");
   IElementType ATTRIBUTE = new FluentElementType("ATTRIBUTE");
   IElementType ATTRIBUTE_ID = new FluentElementType("ATTRIBUTE_ID");
   IElementType BLOCK_PLACEABLE = new FluentElementType("BLOCK_PLACEABLE");
@@ -34,7 +33,6 @@ public interface FluentTypes {
   IElementType VARIABLE_ID = new FluentElementType("VARIABLE_ID");
   IElementType VARIANT = new FluentElementType("VARIANT");
   IElementType VARIANT_KEY = new FluentElementType("VARIANT_KEY");
-  IElementType VARIANT_LIST = new FluentElementType("VARIANT_LIST");
 
   IElementType ACCENT = new FluentTokenType("^");
   IElementType ANGLE_L = new FluentTokenType("<");
@@ -46,21 +44,19 @@ public interface FluentTypes {
   IElementType BRACE_R = new FluentTokenType("}");
   IElementType BRACKET_L = new FluentTokenType("[");
   IElementType BRACKET_R = new FluentTokenType("]");
-  IElementType BYTE = new FluentTokenType("BYTE");
   IElementType COLON = new FluentTokenType(":");
   IElementType COMMA = new FluentTokenType(",");
   IElementType COMMENT = new FluentTokenType("Comment");
   IElementType COMMENT_BLOCK = new FluentTokenType("Comment Block");
   IElementType COMMENT_DOCUMENT = new FluentTokenType("Comment Document");
   IElementType COMMENT_LINE = new FluentTokenType("COMMENT_LINE");
-  IElementType DIGIT = new FluentTokenType("Digit");
+  IElementType DECIMAL = new FluentTokenType("DECIMAL");
   IElementType DOLLAR = new FluentTokenType("$");
   IElementType DOT = new FluentTokenType(".");
   IElementType EQ = new FluentTokenType("=");
   IElementType HYPHEN = new FluentTokenType("-");
   IElementType INDENT = new FluentTokenType("INDENT");
   IElementType INTEGER = new FluentTokenType("INTEGER");
-  IElementType NUMBER = new FluentTokenType("NUMBER");
   IElementType PARENTHESIS_L = new FluentTokenType("(");
   IElementType PARENTHESIS_R = new FluentTokenType(")");
   IElementType SEMICOLON = new FluentTokenType(";");
@@ -78,9 +74,6 @@ public interface FluentTypes {
       IElementType type = node.getElementType();
       if (type == ARGUMENT) {
         return new FluentArgumentNode(node);
-      }
-      else if (type == ARGUMENT_LIST) {
-        return new FluentArgumentListNode(node);
       }
       else if (type == ATTRIBUTE) {
         return new FluentAttributeNode(node);
@@ -153,9 +146,6 @@ public interface FluentTypes {
       }
       else if (type == VARIANT_KEY) {
         return new FluentVariantKeyNode(node);
-      }
-      else if (type == VARIANT_LIST) {
-        return new FluentVariantListNode(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

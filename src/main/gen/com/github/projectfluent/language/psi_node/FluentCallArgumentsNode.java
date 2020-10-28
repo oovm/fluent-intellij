@@ -29,8 +29,8 @@ public class FluentCallArgumentsNode extends FluentElement implements FluentCall
 
   @Override
   @NotNull
-  public FluentArgumentList getArgumentList() {
-    return findNotNullChildByClass(FluentArgumentList.class);
+  public List<FluentArgument> getArgumentList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentArgument.class);
   }
 
 }

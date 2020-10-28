@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface FluentCallArguments extends PsiElement {
 
   @NotNull
-  FluentArgumentList getArgumentList();
+  List<FluentArgument> getArgumentList();
 
 }

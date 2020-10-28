@@ -30,9 +30,9 @@ class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
             COLON, EQ -> FluentColor.SET
 //            COMMA -> AwslColor.COMMA
             // atom
-//            INTEGER -> JssColor.INTEGER
-//            DECIMAL -> JssColor.DECIMAL
-            NUMBER -> FluentColor.INTEGER
+            INTEGER -> FluentColor.INTEGER
+            DECIMAL -> FluentColor.DECIMAL
+
             TEXT_LINE -> FluentColor.TEXT
             STRING_ESCAPE -> FluentColor.STRING_ESCAPED
 //            STRING -> AwslColor.STRING

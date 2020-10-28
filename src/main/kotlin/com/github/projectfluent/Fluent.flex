@@ -1,7 +1,7 @@
 package com.github.projectfluent.language;
 
 import com.intellij.lexer.FlexLexer;
-import com.intellij.psi.tree.IElementType;
+import com.intellij.psi.tree.IElementType;import com.intellij.util.containers.IntStack;
 
 import static com.intellij.psi.TokenType.BAD_CHARACTER;
 import static com.intellij.psi.TokenType.WHITE_SPACE;
@@ -11,9 +11,24 @@ import static com.github.projectfluent.language.psi.FluentTypes.*;
 
 %{
 private static int indent_balance = 0;
+private static IntStack brace_stack = new IntStack(9);
 
 public _FluentLexer() {
 	this((java.io.Reader)null);
+}
+
+public static int brack_block(int state) {
+    brace_stack.push(state);
+    return state;
+}
+
+public static int brack_recover() {
+    if (brace_stack.empty()) {
+        return YYINITIAL;
+    }
+    else {
+        return brace_stack.pop();
+    }
 }
 %}
 
@@ -27,11 +42,10 @@ public _FluentLexer() {
 %state StringQuote
 %state TextContext
 %state CodeContext
-$state SelectContext
+%state SelectionStart
+%state SelectionText
 
-EOL=\R
 WHITE_SPACE=\s+
-HYPHEN="-"
 COMMENT_DOCUMENT=("///")[^\r\n]*
 COMMENT_LINE = #{1,3}[^\r\n]*
 COMMENT_BLOCK=[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
@@ -41,21 +55,10 @@ SYMBOL = [a-zA-Z][a-zA-Z0-9_-]*
 BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
 INTEGER=(0|[1-9][0-9_]*)
 DECIMAL=([0-9]+\.[0-9]*([Ee][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
-NUMBER = [-]?({INTEGER}|{DECIMAL})
-SIGN=[+-]
-DIGITS = [0-9]+
 
-TEXT_FIRST_LINE  = {TEXT_LINE}+
-TEXT_INDENT_LINE = [\t ]+{TEXT_FIRST_LINE}
 TEXT_LINE        = [^\\\"\r\n{]+
-INDENT           = [^\\\"\r\n\[*.]
-TEXT_INLINE      = {TEXT_LINE}+
 
 CRLF         = \r\n | \n | \r | \R
-BLANK_INLINE = [\t\s]*
-BLANK_BLOCK  = ({BLANK_INLINE}? {CRLF})+
-BLANK        = ({BLANK_INLINE} | {CRLF})+
-
 
 
 ESCAPE_SPECIAL= \\[^\"\\uU]
@@ -125,18 +128,50 @@ HEX = [0-9a-fA-F]
 	"," { return COMMA; }
 	":" { return COLON; }
 	"*" { return STAR; }
+	"-" { return HYPHEN; }
 }
 <CodeContext> {
 	{SYMBOL}  {return SYMBOL;}
-	{NUMBER} {return NUMBER;}
+	[-]?{INTEGER} {return INTEGER;}
+	[-]?{DECIMAL} {return DECIMAL;}
 }
 // =====================================================================================================================
 <CodeContext> -> {
-	yybegin(SelectContext);
+	yybegin(SelectionStart);
 	return TO;
 }
-<SelectContext> {
-    {WHITE_SPACE}   { return WHITE_SPACE; }
+<SelectionStart> {
+    {WHITE_SPACE} { return WHITE_SPACE; }
+	{SYMBOL}      {return SYMBOL;}
+	[-]?{INTEGER} {return INTEGER;}
+	[-]?{DECIMAL} {return DECIMAL;}
+}
+<SelectionStart> \* {
+	return STAR;
+}
+<SelectionStart> \[ {
+	return BRACKET_L;
+}
+<SelectionStart> \] {
+	yybegin(SelectionText);
+	return BRACKET_R;
+}
+<SelectionText> {CRLF}{WHITE_SPACE}*[\[*] {
+	yypushback(1);
+    yybegin(SelectionStart);
+    return WHITE_SPACE;
+}
+<SelectionText> {
+	{TEXT_LINE} { return TEXT_LINE; }
+	{CRLF}      { return WHITE_SPACE; }
+}
+<SelectionText> \{ {
+	yybegin(CodeContext);
+	return BRACE_L;
+}
+<SelectionText> } {
+	yybegin(CodeContext);
+	return BRACE_R;
 }
 // =====================================================================================================================
 <YYINITIAL> \" {

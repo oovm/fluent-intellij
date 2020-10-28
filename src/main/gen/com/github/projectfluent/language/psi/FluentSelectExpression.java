@@ -8,9 +8,12 @@ import com.intellij.psi.PsiElement;
 public interface FluentSelectExpression extends PsiElement {
 
   @NotNull
+  List<FluentDefaultVariant> getDefaultVariantList();
+
+  @NotNull
   FluentInlineExpression getInlineExpression();
 
   @NotNull
-  FluentVariantList getVariantList();
+  List<FluentVariant> getVariantList();
 
 }

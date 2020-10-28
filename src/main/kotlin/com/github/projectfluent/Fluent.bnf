@@ -110,8 +110,7 @@ Argument            ::= NamedArgument | InlineExpression
 NamedArgument       ::= MessageID COLON (StringLiteral | NumberLiteral)
 
 /* Block Expressions */
-SelectExpression    ::= InlineExpression TO variant_list
-variant_list        ::= Variant* DefaultVariant Variant* 
+SelectExpression    ::= InlineExpression TO (Variant|DefaultVariant)+
 Variant             ::= VariantKey Pattern
 DefaultVariant      ::= STAR VariantKey Pattern
 VariantKey          ::= BRACKET_L (NumberLiteral | MessageID) BRACKET_R

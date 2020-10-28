@@ -29,14 +29,20 @@ public class FluentSelectExpressionNode extends FluentElement implements FluentS
 
   @Override
   @NotNull
+  public List<FluentDefaultVariant> getDefaultVariantList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentDefaultVariant.class);
+  }
+
+  @Override
+  @NotNull
   public FluentInlineExpression getInlineExpression() {
     return findNotNullChildByClass(FluentInlineExpression.class);
   }
 
   @Override
   @NotNull
-  public FluentVariantList getVariantList() {
-    return findNotNullChildByClass(FluentVariantList.class);
+  public List<FluentVariant> getVariantList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentVariant.class);
   }
 
 }
