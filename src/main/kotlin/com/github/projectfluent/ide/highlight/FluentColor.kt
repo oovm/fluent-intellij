@@ -29,8 +29,8 @@ enum class FluentColor(humanName: Supplier<@AttributeDescriptor String>, default
     // 标识符
     IDENTIFIER(OptionsBundle.messagePointer("options.language.defaults.identifier"), Default.IDENTIFIER),
     SYM_MESSAGE(FluentBundle.messagePointer("color.token.symbol.message"), Default.STATIC_FIELD),
-    SYM_TERM(FluentBundle.messagePointer("color.token.symbol.term"), Default.STATIC_METHOD),
-    SYM_ATTRIBUTE(FluentBundle.messagePointer("color.token.symbol.attribute"), Default.PREDEFINED_SYMBOL),
+    SYM_TERM(FluentBundle.messagePointer("color.token.symbol.term"), Default.CONSTANT),
+    SYM_ATTRIBUTE(FluentBundle.messagePointer("color.token.symbol.attribute"), Default.STATIC_METHOD),
     SYM_VARIABLE(FluentBundle.messagePointer("color.token.symbol.variable"), Default.REASSIGNED_PARAMETER),
     SYM_FUNCTION(FluentBundle.messagePointer("color.token.symbol.function"), Default.PREDEFINED_SYMBOL),
     //
@@ -41,6 +41,7 @@ enum class FluentColor(humanName: Supplier<@AttributeDescriptor String>, default
     BRACKETS(OptionsBundle.messagePointer("options.language.defaults.brackets"), Default.BRACKETS),
     BRACES(OptionsBundle.messagePointer("options.language.defaults.braces"), Default.BRACES),
     DOT(OptionsBundle.messagePointer("options.language.defaults.dot"), Default.DOT),
+    STAR(FluentBundle.messagePointer("color.token.default"), Default.KEYWORD),
     COMMA(OptionsBundle.messagePointer("options.language.defaults.comma"), Default.COMMA),
     SET(FluentBundle.messagePointer("color.token.set"), Default.OPERATION_SIGN),
     SEMICOLON(OptionsBundle.messagePointer("options.language.defaults.semicolon"), Default.SEMICOLON),

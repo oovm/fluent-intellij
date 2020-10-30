@@ -19,6 +19,10 @@ public class FluentVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitBlockText(@NotNull FluentBlockText o) {
+    visitPsiElement(o);
+  }
+
   public void visitCallArguments(@NotNull FluentCallArguments o) {
     visitPsiElement(o);
   }
@@ -35,11 +39,11 @@ public class FluentVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitInlineExpression(@NotNull FluentInlineExpression o) {
+  public void visitInlinePlaceable(@NotNull FluentInlinePlaceable o) {
     visitPsiElement(o);
   }
 
-  public void visitInlinePlaceable(@NotNull FluentInlinePlaceable o) {
+  public void visitInlineText(@NotNull FluentInlineText o) {
     visitPsiElement(o);
   }
 
@@ -100,10 +104,6 @@ public class FluentVisitor extends PsiElementVisitor {
   }
 
   public void visitBlockPlaceable(@NotNull FluentBlockPlaceable o) {
-    visitPsiElement(o);
-  }
-
-  public void visitBlockText(@NotNull FluentBlockText o) {
     visitPsiElement(o);
   }
 

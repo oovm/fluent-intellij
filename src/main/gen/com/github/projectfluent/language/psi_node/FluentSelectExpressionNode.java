@@ -34,9 +34,45 @@ public class FluentSelectExpressionNode extends FluentElement implements FluentS
   }
 
   @Override
-  @NotNull
-  public FluentInlineExpression getInlineExpression() {
-    return findNotNullChildByClass(FluentInlineExpression.class);
+  @Nullable
+  public FluentFunctionReference getFunctionReference() {
+    return findChildByClass(FluentFunctionReference.class);
+  }
+
+  @Override
+  @Nullable
+  public FluentInlinePlaceable getInlinePlaceable() {
+    return findChildByClass(FluentInlinePlaceable.class);
+  }
+
+  @Override
+  @Nullable
+  public FluentMessageReference getMessageReference() {
+    return findChildByClass(FluentMessageReference.class);
+  }
+
+  @Override
+  @Nullable
+  public FluentNumberLiteral getNumberLiteral() {
+    return findChildByClass(FluentNumberLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public FluentStringLiteral getStringLiteral() {
+    return findChildByClass(FluentStringLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public FluentTermReference getTermReference() {
+    return findChildByClass(FluentTermReference.class);
+  }
+
+  @Override
+  @Nullable
+  public FluentVariableID getVariableID() {
+    return findChildByClass(FluentVariableID.class);
   }
 
   @Override

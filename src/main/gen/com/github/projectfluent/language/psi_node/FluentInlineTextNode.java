@@ -11,26 +11,20 @@ import static com.github.projectfluent.language.psi.FluentTypes.*;
 import com.github.projectfluent.language.psi.FluentElement;
 import com.github.projectfluent.language.psi.*;
 
-public class FluentBlockTextNode extends FluentElement implements FluentBlockText {
+public class FluentInlineTextNode extends FluentElement implements FluentInlineText {
 
-  public FluentBlockTextNode(@NotNull ASTNode node) {
+  public FluentInlineTextNode(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull FluentVisitor visitor) {
-    visitor.visitBlockText(this);
+    visitor.visitInlineText(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof FluentVisitor) accept((FluentVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<FluentInlineText> getInlineTextList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentInlineText.class);
   }
 
 }

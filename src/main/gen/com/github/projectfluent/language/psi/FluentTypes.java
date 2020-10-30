@@ -17,8 +17,8 @@ public interface FluentTypes {
   IElementType DEFAULT_VARIANT = new FluentElementType("DEFAULT_VARIANT");
   IElementType FUNCTION_ID = new FluentElementType("FUNCTION_ID");
   IElementType FUNCTION_REFERENCE = new FluentElementType("FUNCTION_REFERENCE");
-  IElementType INLINE_EXPRESSION = new FluentElementType("INLINE_EXPRESSION");
   IElementType INLINE_PLACEABLE = new FluentElementType("INLINE_PLACEABLE");
+  IElementType INLINE_TEXT = new FluentElementType("INLINE_TEXT");
   IElementType MESSAGE = new FluentElementType("MESSAGE");
   IElementType MESSAGE_ID = new FluentElementType("MESSAGE_ID");
   IElementType MESSAGE_REFERENCE = new FluentElementType("MESSAGE_REFERENCE");
@@ -39,7 +39,6 @@ public interface FluentTypes {
   IElementType ANGLE_R = new FluentTokenType(">");
   IElementType AT = new FluentTokenType("@");
   IElementType BLANK_BLOCK = new FluentTokenType("BLANK_BLOCK");
-  IElementType BLANK_INLINE = new FluentTokenType("BLANK_INLINE");
   IElementType BRACE_L = new FluentTokenType("{");
   IElementType BRACE_R = new FluentTokenType("}");
   IElementType BRACKET_L = new FluentTokenType("[");
@@ -55,10 +54,10 @@ public interface FluentTypes {
   IElementType DOT = new FluentTokenType(".");
   IElementType EQ = new FluentTokenType("=");
   IElementType HYPHEN = new FluentTokenType("-");
-  IElementType INDENT = new FluentTokenType("INDENT");
   IElementType INTEGER = new FluentTokenType("INTEGER");
   IElementType PARENTHESIS_L = new FluentTokenType("(");
   IElementType PARENTHESIS_R = new FluentTokenType(")");
+  IElementType SELECTION_LINE = new FluentTokenType("SELECTION_LINE");
   IElementType SEMICOLON = new FluentTokenType(";");
   IElementType STAR = new FluentTokenType("*");
   IElementType STRING_CHAR = new FluentTokenType("String Character");
@@ -99,11 +98,11 @@ public interface FluentTypes {
       else if (type == FUNCTION_REFERENCE) {
         return new FluentFunctionReferenceNode(node);
       }
-      else if (type == INLINE_EXPRESSION) {
-        return new FluentInlineExpressionNode(node);
-      }
       else if (type == INLINE_PLACEABLE) {
         return new FluentInlinePlaceableNode(node);
+      }
+      else if (type == INLINE_TEXT) {
+        return new FluentInlineTextNode(node);
       }
       else if (type == MESSAGE) {
         return new FluentMessageNode(node);

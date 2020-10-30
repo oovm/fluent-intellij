@@ -11,9 +11,6 @@ public interface FluentAttribute extends PsiElement {
   FluentAttributeID getAttributeID();
 
   @NotNull
-  FluentMessageID getMessageID();
-
-  @NotNull
   FluentPattern getPattern();
 
 }

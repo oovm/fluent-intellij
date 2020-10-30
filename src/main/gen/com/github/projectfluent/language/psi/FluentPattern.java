@@ -8,12 +8,15 @@ import com.intellij.psi.PsiElement;
 public interface FluentPattern extends PsiElement {
 
   @NotNull
+  List<FluentBlockText> getBlockTextList();
+
+  @NotNull
   List<FluentInlinePlaceable> getInlinePlaceableList();
 
   @NotNull
-  List<FluentBlockPlaceable> getBlockPlaceableList();
+  List<FluentInlineText> getInlineTextList();
 
   @NotNull
-  List<FluentBlockText> getBlockTextList();
+  List<FluentBlockPlaceable> getBlockPlaceableList();
 
 }

@@ -17,17 +17,17 @@ public _FluentLexer() {
 	this((java.io.Reader)null);
 }
 
-public static int brack_block(int state) {
+public void brace_block(int state) {
     brace_stack.push(state);
-    return state;
+    yybegin(CodeContext);
 }
 
-public static int brack_recover() {
+public void brace_recover() {
     if (brace_stack.empty()) {
-        return YYINITIAL;
+        yybegin(YYINITIAL);
     }
     else {
-        return brace_stack.pop();
+        yybegin(brace_stack.pop());
     }
 }
 %}
@@ -56,9 +56,9 @@ BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
 INTEGER=(0|[1-9][0-9_]*)
 DECIMAL=([0-9]+\.[0-9]*([Ee][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
 
-TEXT_LINE        = [^\\\"\r\n{]+
+TEXT_LINE  = [^\\\"\r\n{}]+
 
-CRLF         = \r\n | \n | \r | \R
+CRLF       = \r\n | \n | \r | \R
 
 
 ESCAPE_SPECIAL= \\[^\"\\uU]
@@ -106,17 +106,23 @@ HEX = [0-9a-fA-F]
     yybegin(YYINITIAL);
     return WHITE_SPACE;
 }
+// 如果缩进开头是 .
+<TextContext> {CRLF}{WHITE_SPACE}+[.] {
+	yypushback(1);
+    yybegin(YYINITIAL);
+    return WHITE_SPACE;
+}
 <TextContext> {
 	{TEXT_LINE} { return TEXT_LINE; }
 	{CRLF}      { return WHITE_SPACE; }
 }
 // CodeContext =========================================================================================================
 <TextContext> \{ {
-	yybegin(CodeContext);
+	brace_block(TextContext);
 	return BRACE_L;
 }
 <CodeContext> } {
-	yybegin(TextContext);
+	brace_recover();
 	return BRACE_R;
 }
 <CodeContext> {
@@ -161,17 +167,17 @@ HEX = [0-9a-fA-F]
     yybegin(SelectionStart);
     return WHITE_SPACE;
 }
-<SelectionText> {
-	{TEXT_LINE} { return TEXT_LINE; }
-	{CRLF}      { return WHITE_SPACE; }
-}
 <SelectionText> \{ {
-	yybegin(CodeContext);
+	brace_block(SelectionText);
 	return BRACE_L;
 }
-<SelectionText> } {
-	yybegin(CodeContext);
+<SelectionText> \} {
+	brace_recover();
 	return BRACE_R;
+}
+<SelectionText> {
+	{TEXT_LINE} { return SELECTION_LINE; }
+	{CRLF}      { return WHITE_SPACE; }
 }
 // =====================================================================================================================
 <YYINITIAL> \" {

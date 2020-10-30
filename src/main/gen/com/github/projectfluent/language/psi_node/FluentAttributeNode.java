@@ -35,12 +35,6 @@ public class FluentAttributeNode extends FluentElement implements FluentAttribut
 
   @Override
   @NotNull
-  public FluentMessageID getMessageID() {
-    return findNotNullChildByClass(FluentMessageID.class);
-  }
-
-  @Override
-  @NotNull
   public FluentPattern getPattern() {
     return findNotNullChildByClass(FluentPattern.class);
   }

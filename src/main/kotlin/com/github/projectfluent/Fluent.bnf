@@ -27,6 +27,7 @@
         STRING_QUOTE = "String Quote"
         STRING_CHAR = "String Character"
         STRING_ESCAPE = "String Escaped"
+        SELECTION_LINE = "SELECTION_LINE"
 
         PARENTHESIS_L = '('
         PARENTHESIS_R = ')'
@@ -73,7 +74,7 @@ private Entry ::=
 Message ::= MessageID EQ ((Pattern Attribute*) | (Attribute+))
 Term    ::= TermID EQ Pattern Attribute*
 /* Attributes of Messages and Terms. */
-Attribute  ::= AttributeID MessageID EQ Pattern
+Attribute  ::= AttributeID EQ Pattern
 /* Patterns are values of Messages, Terms, Attributes and Variants. */
 Pattern    ::= pattern_element+
 /* TextElement and Placeable can occur inline or as block.
@@ -81,18 +82,19 @@ Pattern    ::= pattern_element+
  * Placeables can start at the beginning of the line or be indented.
  * Adjacent TextElements are joined in AST creation. */
 private pattern_element ::=
-    TEXT_LINE
-    | block_text
+    InlineText
+    | BlockText
     | InlinePlaceable
     | block_placeable
-block_text          ::= BLANK_BLOCK BLANK_INLINE INDENT [TEXT_LINE]
-InlinePlaceable    ::= BRACE_L (SelectExpression | InlineExpression) BRACE_R
-block_placeable     ::= BLANK_BLOCK  InlinePlaceable
+InlineText        ::= TEXT_LINE|SELECTION_LINE;
+BlockText         ::= InlineText+;
+InlinePlaceable   ::= BRACE_L (SelectExpression | expression) BRACE_R
+block_placeable   ::= BLANK_BLOCK  InlinePlaceable
 
 /* Rules for validating expressions in Placeables and as selectors of
  * SelectExpressions are documented in spec/valid.md and enforced in
  * syntax/abstract.js. */
-InlineExpression    ::=
+private expression    ::=
     StringLiteral
     | NumberLiteral
     | FunctionReference
@@ -106,11 +108,11 @@ FunctionReference   ::= FunctionID CallArguments
 MessageReference    ::= MessageID [AttributeID]
 TermReference       ::= TermID [CallArguments]
 CallArguments       ::= PARENTHESIS_L (Argument COMMA)* [Argument] PARENTHESIS_R
-Argument            ::= NamedArgument | InlineExpression
+Argument            ::= NamedArgument | expression
 NamedArgument       ::= MessageID COLON (StringLiteral | NumberLiteral)
 
 /* Block Expressions */
-SelectExpression    ::= InlineExpression TO (Variant|DefaultVariant)+
+SelectExpression    ::= expression TO (Variant|DefaultVariant)+
 Variant             ::= VariantKey Pattern
 DefaultVariant      ::= STAR VariantKey Pattern
 VariantKey          ::= BRACKET_L (NumberLiteral | MessageID) BRACKET_R

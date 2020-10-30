@@ -29,14 +29,50 @@ public class FluentInlinePlaceableNode extends FluentElement implements FluentIn
 
   @Override
   @Nullable
-  public FluentInlineExpression getInlineExpression() {
-    return findChildByClass(FluentInlineExpression.class);
+  public FluentFunctionReference getFunctionReference() {
+    return findChildByClass(FluentFunctionReference.class);
+  }
+
+  @Override
+  @Nullable
+  public FluentInlinePlaceable getInlinePlaceable() {
+    return findChildByClass(FluentInlinePlaceable.class);
+  }
+
+  @Override
+  @Nullable
+  public FluentMessageReference getMessageReference() {
+    return findChildByClass(FluentMessageReference.class);
+  }
+
+  @Override
+  @Nullable
+  public FluentNumberLiteral getNumberLiteral() {
+    return findChildByClass(FluentNumberLiteral.class);
   }
 
   @Override
   @Nullable
   public FluentSelectExpression getSelectExpression() {
     return findChildByClass(FluentSelectExpression.class);
+  }
+
+  @Override
+  @Nullable
+  public FluentStringLiteral getStringLiteral() {
+    return findChildByClass(FluentStringLiteral.class);
+  }
+
+  @Override
+  @Nullable
+  public FluentTermReference getTermReference() {
+    return findChildByClass(FluentTermReference.class);
+  }
+
+  @Override
+  @Nullable
+  public FluentVariableID getVariableID() {
+    return findChildByClass(FluentVariableID.class);
   }
 
 }

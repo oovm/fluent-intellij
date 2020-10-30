@@ -8,9 +8,27 @@ import com.intellij.psi.PsiElement;
 public interface FluentArgument extends PsiElement {
 
   @Nullable
-  FluentInlineExpression getInlineExpression();
+  FluentFunctionReference getFunctionReference();
+
+  @Nullable
+  FluentInlinePlaceable getInlinePlaceable();
+
+  @Nullable
+  FluentMessageReference getMessageReference();
 
   @Nullable
   FluentNamedArgument getNamedArgument();
+
+  @Nullable
+  FluentNumberLiteral getNumberLiteral();
+
+  @Nullable
+  FluentStringLiteral getStringLiteral();
+
+  @Nullable
+  FluentTermReference getTermReference();
+
+  @Nullable
+  FluentVariableID getVariableID();
 
 }

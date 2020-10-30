@@ -8,9 +8,27 @@ import com.intellij.psi.PsiElement;
 public interface FluentInlinePlaceable extends PsiElement {
 
   @Nullable
-  FluentInlineExpression getInlineExpression();
+  FluentFunctionReference getFunctionReference();
+
+  @Nullable
+  FluentInlinePlaceable getInlinePlaceable();
+
+  @Nullable
+  FluentMessageReference getMessageReference();
+
+  @Nullable
+  FluentNumberLiteral getNumberLiteral();
 
   @Nullable
   FluentSelectExpression getSelectExpression();
+
+  @Nullable
+  FluentStringLiteral getStringLiteral();
+
+  @Nullable
+  FluentTermReference getTermReference();
+
+  @Nullable
+  FluentVariableID getVariableID();
 
 }
