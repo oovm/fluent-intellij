@@ -23,9 +23,9 @@ enum class FluentColor(humanName: Supplier<@AttributeDescriptor String>, default
     DECIMAL(FluentBundle.messagePointer("color.token.decimal"), Default.NUMBER),
     INTEGER(FluentBundle.messagePointer("color.token.integer"), Default.NUMBER),
     STRING(FluentBundle.messagePointer("color.token.string"), Default.STRING),
-    TEXT(FluentBundle.messagePointer("color.token.url"), STRING.textAttributesKey),
-    STRING_ESCAPED(FluentBundle.messagePointer("color.token.url"), Default.VALID_STRING_ESCAPE),
-    STRING_BAD(FluentBundle.messagePointer("color.token.url"), Default.INVALID_STRING_ESCAPE),
+    TEXT(FluentBundle.messagePointer("color.token.text"), STRING.textAttributesKey),
+    STRING_ESCAPED(FluentBundle.messagePointer("color.token.text"), Default.VALID_STRING_ESCAPE),
+    STRING_BAD(FluentBundle.messagePointer("color.token.text"), Default.INVALID_STRING_ESCAPE),
     // 标识符
     IDENTIFIER(OptionsBundle.messagePointer("options.language.defaults.identifier"), Default.IDENTIFIER),
     SYM_MESSAGE(FluentBundle.messagePointer("color.token.symbol.message"), Default.STATIC_FIELD),

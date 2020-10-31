@@ -27,49 +27,25 @@ class FluentColorSettingsPage : ColorSettingsPage {
     override fun getAdditionalHighlightingTagToDescriptorMap() = annotatorTags
 
     override fun getDemoText() =
-        """/// A product from Acme's catalog
-schema Product: object {
-    ${"$"}schema: https://json-schema.org/draft/2020-12/schema
-    ${"$"}id: https://example.com/product.schema.json
-    "required": [
-        "productId",
-        "productName",
-        "price"
-    ]
-}
+        """# References
+hello   = Hello, world!
+welcome = Welcome, { ${"$"}user }!
+time-elapsed = Time elapsed: { NUMBER(${"$"}duration, maximumFractionDigits: 0) }s.
+-brand-name = Firefox
+installing = Installing { -brand-name }.
 
-/// The unique identifier for a product
-properties productId: integer {
+# Selectors
+your-score = You scored {
+    NUMBER(${"$"}score, minimumFractionDigits: 1) ->
+        [0.0]   zero points. What happened?
+       *[other] { NUMBER(${"$"}score, minimumFractionDigits: 1)} points.
+    }
 
-}
-
-/// Name of the product
-properties productName: string {
-
-}
-
-/// The price of the product
-properties productName: number {
-    exclusiveMinimum: 0
-}
-
-/// Tags for the product
-properties tags: array {
-    minItems: 1,
-    uniqueItems: true
-    "items": {
-        "type": "string"
-    },
-}
-
-/// Tags for the product
-properties dimensions: object {
-    .length: number
-    .width: number
-    .height: number
-
-    required: ["length", "width", "height"]
-}
+# Attributes
+login-input = Predefined value
+    .placeholder = email@example.com
+    .aria-label = Login input value
+    .title = Type your login email
 """
 
 

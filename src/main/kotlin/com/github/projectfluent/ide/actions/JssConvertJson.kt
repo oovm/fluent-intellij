@@ -1,8 +1,6 @@
 package com.github.projectfluent.ide.actions
 
-import com.github.projectfluent.FluentBundle
 import com.github.projectfluent.ide.view.FluentFileType
-import com.github.projectfluent.ide.view.FluentIconProvider
 import com.github.projectfluent.ide.view.FluentIconProvider.Companion.FluentFile
 import com.intellij.ide.actions.CreateFileAction
 import com.intellij.json.psi.JsonFile
@@ -17,8 +15,8 @@ import com.intellij.psi.PsiFileFactory
 
 class JssConvertJson : CreateFileAction(name, description, FluentFile) {
     companion object {
-        private val name = com.github.projectfluent.FluentBundle.message("action.convert_json")
-        private val description = com.github.projectfluent.FluentBundle.message("action.convert_json.description")
+        private val name = com.github.projectfluent.FluentBundle.message("action.convert_prop")
+        private val description = com.github.projectfluent.FluentBundle.message("action.convert_prop.description")
 
     }
 
