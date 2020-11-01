@@ -418,14 +418,36 @@ public class FluentParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // STRING_QUOTE STRING_ESCAPE STRING_CHAR STRING_QUOTE
+  // STRING_QUOTE (STRING_ESCAPE|STRING_CHAR)* STRING_QUOTE
   public static boolean StringLiteral(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "StringLiteral")) return false;
     if (!nextTokenIs(b, STRING_QUOTE)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, STRING_QUOTE, STRING_ESCAPE, STRING_CHAR, STRING_QUOTE);
+    r = consumeToken(b, STRING_QUOTE);
+    r = r && StringLiteral_1(b, l + 1);
+    r = r && consumeToken(b, STRING_QUOTE);
     exit_section_(b, m, STRING_LITERAL, r);
+    return r;
+  }
+
+  // (STRING_ESCAPE|STRING_CHAR)*
+  private static boolean StringLiteral_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "StringLiteral_1")) return false;
+    while (true) {
+      int c = current_position_(b);
+      if (!StringLiteral_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "StringLiteral_1", c)) break;
+    }
+    return true;
+  }
+
+  // STRING_ESCAPE|STRING_CHAR
+  private static boolean StringLiteral_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "StringLiteral_1_0")) return false;
+    boolean r;
+    r = consumeToken(b, STRING_ESCAPE);
+    if (!r) r = consumeToken(b, STRING_CHAR);
     return r;
   }
 

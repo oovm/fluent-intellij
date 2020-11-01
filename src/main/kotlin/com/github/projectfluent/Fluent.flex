@@ -61,7 +61,7 @@ TEXT_LINE  = [^\\\"\r\n{}]+
 CRLF       = \r\n | \n | \r | \R
 
 
-ESCAPE_SPECIAL= \\[^\"\\uU]
+ESCAPE_SPECIAL= \\[^]
 ESCAPE_UNICODE= \\(u{HEX}{4}|U{HEX}{6})
 HEX = [0-9a-fA-F]
 
@@ -180,7 +180,7 @@ HEX = [0-9a-fA-F]
 	{CRLF}      { return WHITE_SPACE; }
 }
 // =====================================================================================================================
-<YYINITIAL> \" {
+<CodeContext> \" {
 	yybegin(StringQuote);
     return STRING_QUOTE;
 }
@@ -192,7 +192,7 @@ HEX = [0-9a-fA-F]
 }
 
 <StringQuote> \" {
-	yybegin(YYINITIAL);
+	yybegin(CodeContext);
 	return STRING_QUOTE;
 }
 // =====================================================================================================================

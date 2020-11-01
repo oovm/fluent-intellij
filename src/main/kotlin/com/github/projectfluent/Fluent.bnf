@@ -124,5 +124,5 @@ AttributeID         ::= DOT SYMBOL;
 VariableID          ::= DOLLAR SYMBOL;
 FunctionID          ::= SYMBOL;
 /* Literals */
-StringLiteral       ::= STRING_QUOTE STRING_ESCAPE STRING_CHAR STRING_QUOTE
+StringLiteral       ::= STRING_QUOTE (STRING_ESCAPE|STRING_CHAR)* STRING_QUOTE
 NumberLiteral       ::= INTEGER|DECIMAL
