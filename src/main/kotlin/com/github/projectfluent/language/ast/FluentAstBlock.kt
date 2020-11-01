@@ -1,13 +1,14 @@
 package com.github.projectfluent.language.ast
 
 import com.github.projectfluent.ide.formatter.JssFormatterContext
+import com.github.projectfluent.language.psi.FluentTypes
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
 
-class JssAstBlock(
+class FluentAstBlock(
     private val node: ASTNode,
     private val alignment: Alignment?,
     private val indent: Indent?,
@@ -32,7 +33,7 @@ class JssAstBlock(
 
     override fun getChildAttributes(newChildIndex: Int): ChildAttributes {
         val indent = when (node.elementType) {
-//            JssTypes.ARRAY -> Indent.getNormalIndent()
+            FluentTypes.SELECT_EXPRESSION -> Indent.getNormalIndent()
             else -> Indent.getNoneIndent()
         }
         return ChildAttributes(indent, null)

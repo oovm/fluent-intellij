@@ -36,7 +36,7 @@
 		<!-- Formatter -->
 		<lang.formatter
 				language="Fluent"
-				implementationClass="com.github.projectfluent.ide.formatter.JssFormattingModelBuilder"
+				implementationClass="com.github.projectfluent.ide.formatter.FluentFormattingModelBuilder"
 		/>
 		<lang.commenter
 				language="Fluent"

@@ -1,7 +1,7 @@
 package com.github.projectfluent.language.ast
 
 import com.github.projectfluent.ide.formatter.JssFormatterContext
-import com.github.projectfluent.ide.formatter.JssFormattingModelBuilder
+import com.github.projectfluent.ide.formatter.FluentFormattingModelBuilder
 
 import com.intellij.formatting.Block
 import com.intellij.formatting.Indent
@@ -9,7 +9,7 @@ import com.intellij.formatting.Spacing
 import com.intellij.lang.ASTNode
 import com.intellij.psi.TokenType
 
-private fun JssAstBlock.computeIndent(child: ASTNode): Indent? {
+private fun FluentAstBlock.computeIndent(child: ASTNode): Indent? {
     val isCornerChild = node.firstChildNode == child || node.lastChildNode == child
     return when (node.elementType) {
 //        BRACKET_BLOCK -> when {
@@ -24,11 +24,11 @@ private fun JssAstBlock.computeIndent(child: ASTNode): Indent? {
     }
 }
 
-fun JssAstBlock.buildChildren(): List<Block> {
+fun FluentAstBlock.buildChildren(): List<Block> {
     return node.getChildren(null)
         .filter { !it.isWhitespaceOrEmpty() }
         .map { childNode ->
-            JssFormattingModelBuilder.createBlock(
+            FluentFormattingModelBuilder.createBlock(
                 node = childNode,
                 alignment = null,
                 indent = computeIndent(childNode),

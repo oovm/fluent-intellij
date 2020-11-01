@@ -1,12 +1,12 @@
 package com.github.projectfluent.ide.formatter
 
-import com.github.projectfluent.language.ast.JssAstBlock
+import com.github.projectfluent.language.ast.FluentAstBlock
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiFile
 
-class JssFormattingModelBuilder : FormattingModelBuilder {
+class FluentFormattingModelBuilder : FormattingModelBuilder {
     override fun getRangeAffectingIndent(file: PsiFile?, offset: Int, elementAtOffset: ASTNode?): TextRange? = null
 
     override fun createModel(formattingContext: FormattingContext): FormattingModel {
@@ -24,6 +24,6 @@ class JssFormattingModelBuilder : FormattingModelBuilder {
             indent: Indent?,
             wrap: Wrap?,
             ctx: JssFormatterContext
-        ): ASTBlock = JssAstBlock(node, alignment, indent, wrap, ctx)
+        ): ASTBlock = FluentAstBlock(node, alignment, indent, wrap, ctx)
     }
 }
