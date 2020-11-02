@@ -56,7 +56,7 @@ BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
 INTEGER=(0|[1-9][0-9_]*)
 DECIMAL=([0-9]+\.[0-9]*([Ee][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
 
-TEXT_LINE  = [^\\\"\r\n{}]+
+TEXT_LINE  = [^\\\r\n{}]+
 
 CRLF       = \r\n | \n | \r | \R
 
