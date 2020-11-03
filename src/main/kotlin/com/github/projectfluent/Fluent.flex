@@ -188,7 +188,7 @@ HEX = [0-9a-fA-F]
 <StringQuote> {
 	{ESCAPE_UNICODE} {return STRING_ESCAPE;}
 	{ESCAPE_SPECIAL} {return STRING_ESCAPE;}
-	[^\"] {return STRING_CHAR;}
+	[^\"]+ {return STRING_CHAR;}
 }
 
 <StringQuote> \" {

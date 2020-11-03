@@ -10,7 +10,7 @@ class FluentLanguage private constructor() : Language(LanguageID) {
         const val Bundle = "messages.FluentBundle"
 
         const val LanguageID = "Fluent"
-        const val Extensions = "ftl;awt;"
+        const val Extensions = "ftl;"
 
     }
 }

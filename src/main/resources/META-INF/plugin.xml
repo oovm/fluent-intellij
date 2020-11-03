@@ -11,7 +11,7 @@
 		<fileType
 				name="Fluent"
 				language="Fluent"
-				extensions="ftl;awt;"
+				extensions="ftl;"
 				implementationClass="com.github.projectfluent.ide.view.FluentFileType"
 				fieldName="INSTANCE"
 		/>
@@ -20,7 +20,7 @@
 				implementationClass="com.github.projectfluent.language.psi.FluentParserDefinition"
 		/>
 		<!-- StructureView -->
-		<iconProvider implementation="com.github.projectfluent.ide.view.FluentIconProvider"/>
+		<!--iconProvider implementation="com.github.projectfluent.ide.view.FluentIconProvider"-->
 		<lang.psiStructureViewFactory language="Fluent"
 		                              implementationClass="com.github.projectfluent.ide.view.FluentStructureViewFactory"/>
 		<projectViewNestingRulesProvider implementation="com.github.projectfluent.ide.view.FluentFileGroup"/>
