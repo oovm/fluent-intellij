@@ -35,6 +35,7 @@ class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
             DECIMAL -> FluentColor.DECIMAL
 
             TEXT_LINE, SELECTION_LINE -> FluentColor.TEXT
+            STRING_QUOTE, STRING_CHAR -> FluentColor.STRING
             STRING_ESCAPE -> FluentColor.STRING_ESCAPED
 //            STRING -> AwslColor.STRING
             SYMBOL -> FluentColor.IDENTIFIER
