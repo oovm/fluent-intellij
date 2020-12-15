@@ -40,6 +40,7 @@ which-dash1 = It's a dash—or is it?
 which-dash2 = It's a dash{"\u2014"}or is it?
 tears-of-joy1 = {"\U01F602"}
 tears-of-joy2 = 😂
+
 # Multiline Text
 multi = Text can also span multiple lines
     as long as each new line is indented

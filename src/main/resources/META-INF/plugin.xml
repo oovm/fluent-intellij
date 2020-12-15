@@ -27,7 +27,7 @@
 		<!-- Highlight -->
 		<additionalTextAttributes scheme="Default" file="colors/FluentDefault.xml"/>
 		<additionalTextAttributes scheme="Darcula" file="colors/FluentDarcula.xml"/>
-		<colorSettingsPage implementation="com.github.projectfluent.ide.highlight.FluentColorSettingsPage"/>
+		<colorSettingsPage implementation="com.github.projectfluent.ide.highlight.FluentHighlightSetting"/>
 		<highlightVisitor implementation="com.github.projectfluent.ide.highlight.FluentHighlightVisitor"/>
 		<lang.syntaxHighlighter
 				language="Fluent"
@@ -36,7 +36,7 @@
 		<!-- Formatter -->
 		<lang.formatter
 				language="Fluent"
-				implementationClass="com.github.projectfluent.ide.formatter.FluentFormattingModelBuilder"
+				implementationClass="com.github.projectfluent.ide.formatter.FluentFormatBuilder"
 		/>
 		<lang.commenter
 				language="Fluent"

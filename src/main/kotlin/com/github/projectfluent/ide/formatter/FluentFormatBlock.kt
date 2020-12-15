@@ -1,6 +1,7 @@
-package com.github.projectfluent.language.ast
+package com.github.projectfluent.ide.formatter
 
-import com.github.projectfluent.ide.formatter.JssFormatterContext
+import com.github.projectfluent.language.ast.buildChildren
+import com.github.projectfluent.language.ast.computeSpacing
 import com.github.projectfluent.language.psi.FluentTypes
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
@@ -8,12 +9,12 @@ import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiErrorElement
 import com.intellij.psi.formatter.FormatterUtil
 
-class FluentAstBlock(
+class FluentFormatBlock(
     private val node: ASTNode,
     private val alignment: Alignment?,
     private val indent: Indent?,
     private val wrap: Wrap?,
-    val ctx: JssFormatterContext
+    val ctx: FluentFormatSpace
 ) : ASTBlock {
     override fun isLeaf(): Boolean = node.firstChildNode == null
 

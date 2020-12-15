@@ -7,14 +7,14 @@ import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
 import com.intellij.psi.tree.TokenSet
 
-data class JssFormatterContext(
+data class FluentFormatSpace(
     val commonSettings: CommonCodeStyleSettings,
     val spacingBuilder: SpacingBuilder
 ) {
     companion object {
-        fun create(settings: CodeStyleSettings): JssFormatterContext {
+        fun create(settings: CodeStyleSettings): FluentFormatSpace {
             val commonSettings = settings.getCommonSettings(FluentLanguage.INSTANCE)
-            return JssFormatterContext(commonSettings, createSpacingBuilder(commonSettings))
+            return FluentFormatSpace(commonSettings, createSpacingBuilder(commonSettings))
         }
 
         private val remove_space_before = TokenSet.create(

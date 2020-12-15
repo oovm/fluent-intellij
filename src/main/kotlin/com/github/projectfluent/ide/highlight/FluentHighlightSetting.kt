@@ -6,12 +6,12 @@ import com.github.projectfluent.ide.view.FluentIconProvider
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 
-class FluentColorSettingsPage : ColorSettingsPage {
-    private val annotatorTags = FluentColor
+class FluentHighlightSetting : ColorSettingsPage {
+    private val annotatorTags = FluentHighlightColor
         .values()
         .associateBy({ it.name }, { it.textAttributesKey })
 
-    override fun getAttributeDescriptors() = FluentColor
+    override fun getAttributeDescriptors() = FluentHighlightColor
         .values()
         .map { it.attributesDescriptor }
         .toTypedArray()

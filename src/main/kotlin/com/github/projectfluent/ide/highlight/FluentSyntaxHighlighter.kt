@@ -18,33 +18,33 @@ class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
         return pack(getTokenColor(tokenType)?.textAttributesKey)
     }
 
-    private fun getTokenColor(tokenType: IElementType): FluentColor? {
+    private fun getTokenColor(tokenType: IElementType): FluentHighlightColor? {
         return when (tokenType) {
             //
             // AS, SCHEMA, PROP -> JssColor.KEYWORD
             // ANNOTATION -> JssColor.ANNOTATION
             //
-            PARENTHESIS_L, PARENTHESIS_R -> FluentColor.PARENTHESES
-            BRACKET_L, BRACKET_R -> FluentColor.BRACKETS
-            BRACE_L, BRACE_R -> FluentColor.BRACES
-            COLON, EQ -> FluentColor.SET
-            STAR -> FluentColor.STAR
-            COMMA -> FluentColor.COMMA
+            PARENTHESIS_L, PARENTHESIS_R -> FluentHighlightColor.PARENTHESES
+            BRACKET_L, BRACKET_R -> FluentHighlightColor.BRACKETS
+            BRACE_L, BRACE_R -> FluentHighlightColor.BRACES
+            COLON, EQ -> FluentHighlightColor.SET
+            STAR -> FluentHighlightColor.STAR
+            COMMA -> FluentHighlightColor.COMMA
             // atom
-            INTEGER -> FluentColor.INTEGER
-            DECIMAL -> FluentColor.DECIMAL
+            INTEGER -> FluentHighlightColor.INTEGER
+            DECIMAL -> FluentHighlightColor.DECIMAL
 
-            TEXT_LINE, SELECTION_LINE -> FluentColor.TEXT
-            STRING_QUOTE, STRING_CHAR -> FluentColor.STRING
-            STRING_ESCAPE -> FluentColor.STRING_ESCAPED
+            TEXT_LINE, SELECTION_LINE -> FluentHighlightColor.TEXT
+            STRING_QUOTE, STRING_CHAR -> FluentHighlightColor.STRING
+            STRING_ESCAPE -> FluentHighlightColor.STRING_ESCAPED
 //            STRING -> AwslColor.STRING
-            SYMBOL -> FluentColor.IDENTIFIER
+            SYMBOL -> FluentHighlightColor.IDENTIFIER
             // 注释
-            COMMENT_LINE -> FluentColor.LINE_COMMENT
+            COMMENT_LINE -> FluentHighlightColor.LINE_COMMENT
 //            COMMENT_BLOCK -> AwslColor.BLOCK_COMMENT
 //            COMMENT_DOCUMENT -> AwslColor.DOC_COMMENT
             // 错误
-            TokenType.BAD_CHARACTER -> FluentColor.BAD_CHARACTER
+            TokenType.BAD_CHARACTER -> FluentHighlightColor.BAD_CHARACTER
             else -> null
         }
     }
