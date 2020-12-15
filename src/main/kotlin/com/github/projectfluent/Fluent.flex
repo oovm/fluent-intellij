@@ -41,6 +41,7 @@ public void brace_recover() {
 
 %state StringQuote
 %state TextContext
+%state TextContextSpace
 %state CodeContext
 %state SelectionStart
 %state SelectionText
@@ -97,8 +98,16 @@ HEX = [0-9a-fA-F]
 
 // =====================================================================================================================
 <YYINITIAL> = {
-	yybegin(TextContext);
+	yybegin(TextContextSpace);
 	return EQ;
+}
+// 将 = 之后的符号都视为空格而非文本
+<TextContextSpace> [\s\t\n\r]+ {
+	return WHITE_SPACE;
+}
+<TextContextSpace> [^\s\t\n\r] {
+	yypushback(1);
+	yybegin(TextContext);
 }
 // 如果首行无缩进, 直接结束
 <TextContext> {CRLF}[-#a-zA-Z] {
@@ -116,7 +125,8 @@ HEX = [0-9a-fA-F]
 	{TEXT_LINE} { return TEXT_LINE; }
 	{CRLF}      { return WHITE_SPACE; }
 }
-// CodeContext =========================================================================================================
+// =====================================================================================================================
+// 代码域 CodeContext , 从 `{` 开始, 到 `}` 结束
 <TextContext> \{ {
 	brace_block(TextContext);
 	return BRACE_L;
@@ -142,6 +152,7 @@ HEX = [0-9a-fA-F]
 	[-]?{DECIMAL} {return DECIMAL;}
 }
 // =====================================================================================================================
+// 选择域 SelectionStart
 <CodeContext> -> {
 	yybegin(SelectionStart);
 	return TO;
@@ -180,6 +191,7 @@ HEX = [0-9a-fA-F]
 	{CRLF}      { return WHITE_SPACE; }
 }
 // =====================================================================================================================
+// 文本域, 文本域只出现在代码中
 <CodeContext> \" {
 	yybegin(StringQuote);
     return STRING_QUOTE;

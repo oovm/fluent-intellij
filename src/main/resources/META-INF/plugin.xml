@@ -53,7 +53,6 @@
 <!--				language="Fluent"-->
 <!--				implementationClass="com.github.projectfluent.ide.doc.JssDocumentationProvider"-->
 <!--		/>-->
-
 		<lang.braceMatcher
 				language="Fluent"
 				implementationClass="com.github.projectfluent.ide.matcher.JssBraceMatcher"
