@@ -25,21 +25,7 @@ private fun FluentFormatBlock.computeIndent(child: ASTNode): Indent? {
     }
 }
 
-fun FluentFormatBlock.buildChildren(): List<Block> {
-    return node.getChildren(null)
-        .filter { !it.isWhitespaceOrEmpty() }
-        .map { childNode ->
-            FluentFormatBuilder.createBlock(
-                node = childNode,
-                alignment = null,
-                indent = computeIndent(childNode),
-                wrap = null,
-                ctx
-            )
-        }
-}
-
-private fun ASTNode?.isWhitespaceOrEmpty(): Boolean {
+fun ASTNode?.isWhitespaceOrEmpty(): Boolean {
     return this == null || textLength == 0 || elementType == TokenType.WHITE_SPACE
 }
 
