@@ -55,7 +55,7 @@
 <!--		/>-->
 		<lang.braceMatcher
 				language="Fluent"
-				implementationClass="com.github.projectfluent.ide.matcher.JssBraceMatcher"
+				implementationClass="com.github.projectfluent.ide.matcher.FluentBraceMatcher"
 		/>
 <!--		<lang.quoteHandler-->
 <!--				language="Fluent"-->

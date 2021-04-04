@@ -30,6 +30,15 @@ public void brace_recover() {
         yybegin(brace_stack.pop());
     }
 }
+
+public void count_indent() {
+    // yytext().last_line.count_indent
+}
+public void match_indent() {
+    // length may < indent_balance
+    // t = yytext().length() - indent_balance - Length of Newline
+    // yypushback(t);
+}
 %}
 
 %public
@@ -42,11 +51,12 @@ public void brace_recover() {
 %state StringQuote
 %state TextContext
 %state TextContextSpace
+%state TextContextIndent
 %state CodeContext
 %state SelectionStart
 %state SelectionText
 
-WHITE_SPACE=\s+
+WHITE_SPACE=[\s\t]+
 COMMENT_DOCUMENT=("///")[^\r\n]*
 COMMENT_LINE = #{1,3}[^\r\n]*
 COMMENT_BLOCK=[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
@@ -59,7 +69,7 @@ DECIMAL=([0-9]+\.[0-9]*([Ee][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
 
 TEXT_LINE  = [^\\\r\n{}]+
 
-CRLF       = \r\n | \n | \r | \R
+CRLF       = \r\n | \n | \r
 
 
 ESCAPE_SPECIAL= \\[^]
@@ -102,7 +112,8 @@ HEX = [0-9a-fA-F]
 	return EQ;
 }
 // 将 = 之后的符号都视为空格而非文本
-<TextContextSpace> [\s\t\n\r]+ {
+<TextContextSpace> ({CRLF}|{WHITE_SPACE})+ {
+	count_indent();
 	return WHITE_SPACE;
 }
 <TextContextSpace> [^\s\t\n\r] {
@@ -112,14 +123,19 @@ HEX = [0-9a-fA-F]
 // 如果首行无缩进, 直接结束
 <TextContext> {CRLF}[-#a-zA-Z] {
 	yypushback(1);
-    yybegin(YYINITIAL);
-    return WHITE_SPACE;
+	yybegin(YYINITIAL);
+	return WHITE_SPACE;
 }
 // 如果缩进开头是 .
 <TextContext> {CRLF}{WHITE_SPACE}+[.] {
 	yypushback(1);
-    yybegin(YYINITIAL);
-    return WHITE_SPACE;
+	yybegin(YYINITIAL);
+	return WHITE_SPACE;
+}
+// 剩下的情况去掉缩进, 至少还有一个空格, 所以返回 WS
+<TextContext> {CRLF}{WHITE_SPACE}+ {
+	match_indent();
+	return WHITE_SPACE;
 }
 <TextContext> {
 	{TEXT_LINE} { return TEXT_LINE; }
