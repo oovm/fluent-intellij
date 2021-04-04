@@ -1,7 +1,11 @@
 <!-- Keep a Changelog guide -> https://keepachangelog.com -->
 
-# fluent-intellij Changelog
+# Fluent Intellij Changelog
 
-## [Unreleased]
+## [0.2.0]
+
+
+
+## [0.1.0]
 ### Added
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)

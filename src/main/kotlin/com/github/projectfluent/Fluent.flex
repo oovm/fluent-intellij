@@ -56,7 +56,7 @@ public void match_indent() {
 %state SelectionStart
 %state SelectionText
 
-WHITE_SPACE=[\s\t]+
+WHITE_SPACE=[\s\t]
 COMMENT_DOCUMENT=("///")[^\r\n]*
 COMMENT_LINE = #{1,3}[^\r\n]*
 COMMENT_BLOCK=[/][*][^*]*[*]+([^/*][^*]*[*]+)*[/]
@@ -67,9 +67,9 @@ BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
 INTEGER=(0|[1-9][0-9_]*)
 DECIMAL=([0-9]+\.[0-9]*([Ee][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
 
-TEXT_LINE  = [^\\\r\n{}]+
+TEXT_LINE = [^\\\r\n{}]+
 
-CRLF       = \r\n | \n | \r
+CRLF      = \r\n | \n | \r
 
 
 ESCAPE_SPECIAL= \\[^]
@@ -79,7 +79,7 @@ HEX = [0-9a-fA-F]
 %%
 
 <YYINITIAL, CodeContext> {
-    {WHITE_SPACE}      { return WHITE_SPACE; }
+    {WHITE_SPACE}+     { return WHITE_SPACE; }
 //	{COMMENT_DOCUMENT} { return COMMENT_DOCUMENT; }
 	{COMMENT_LINE}     { return COMMENT_LINE; }
 //	{COMMENT_BLOCK}    { return COMMENT_BLOCK; }
@@ -111,6 +111,12 @@ HEX = [0-9a-fA-F]
 	yybegin(TextContextSpace);
 	return EQ;
 }
+// 如果首行无缩进, 直接结束
+<TextContext, TextContextSpace> {CRLF}[-#a-zA-Z] {
+	yypushback(1);
+	yybegin(YYINITIAL);
+	return WHITE_SPACE;
+}
 // 将 = 之后的符号都视为空格而非文本
 <TextContextSpace> ({CRLF}|{WHITE_SPACE})+ {
 	count_indent();
@@ -119,12 +125,6 @@ HEX = [0-9a-fA-F]
 <TextContextSpace> [^\s\t\n\r] {
 	yypushback(1);
 	yybegin(TextContext);
-}
-// 如果首行无缩进, 直接结束
-<TextContext> {CRLF}[-#a-zA-Z] {
-	yypushback(1);
-	yybegin(YYINITIAL);
-	return WHITE_SPACE;
 }
 // 如果缩进开头是 .
 <TextContext> {CRLF}{WHITE_SPACE}+[.] {
@@ -174,7 +174,7 @@ HEX = [0-9a-fA-F]
 	return TO;
 }
 <SelectionStart> {
-    {WHITE_SPACE} { return WHITE_SPACE; }
+    {WHITE_SPACE}+ { return WHITE_SPACE; }
 	{SYMBOL}      {return SYMBOL;}
 	[-]?{INTEGER} {return INTEGER;}
 	[-]?{DECIMAL} {return DECIMAL;}
