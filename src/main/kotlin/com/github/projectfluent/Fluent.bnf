@@ -69,8 +69,8 @@ Fluent ::= Entry*
  * standalone Entries. */
 private Entry ::=
     Message
-    | Term
-    | COMMENT_LINE
+  | Term
+  | COMMENT_LINE
 Message ::= MessageID EQ ((Pattern Attribute*) | (Attribute+))
 Term    ::= TermID EQ Pattern Attribute*
 /* Attributes of Messages and Terms. */
@@ -83,10 +83,10 @@ Pattern    ::= pattern_element+
  * Adjacent TextElements are joined in AST creation. */
 private pattern_element ::=
     InlineText
-    | BlockText
-    | InlinePlaceable
-    | block_placeable
-InlineText        ::= TEXT_LINE|SELECTION_LINE;
+  | BlockText
+  | InlinePlaceable
+//    | block_placeable
+InlineText        ::= TEXT_LINE | SELECTION_LINE;
 BlockText         ::= InlineText+;
 InlinePlaceable   ::= BRACE_L (SelectExpression | expression) BRACE_R
 block_placeable   ::= BLANK_BLOCK  InlinePlaceable
@@ -96,12 +96,12 @@ block_placeable   ::= BLANK_BLOCK  InlinePlaceable
  * syntax/abstract.js. */
 private expression    ::=
     StringLiteral
-    | NumberLiteral
-    | FunctionReference
-    | MessageReference
-    | TermReference
-    | VariableID
-    | InlinePlaceable
+  | NumberLiteral
+  | FunctionReference
+  | MessageReference
+  | TermReference
+  | VariableID
+  | InlinePlaceable
 
 /* Inline Expressions */
 FunctionReference   ::= FunctionID CallArguments
@@ -125,4 +125,4 @@ VariableID          ::= DOLLAR SYMBOL;
 FunctionID          ::= SYMBOL;
 /* Literals */
 StringLiteral       ::= STRING_QUOTE (STRING_ESCAPE|STRING_CHAR)* STRING_QUOTE
-NumberLiteral       ::= INTEGER|DECIMAL
+NumberLiteral       ::= INTEGER | DECIMAL

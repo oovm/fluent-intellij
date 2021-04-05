@@ -150,8 +150,8 @@ public class FluentParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // Message
-  //     | Term
-  //     | COMMENT_LINE
+  //   | Term
+  //   | COMMENT_LINE
   static boolean Entry(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "Entry")) return false;
     boolean r;
@@ -222,7 +222,7 @@ public class FluentParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // TEXT_LINE|SELECTION_LINE
+  // TEXT_LINE | SELECTION_LINE
   public static boolean InlineText(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "InlineText")) return false;
     if (!nextTokenIs(b, "<inline text>", SELECTION_LINE, TEXT_LINE)) return false;
@@ -352,7 +352,7 @@ public class FluentParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // INTEGER|DECIMAL
+  // INTEGER | DECIMAL
   public static boolean NumberLiteral(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "NumberLiteral")) return false;
     if (!nextTokenIs(b, "<number literal>", DECIMAL, INTEGER)) return false;
@@ -572,12 +572,12 @@ public class FluentParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // StringLiteral
-  //     | NumberLiteral
-  //     | FunctionReference
-  //     | MessageReference
-  //     | TermReference
-  //     | VariableID
-  //     | InlinePlaceable
+  //   | NumberLiteral
+  //   | FunctionReference
+  //   | MessageReference
+  //   | TermReference
+  //   | VariableID
+  //   | InlinePlaceable
   static boolean expression(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "expression")) return false;
     boolean r;
@@ -593,16 +593,14 @@ public class FluentParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // InlineText
-  //     | BlockText
-  //     | InlinePlaceable
-  //     | block_placeable
+  //   | BlockText
+  //   | InlinePlaceable
   static boolean pattern_element(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "pattern_element")) return false;
     boolean r;
     r = InlineText(b, l + 1);
     if (!r) r = BlockText(b, l + 1);
     if (!r) r = InlinePlaceable(b, l + 1);
-    if (!r) r = block_placeable(b, l + 1);
     return r;
   }
 

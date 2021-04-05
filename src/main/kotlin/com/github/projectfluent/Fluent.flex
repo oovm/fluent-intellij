@@ -51,7 +51,7 @@ public void match_indent() {
 %state StringQuote
 %state TextContext
 %state TextContextSpace
-%state TextContextIndent
+//%state TextContextIndent
 %state CodeContext
 %state SelectionStart
 %state SelectionText
@@ -67,7 +67,7 @@ BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
 INTEGER=(0|[1-9][0-9_]*)
 DECIMAL=([0-9]+\.[0-9]*([Ee][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
 
-TEXT_LINE = [^\\\r\n{}]+
+TEXT_LINE = [^\r\n{}]+
 
 CRLF      = \r\n | \n | \r
 
@@ -138,8 +138,8 @@ HEX = [0-9a-fA-F]
 	return WHITE_SPACE;
 }
 <TextContext> {
-	{TEXT_LINE} { return TEXT_LINE; }
 	{CRLF}      { return WHITE_SPACE; }
+	{TEXT_LINE} { return TEXT_LINE; }
 }
 // =====================================================================================================================
 // 代码域 CodeContext , 从 `{` 开始, 到 `}` 结束
@@ -152,15 +152,15 @@ HEX = [0-9a-fA-F]
 	return BRACE_R;
 }
 <CodeContext> {
-	"(" { return PARENTHESIS_L; }
-	")" { return PARENTHESIS_R; }
-	"[" { return BRACKET_L; }
-	"]" { return BRACKET_R; }
-	\$  {return DOLLAR;}
-	"," { return COMMA; }
-	":" { return COLON; }
-	"*" { return STAR; }
-	"-" { return HYPHEN; }
+	\( { return PARENTHESIS_L; }
+	\) { return PARENTHESIS_R; }
+	\[ { return BRACKET_L; }
+	\] { return BRACKET_R; }
+	\$ { return DOLLAR; }
+	\* { return STAR; }
+	,  { return COMMA; }
+	:  { return COLON; }
+	-  { return HYPHEN; }
 }
 <CodeContext> {
 	{SYMBOL}  {return SYMBOL;}
@@ -175,9 +175,9 @@ HEX = [0-9a-fA-F]
 }
 <SelectionStart> {
     {WHITE_SPACE}+ { return WHITE_SPACE; }
-	{SYMBOL}      {return SYMBOL;}
-	[-]?{INTEGER} {return INTEGER;}
-	[-]?{DECIMAL} {return DECIMAL;}
+	{SYMBOL}       {return SYMBOL;}
+	[-]?{INTEGER}  {return INTEGER;}
+	[-]?{DECIMAL}  {return DECIMAL;}
 }
 <SelectionStart> \* {
 	return STAR;
@@ -203,8 +203,8 @@ HEX = [0-9a-fA-F]
 	return BRACE_R;
 }
 <SelectionText> {
-	{TEXT_LINE} { return SELECTION_LINE; }
 	{CRLF}      { return WHITE_SPACE; }
+	{TEXT_LINE} { return SELECTION_LINE; }
 }
 // =====================================================================================================================
 // 文本域, 文本域只出现在代码中

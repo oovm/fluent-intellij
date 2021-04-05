@@ -16,7 +16,4 @@ public interface FluentPattern extends PsiElement {
   @NotNull
   List<FluentInlineText> getInlineTextList();
 
-  @NotNull
-  List<FluentBlockPlaceable> getBlockPlaceableList();
-
 }
