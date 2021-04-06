@@ -67,8 +67,8 @@ BYTE=(0[bBoOxXfF][0-9A-Fa-f][0-9A-Fa-f_]*)
 INTEGER=(0|[1-9][0-9_]*)
 DECIMAL=([0-9]+\.[0-9]*([Ee][0-9]+)?)|(\.[0-9]+([Ee][0-9]+)?)
 
+TEXT_LINE_HEAD = [^\r\n\s\t{}][^\r\n{}]*
 TEXT_LINE = [^\r\n{}]+
-
 CRLF      = \r\n | \n | \r
 
 
@@ -118,7 +118,7 @@ HEX = [0-9a-fA-F]
 	return WHITE_SPACE;
 }
 // 将 = 之后的符号都视为空格而非文本
-<TextContextSpace> ({CRLF}|{WHITE_SPACE})+ {
+<TextContextSpace> [\s\t\n\r]+ {
 	count_indent();
 	return WHITE_SPACE;
 }
@@ -133,13 +133,15 @@ HEX = [0-9a-fA-F]
 	return WHITE_SPACE;
 }
 // 剩下的情况去掉缩进, 至少还有一个空格, 所以返回 WS
-<TextContext> {CRLF}{WHITE_SPACE}+ {
-	match_indent();
-	return WHITE_SPACE;
-}
+//<TextContext> {CRLF}{WHITE_SPACE}+[^.\n\r] {
+//	yypushback(1);
+//	match_indent();
+//	return WHITE_SPACE;
+//}
 <TextContext> {
-	{CRLF}      { return WHITE_SPACE; }
-	{TEXT_LINE} { return TEXT_LINE; }
+	{CRLF}         { return WHITE_SPACE; }
+	{TEXT_LINE}    { return TEXT_LINE; }
+//  {WHITE_SPACE}+ { return WHITE_SPACE; }
 }
 // =====================================================================================================================
 // 代码域 CodeContext , 从 `{` 开始, 到 `}` 结束

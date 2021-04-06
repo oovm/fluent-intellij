@@ -78,8 +78,8 @@ public class _FluentLexer implements FlexLexer {
     "\1\20\1\21\2\2\1\22\1\23\3\24\1\25\1\5"+
     "\2\26\1\1\1\27\1\30\1\31\1\32\1\33\1\34"+
     "\1\35\1\36\1\1\1\37\1\40\2\2\1\41\4\42"+
-    "\1\43\1\44\1\43\1\0\1\45\1\0\1\46\1\26"+
-    "\1\0\1\47\2\17\1\0\2\17\1\46\1\17";
+    "\1\0\1\43\1\2\1\0\1\44\1\0\1\45\1\26"+
+    "\1\0\1\46\2\17\1\0\2\17\1\45\1\17";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[72];
@@ -222,7 +222,7 @@ public class _FluentLexer implements FlexLexer {
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
     "\7\0\1\11\3\1\12\11\2\1\1\11\3\1\2\11"+
     "\3\1\1\11\4\1\10\11\1\1\1\11\3\1\1\11"+
-    "\3\1\1\11\1\1\1\11\1\1\1\0\1\11\1\0"+
+    "\3\1\1\11\1\0\1\11\1\1\1\0\1\11\1\0"+
     "\2\1\1\0\1\11\2\1\1\0\4\1";
 
   private static int [] zzUnpackAttribute() {
@@ -561,212 +561,206 @@ public void match_indent() {
             { return BAD_CHARACTER;
             } 
             // fall through
-          case 40: break;
+          case 39: break;
           case 2: 
             { return WHITE_SPACE;
             } 
             // fall through
-          case 41: break;
+          case 40: break;
           case 3: 
             { return COMMENT_LINE;
             } 
             // fall through
-          case 42: break;
+          case 41: break;
           case 4: 
             { return SYMBOL;
             } 
             // fall through
-          case 43: break;
+          case 42: break;
           case 5: 
             { return HYPHEN;
             } 
             // fall through
-          case 44: break;
+          case 43: break;
           case 6: 
             { return DOT;
             } 
             // fall through
-          case 45: break;
+          case 44: break;
           case 7: 
             { return BRACE_R;
             } 
             // fall through
-          case 46: break;
+          case 45: break;
           case 8: 
             { return BRACE_L;
             } 
             // fall through
-          case 47: break;
+          case 46: break;
           case 9: 
             { return ANGLE_L;
             } 
             // fall through
-          case 48: break;
+          case 47: break;
           case 10: 
             { return ANGLE_R;
             } 
             // fall through
-          case 49: break;
+          case 48: break;
           case 11: 
             { return ACCENT;
             } 
             // fall through
-          case 50: break;
+          case 49: break;
           case 12: 
             { return SEMICOLON;
             } 
             // fall through
-          case 51: break;
+          case 50: break;
           case 13: 
             { return DOLLAR;
             } 
             // fall through
-          case 52: break;
+          case 51: break;
           case 14: 
             { yybegin(TextContextSpace);
 	return EQ;
             } 
             // fall through
-          case 53: break;
+          case 52: break;
           case 15: 
             { return STRING_CHAR;
             } 
             // fall through
-          case 54: break;
+          case 53: break;
           case 16: 
             { yybegin(CodeContext);
 	return STRING_QUOTE;
             } 
             // fall through
-          case 55: break;
+          case 54: break;
           case 17: 
             { return TEXT_LINE;
             } 
             // fall through
-          case 56: break;
+          case 55: break;
           case 18: 
             { brace_block(TextContext);
 	return BRACE_L;
             } 
             // fall through
-          case 57: break;
+          case 56: break;
           case 19: 
             { yypushback(1);
 	yybegin(TextContext);
             } 
             // fall through
-          case 58: break;
+          case 57: break;
           case 20: 
             { count_indent();
 	return WHITE_SPACE;
             } 
             // fall through
-          case 59: break;
+          case 58: break;
           case 21: 
             { return STAR;
             } 
             // fall through
-          case 60: break;
+          case 59: break;
           case 22: 
             { return INTEGER;
             } 
             // fall through
-          case 61: break;
+          case 60: break;
           case 23: 
             { brace_recover();
 	return BRACE_R;
             } 
             // fall through
-          case 62: break;
+          case 61: break;
           case 24: 
             { return PARENTHESIS_L;
             } 
             // fall through
-          case 63: break;
+          case 62: break;
           case 25: 
             { return PARENTHESIS_R;
             } 
             // fall through
-          case 64: break;
+          case 63: break;
           case 26: 
             { return BRACKET_L;
             } 
             // fall through
-          case 65: break;
+          case 64: break;
           case 27: 
             { return BRACKET_R;
             } 
             // fall through
-          case 66: break;
+          case 65: break;
           case 28: 
             { return COMMA;
             } 
             // fall through
-          case 67: break;
+          case 66: break;
           case 29: 
             { return COLON;
             } 
             // fall through
-          case 68: break;
+          case 67: break;
           case 30: 
             { yybegin(StringQuote);
     return STRING_QUOTE;
             } 
             // fall through
-          case 69: break;
+          case 68: break;
           case 31: 
             { yybegin(SelectionText);
 	return BRACKET_R;
             } 
             // fall through
-          case 70: break;
+          case 69: break;
           case 32: 
             { return SELECTION_LINE;
             } 
             // fall through
-          case 71: break;
+          case 70: break;
           case 33: 
             { brace_block(SelectionText);
 	return BRACE_L;
             } 
             // fall through
-          case 72: break;
+          case 71: break;
           case 34: 
             { return STRING_ESCAPE;
             } 
             // fall through
-          case 73: break;
+          case 72: break;
           case 35: 
-            { match_indent();
-	return WHITE_SPACE;
-            } 
-            // fall through
-          case 74: break;
-          case 36: 
             { yypushback(1);
 	yybegin(YYINITIAL);
 	return WHITE_SPACE;
             } 
             // fall through
-          case 75: break;
-          case 37: 
+          case 73: break;
+          case 36: 
             { yybegin(SelectionStart);
 	return TO;
             } 
             // fall through
-          case 76: break;
-          case 38: 
+          case 74: break;
+          case 37: 
             { return DECIMAL;
             } 
             // fall through
-          case 77: break;
-          case 39: 
+          case 75: break;
+          case 38: 
             { yypushback(1);
     yybegin(SelectionStart);
     return WHITE_SPACE;
             } 
             // fall through
-          case 78: break;
+          case 76: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }
