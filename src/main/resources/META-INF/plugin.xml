@@ -63,7 +63,7 @@
 <!--		/>-->
 		<lang.foldingBuilder
 				language="Fluent"
-				implementationClass="com.github.projectfluent.ide.matcher.JssFoldingBuilder"
+				implementationClass="com.github.projectfluent.ide.matcher.FluentFoldingBuilder"
 		/>
 <!--		<indexPatternBuilder-->
 <!--				implementation="com.github.projectfluent.ide.todo.VomlTodoIndexPatternBuilder"-->
