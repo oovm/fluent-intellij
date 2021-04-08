@@ -11,13 +11,11 @@ class FluentIconProvider : IconProvider() {
 
         return when {
             fileName.endsWith(".ftl") -> FluentFile
-            fileName.endsWith(".awt") -> AwtFile
             else -> null
         }
     }
 
     companion object {
         val FluentFile = IconLoader.getIcon("/icons/ftl.svg", FluentIconProvider::class.java)
-        val AwtFile = IconLoader.getIcon("/icons/awt.svg", FluentIconProvider::class.java)
     }
 }

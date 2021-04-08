@@ -3,8 +3,8 @@
 # Fluent Intellij Changelog
 
 ## [0.2.0]
-
-
+### Fixed
+- Fix syntax highlight of string escaping
 
 ## [0.1.0]
 ### Added
