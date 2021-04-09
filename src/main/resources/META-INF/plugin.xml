@@ -89,7 +89,7 @@
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
 		<action id="jss.JssConvertJson"
-		        class="com.github.projectfluent.ide.actions.JssConvertJson"/>
+		        class="com.github.projectfluent.ide.actions.FluentConvertMo"/>
 		<group id="jss.JssGenerator" popup="true" text="JssGenerator">
 			<reference ref="NewFluentFile"/>
 <!--			<reference ref="jss.JssConvertJson"/>-->
