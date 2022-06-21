@@ -80,7 +80,7 @@
 		<annotator language="Fluent" implementationClass="com.github.projectfluent.ide.annotator.LiteralChecker"/>
 
 		<langCodeStyleSettingsProvider
-				implementation="com.github.projectfluent.ide.codeStyle.VomlLanguageCodeStyleSettingsProvider"
+				implementation="com.github.projectfluent.ide.codeStyle.FluentLanguageCodeStyleSettingsProvider"
 		/>
 
 	</extensions>

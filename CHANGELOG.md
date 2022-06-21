@@ -2,6 +2,10 @@
 
 # Fluent Intellij Changelog
 
+## [0.2.3]
+### Change
+- Update to 2022 version (`222.*`)
+
 ## [0.2.2]
 ### Change
 - Update to 2022 version (`221.*`)
