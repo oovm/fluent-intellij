@@ -29,12 +29,6 @@ public class FluentTermNode extends MixinTerm implements FluentTerm {
 
   @Override
   @NotNull
-  public List<FluentAttribute> getAttributeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentAttribute.class);
-  }
-
-  @Override
-  @NotNull
   public FluentPattern getPattern() {
     return findNotNullChildByClass(FluentPattern.class);
   }

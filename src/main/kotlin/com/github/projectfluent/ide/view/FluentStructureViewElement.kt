@@ -1,5 +1,6 @@
 package com.github.projectfluent.ide.view
 
+import com.github.projectfluent.language.psi_node.FluentAttributeNode
 import com.github.projectfluent.language.psi_node.FluentMessageNode
 import com.github.projectfluent.language.psi_node.FluentTermNode
 import com.intellij.ide.projectView.PresentationData
@@ -39,27 +40,23 @@ class FluentStructureViewElement(private val node: NavigatablePsiElement) :
         return presentation ?: PresentationData()
     }
 
-    override fun getChildren(): Array<TreeElement> {
-        return when (node) {
-            is FluentFile -> {
-                PsiTreeUtil.getChildrenOfAnyType(
-                    node,
-                    FluentMessageNode::class.java,
-                    FluentTermNode::class.java
-                ).map {
-                    FluentStructureViewElement(it)
-                }.toTypedArray()
-            }
-            is FluentMessageNode -> {
-                PsiTreeUtil.getChildrenOfAnyType(
-                    node,
-                    FluentMessageNode::class.java,
-                    FluentTermNode::class.java
-                ).map {
-                    FluentStructureViewElement(it)
-                }.toTypedArray()
-            }
-            else -> arrayOf()
-        }
+    override fun getChildren(): Array<out TreeElement> = when (node) {
+        is FluentFile -> getChildOfType(
+            FluentMessageNode::class.java,
+            FluentTermNode::class.java
+        )
+        is FluentMessageNode -> getChildOfType(
+            FluentAttributeNode::class.java,
+        )
+        else -> getChildOfType(
+            NavigatablePsiElement::class.java,
+        )
+    }
+
+    private fun getChildOfType(vararg classes: Class<out NavigatablePsiElement>): Array<FluentStructureViewElement> {
+        return PsiTreeUtil.getChildrenOfAnyType(node, *classes)
+            .map { FluentStructureViewElement(it) }
+            .toTypedArray()
     }
 }
+

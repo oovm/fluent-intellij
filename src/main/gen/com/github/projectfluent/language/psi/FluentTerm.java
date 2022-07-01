@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface FluentTerm extends PsiElement {
 
   @NotNull
-  List<FluentAttribute> getAttributeList();
-
-  @NotNull
   FluentPattern getPattern();
 
   @NotNull

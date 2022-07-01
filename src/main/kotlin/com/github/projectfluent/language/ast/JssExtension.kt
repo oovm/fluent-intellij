@@ -1,11 +1,7 @@
 package com.github.projectfluent.language.ast
 
-import com.github.projectfluent.ide.formatter.FluentFormatBlock
 import com.github.projectfluent.ide.formatter.FluentFormatSpace
-import com.github.projectfluent.ide.formatter.FluentFormatBuilder
-
 import com.intellij.formatting.Block
-import com.intellij.formatting.Indent
 import com.intellij.formatting.Spacing
 import com.intellij.lang.ASTNode
 import com.intellij.psi.TokenType

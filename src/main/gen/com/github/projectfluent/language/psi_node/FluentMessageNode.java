@@ -29,20 +29,14 @@ public class FluentMessageNode extends MixinMessage implements FluentMessage {
 
   @Override
   @NotNull
-  public List<FluentAttribute> getAttributeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, FluentAttribute.class);
-  }
-
-  @Override
-  @NotNull
   public FluentMessageID getMessageID() {
     return findNotNullChildByClass(FluentMessageID.class);
   }
 
   @Override
-  @Nullable
+  @NotNull
   public FluentPattern getPattern() {
-    return findChildByClass(FluentPattern.class);
+    return findNotNullChildByClass(FluentPattern.class);
   }
 
 }

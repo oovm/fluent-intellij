@@ -55,34 +55,23 @@
 
 // https://github.com/projectfluent/fluent/blob/master/spec/fluent.ebnf
 Fluent ::= Entry*
-/* Entries are the main building blocks of Fluent. They define translations and
- * contextual and semantic information about the translations. During the AST
- * construction, adjacent comment lines of the same comment type (defined by
- * the number of #) are joined together. Single-# comments directly preceding
- * Messages and Terms are attached to the Message or Term and are not
- * standalone Entries. */
-/* Entries are the main building blocks of Fluent. They define translations and
- * contextual and semantic information about the translations. During the AST
- * construction, adjacent comment lines of the same comment type (defined by
- * the number of #) are joined together. Single-# comments directly preceding
- * Messages and Terms are attached to the Message or Term and are not
- * standalone Entries. */
 private Entry ::=
     Message
   | Term
+  | Attribute
   | COMMENT_LINE
-Message   ::= MessageID EQ ((Pattern Attribute*) | (Attribute+)) {
+Message ::= MessageID EQ Pattern {
     mixin = "com.github.projectfluent.language.mixin.MixinMessage"
 }
-Term      ::= TermID EQ Pattern Attribute* {
+Term ::= TermID EQ Pattern {
     mixin = "com.github.projectfluent.language.mixin.MixinTerm"
 }
 /* Attributes of Messages and Terms. */
-Attribute ::= AttributeID EQ Pattern {
+inner Attribute ::= AttributeID EQ Pattern {
     mixin = "com.github.projectfluent.language.mixin.MixinAttribute"
 }
 /* Patterns are values of Messages, Terms, Attributes and Variants. */
-Pattern   ::= pattern_element+
+Pattern ::= pattern_element+
 /* TextElement and Placeable can occur inline or as block.
  * Text needs to be indented and start with a non-special character.
  * Placeables can start at the beginning of the line or be indented.
