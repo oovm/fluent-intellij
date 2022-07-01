@@ -1,48 +1,65 @@
 package com.github.projectfluent.ide.view
 
+import com.github.projectfluent.language.psi_node.FluentMessageNode
+import com.github.projectfluent.language.psi_node.FluentTermNode
 import com.intellij.ide.projectView.PresentationData
 import com.intellij.ide.structureView.StructureViewTreeElement
 import com.intellij.ide.util.treeView.smartTree.SortableTreeElement
 import com.intellij.ide.util.treeView.smartTree.TreeElement
 import com.intellij.navigation.ItemPresentation
-import com.intellij.navigation.NavigationRequest
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.util.PsiTreeUtil
 
-class FluentStructureViewElement(private val myElement: NavigatablePsiElement) :
+class FluentStructureViewElement(private val node: NavigatablePsiElement) :
     StructureViewTreeElement,
     SortableTreeElement {
     override fun getValue(): Any {
-        return myElement
+        return node
     }
 
     override fun navigate(requestFocus: Boolean) {
-        myElement.navigate(requestFocus)
+        node.navigate(requestFocus)
     }
 
     override fun canNavigate(): Boolean {
-        return myElement.canNavigate()
+        return node.canNavigate()
     }
 
     override fun canNavigateToSource(): Boolean {
-        return myElement.canNavigateToSource()
+        return node.canNavigateToSource()
     }
 
     override fun getAlphaSortKey(): String {
-        val name = myElement.name
+        val name = node.name
         return name ?: ""
     }
 
     override fun getPresentation(): ItemPresentation {
-        val presentation = myElement.presentation
+        val presentation = node.presentation
         return presentation ?: PresentationData()
     }
 
     override fun getChildren(): Array<TreeElement> {
-        val out = mutableListOf<FluentStructureViewElement>()
-        PsiTreeUtil.getChildrenOfTypeAsList(myElement, NavigatablePsiElement::class.java).forEach {
-            out.add(FluentStructureViewElement(it))
+        return when (node) {
+            is FluentFile -> {
+                PsiTreeUtil.getChildrenOfAnyType(
+                    node,
+                    FluentMessageNode::class.java,
+                    FluentTermNode::class.java
+                ).map {
+                    FluentStructureViewElement(it)
+                }.toTypedArray()
+            }
+            is FluentMessageNode -> {
+                PsiTreeUtil.getChildrenOfAnyType(
+                    node,
+                    FluentMessageNode::class.java,
+                    FluentTermNode::class.java
+                ).map {
+                    FluentStructureViewElement(it)
+                }.toTypedArray()
+            }
+            else -> arrayOf()
         }
-        return out.toTypedArray()
     }
 }

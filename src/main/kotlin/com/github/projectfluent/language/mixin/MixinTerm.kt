@@ -3,28 +3,28 @@ package com.github.projectfluent.language.mixin
 import com.github.projectfluent.ide.view.FluentItemPresentation
 import com.github.projectfluent.language.psi.FluentAttribute
 import com.github.projectfluent.language.psi.FluentElement
+import com.github.projectfluent.language.psi.FluentMessage
+import com.github.projectfluent.language.psi.FluentTerm
 import com.intellij.icons.AllIcons
 import com.intellij.lang.ASTNode
 import com.intellij.navigation.ItemPresentation
 import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
-import com.intellij.psi.impl.source.tree.CompositeElement
-import com.intellij.psi.util.PsiUtilCore
 
-abstract class MixinAttribute(node: ASTNode) : FluentElement(node),
+abstract class MixinTerm(node: ASTNode) : FluentElement(node),
     NavigatablePsiElement,
     PsiNameIdentifierOwner,
-    FluentAttribute {
+    FluentTerm {
     override fun setName(name: String): PsiElement {
         TODO("Not yet implemented")
     }
 
     override fun getNameIdentifier(): PsiElement {
-        return this.attributeID
+        return this.termID
     }
 
     override fun getPresentation(): ItemPresentation? {
-        return FluentItemPresentation(AllIcons.Nodes.Variable, nameIdentifier.text)
+        return FluentItemPresentation(AllIcons.Nodes.Enum, nameIdentifier.text)
     }
 }

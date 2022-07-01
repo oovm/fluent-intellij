@@ -71,16 +71,18 @@ private Entry ::=
     Message
   | Term
   | COMMENT_LINE
-Message ::= MessageID EQ ((Pattern Attribute*) | (Attribute+)) {
+Message   ::= MessageID EQ ((Pattern Attribute*) | (Attribute+)) {
     mixin = "com.github.projectfluent.language.mixin.MixinMessage"
 }
-Term    ::= TermID EQ Pattern Attribute*
+Term      ::= TermID EQ Pattern Attribute* {
+    mixin = "com.github.projectfluent.language.mixin.MixinTerm"
+}
 /* Attributes of Messages and Terms. */
-Attribute  ::= AttributeID EQ Pattern {
+Attribute ::= AttributeID EQ Pattern {
     mixin = "com.github.projectfluent.language.mixin.MixinAttribute"
 }
 /* Patterns are values of Messages, Terms, Attributes and Variants. */
-Pattern    ::= pattern_element+
+Pattern   ::= pattern_element+
 /* TextElement and Placeable can occur inline or as block.
  * Text needs to be indented and start with a non-special character.
  * Placeables can start at the beginning of the line or be indented.
