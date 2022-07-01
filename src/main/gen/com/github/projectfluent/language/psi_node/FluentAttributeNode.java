@@ -8,10 +8,10 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.projectfluent.language.psi.FluentTypes.*;
-import com.github.projectfluent.language.psi.FluentElement;
+import com.github.projectfluent.language.mixin.MixinAttribute;
 import com.github.projectfluent.language.psi.*;
 
-public class FluentAttributeNode extends FluentElement implements FluentAttribute {
+public class FluentAttributeNode extends MixinAttribute implements FluentAttribute {
 
   public FluentAttributeNode(@NotNull ASTNode node) {
     super(node);

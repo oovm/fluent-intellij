@@ -1,6 +1,8 @@
-package com.github.projectfluent.ide.highlight
+package com.github.projectfluent.settings
 
 import com.github.projectfluent.FluentBundle
+import com.github.projectfluent.ide.highlight.FluentHighlightColor
+import com.github.projectfluent.ide.highlight.FluentSyntaxHighlighter
 import com.github.projectfluent.ide.view.FluentIconProvider
 
 import com.intellij.openapi.options.colors.ColorDescriptor
