@@ -43,11 +43,12 @@ class FluentStructureViewElement(private val node: NavigatablePsiElement) :
     override fun getChildren(): Array<out TreeElement> = when (node) {
         is FluentFile -> getChildOfType(
             FluentMessageNode::class.java,
-            FluentTermNode::class.java
+            FluentTermNode::class.java,
         )
-        is FluentMessageNode -> getChildOfType(
+        is FluentMessageNode, is FluentTermNode -> getChildOfType(
             FluentAttributeNode::class.java,
         )
+        is FluentAttributeNode -> arrayOf()
         else -> getChildOfType(
             NavigatablePsiElement::class.java,
         )

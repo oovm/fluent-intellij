@@ -10,7 +10,7 @@ import com.intellij.psi.NavigatablePsiElement
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNameIdentifierOwner
 
-abstract class MixinAttribute(node: ASTNode) : FluentElement(node),
+abstract class MixinSelector(node: ASTNode) : FluentElement(node),
     PsiNameIdentifierOwner,
     FluentAttribute {
     override fun setName(name: String): PsiElement {

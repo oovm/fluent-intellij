@@ -60,14 +60,14 @@ private Entry ::=
   | Term
   | Attribute
   | COMMENT_LINE
-Message ::= MessageID EQ Pattern {
+Message ::= MessageID EQ ((Pattern Attribute*) | Attribute+) {
     mixin = "com.github.projectfluent.language.mixin.MixinMessage"
 }
-Term ::= TermID EQ Pattern {
+Term ::= TermID EQ Pattern Attribute* {
     mixin = "com.github.projectfluent.language.mixin.MixinTerm"
 }
 /* Attributes of Messages and Terms. */
-inner Attribute ::= AttributeID EQ Pattern {
+Attribute ::= AttributeID EQ Pattern {
     mixin = "com.github.projectfluent.language.mixin.MixinAttribute"
 }
 /* Patterns are values of Messages, Terms, Attributes and Variants. */
