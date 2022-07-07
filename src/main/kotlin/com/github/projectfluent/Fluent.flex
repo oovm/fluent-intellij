@@ -161,6 +161,7 @@ HEX = [0-9a-fA-F]
 	\$ { return DOLLAR; }
 	\* { return STAR; }
 	,  { return COMMA; }
+	\. { return DOT; }
 	:  { return COLON; }
 	-  { return HYPHEN; }
 }

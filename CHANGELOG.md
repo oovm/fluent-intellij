@@ -2,6 +2,13 @@
 
 # Fluent Intellij Changelog
 
+## [0.3.0]
+### Added
+- Support StructureView ([#7](https://github.com/oovm/fluent-intellij/issues/7))
+### Fixed
+- Fix attributes in placeable ([#8](https://github.com/oovm/fluent-intellij/issues/8))
+
+
 ## [0.2.3]
 ### Change
 - Update to 2022 version (`222.*`)
