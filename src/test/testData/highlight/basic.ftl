@@ -3,6 +3,9 @@ hello   = Hello, world!
 welcome = Welcome, { $user }!
 time-elapsed = Time elapsed: { NUMBER($duration, maximumFractionDigits: 0) }s.
 -brand-name = Firefox
+    .placeholder = email@example.com
+    .aria-label = Login input value
+    .title = Type your login email
 installing = Installing { -brand-name }.
 
 # Selectors

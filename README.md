@@ -5,6 +5,8 @@
 <!-- Plugin description -->
 ### [Fluent Language](https://github.com/projectfluent) Support
 
-- Syntax highlighting & Semantic highlighting
+- Syntax highlighting
+- Semantic highlighting
+- Structure view
 
 <!-- Plugin description end -->

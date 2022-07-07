@@ -2,9 +2,13 @@
 
 # Fluent Intellij Changelog
 
+## [0.3.1]
+### Fixed
+- Fix missing api incompatible for (`203.*`)
+
 ## [0.3.0]
 ### Added
-- Support StructureView ([#7](https://github.com/oovm/fluent-intellij/issues/7))
+- Support structure view ([#7](https://github.com/oovm/fluent-intellij/issues/7))
 ### Fixed
 - Fix attributes in placeable ([#8](https://github.com/oovm/fluent-intellij/issues/8))
 
