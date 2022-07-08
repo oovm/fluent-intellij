@@ -13,7 +13,7 @@ data class FluentFormatSpace(
 ) {
     companion object {
         fun create(settings: CodeStyleSettings): FluentFormatSpace {
-            val commonSettings = settings.getCommonSettings(FluentLanguage.INSTANCE)
+            val commonSettings = settings.getCommonSettings(FluentLanguage)
             return FluentFormatSpace(commonSettings, createSpacingBuilder(commonSettings))
         }
 

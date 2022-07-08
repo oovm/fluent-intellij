@@ -1,5 +1,6 @@
 package com.github.projectfluent.ide.view
 
+import com.github.projectfluent.language.file.FluentFile
 import com.github.projectfluent.language.psi_node.FluentAttributeNode
 import com.github.projectfluent.language.psi_node.FluentMessageNode
 import com.github.projectfluent.language.psi_node.FluentTermNode
