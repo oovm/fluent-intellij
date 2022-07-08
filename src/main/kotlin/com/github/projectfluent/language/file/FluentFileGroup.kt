@@ -1,4 +1,4 @@
-package com.github.projectfluent.ide.view
+package com.github.projectfluent.language.file
 
 import com.intellij.ide.projectView.ProjectViewNestingRulesProvider
 import com.intellij.ide.projectView.ProjectViewNestingRulesProvider.Consumer

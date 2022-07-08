@@ -2,7 +2,7 @@ package com.github.projectfluent.ide.highlight
 
 
 import com.github.projectfluent.ide.highlight.FluentHighlightColor.*
-import com.github.projectfluent.ide.view.FluentFile
+import com.github.projectfluent.language.file.FluentFile
 import com.github.projectfluent.language.psi.*
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType

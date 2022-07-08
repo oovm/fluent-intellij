@@ -1,8 +1,7 @@
-package com.github.projectfluent.ide.view
+package com.github.projectfluent.language.file
 
 import com.github.projectfluent.FluentBundle
 import com.github.projectfluent.FluentLanguage
-import com.github.projectfluent.FluentLanguage.Companion
 import com.intellij.extapi.psi.PsiFileBase
 import com.intellij.openapi.fileTypes.FileType
 import com.intellij.psi.FileViewProvider

@@ -1,6 +1,6 @@
 package com.github.projectfluent.ide.actions
 
-import com.github.projectfluent.ide.view.FluentIconProvider.Companion.FluentFile
+import com.github.projectfluent.language.file.FluentIconProvider.Companion.FluentFile
 import com.intellij.ide.actions.CreateFileFromTemplateAction
 import com.intellij.ide.actions.CreateFileFromTemplateDialog.Builder
 import com.intellij.openapi.project.Project

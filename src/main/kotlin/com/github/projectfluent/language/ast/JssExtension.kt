@@ -14,3 +14,5 @@ fun ASTNode?.isWhitespaceOrEmpty(): Boolean {
 fun Block.computeSpacing(child1: Block?, child2: Block, ctx: FluentFormatSpace): Spacing? {
     return ctx.spacingBuilder.getSpacing(this, child1, child2)
 }
+
+

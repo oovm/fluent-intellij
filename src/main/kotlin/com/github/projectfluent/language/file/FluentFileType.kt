@@ -1,4 +1,4 @@
-package com.github.projectfluent.ide.view
+package com.github.projectfluent.language.file
 
 import com.github.projectfluent.FluentBundle
 import com.github.projectfluent.FluentLanguage
