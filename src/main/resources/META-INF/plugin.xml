@@ -27,7 +27,7 @@
 		<!-- Highlight -->
 		<additionalTextAttributes scheme="Default" file="colors/FluentDefault.xml"/>
 		<additionalTextAttributes scheme="Darcula" file="colors/FluentDarcula.xml"/>
-		<colorSettingsPage implementation="com.github.projectfluent.settings.FluentHighlightSetting"/>
+		<colorSettingsPage implementation="com.github.projectfluent.ide.highlight.FluentHighlightSetting"/>
 		<highlightVisitor implementation="com.github.projectfluent.ide.highlight.FluentHighlightVisitor"/>
 		<lang.syntaxHighlighter
 				language="Fluent"

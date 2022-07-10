@@ -1,10 +1,7 @@
-package com.github.projectfluent.settings
+package com.github.projectfluent.ide.highlight
 
 import com.github.projectfluent.FluentBundle
-import com.github.projectfluent.ide.highlight.FluentHighlightColor
-import com.github.projectfluent.ide.highlight.FluentSyntaxHighlighter
 import com.github.projectfluent.language.file.FluentIcons
-
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
 
@@ -28,27 +25,6 @@ class FluentHighlightSetting : ColorSettingsPage {
 
     override fun getAdditionalHighlightingTagToDescriptorMap() = annotatorTags
 
-    override fun getDemoText() =
-        """# References
-hello   = Hello, world!
-welcome = Welcome, { ${"$"}user }!
-time-elapsed = Time elapsed: { NUMBER(${"$"}duration, maximumFractionDigits: 0) }s.
--brand-name = Firefox
-installing = Installing { -brand-name }.
-
-# Selectors
-your-score = You scored {
-    NUMBER(${"$"}score, minimumFractionDigits: 1) ->
-        [0.0]   zero points. What happened?
-       *[other] { NUMBER(${"$"}score, minimumFractionDigits: 1)} points.
-    }
-
-# Attributes
-login-input = Predefined value
-    .placeholder = email@example.com
-    .aria-label = Login input value
-    .title = Type your login email
-"""
-
+    override fun getDemoText() = javaClass.getResource("/fileTemplates/colorDemo.ftl")!!.readText()
 
 }

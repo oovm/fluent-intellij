@@ -4,7 +4,6 @@ import com.github.projectfluent.FluentLanguage
 import com.github.projectfluent.language.file.FluentFile
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiFileFactory
-import com.intellij.psi.util.PsiTreeUtil
 
 class ASTNodeFactory(private val project: Project) {
     fun createFile(text: String): FluentFile {
