@@ -1,8 +1,8 @@
 package com.github.projectfluent.ide.codeStyle
 
 import com.github.projectfluent.FluentLanguage
-import com.intellij.application.options.CodeStyleAbstractConfigurable
 import com.intellij.application.options.SmartIndentOptionsEditor
+import com.intellij.application.options.codeStyle.OtherFileTypesCodeStyleConfigurable
 import com.intellij.psi.codeStyle.*
 
 class FluentLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvider() {
@@ -14,15 +14,8 @@ class FluentLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvide
         settings: CodeStyleSettings,
         modelSettings: CodeStyleSettings,
     ): CodeStyleConfigurable {
-        return object : CodeStyleAbstractConfigurable(
-            settings,
-            modelSettings,
-            configurableDisplayName
-        ) {
-            override fun createPanel(settings: CodeStyleSettings?) = settings?.let {
-                FluentCodeStyleMainPanel(currentSettings, it)
-            }
-        }
+        return OtherFileTypesCodeStyleConfigurable(settings, modelSettings)
+        // FluentCodeStyleMainPanel(currentSettings, it)
     }
 
     override fun customizeSettings(consumer: CodeStyleSettingsCustomizable, settingsType: SettingsType) {
@@ -34,15 +27,18 @@ class FluentLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvide
                     CodeStyleSettingsCustomizable.CommenterOption.LINE_COMMENT_AT_FIRST_COLUMN.name
                 )
             }
+
             SettingsType.WRAPPING_AND_BRACES_SETTINGS -> {
                 consumer.showStandardOptions(
                     CodeStyleSettingsCustomizable.WrappingOrBraceOption.RIGHT_MARGIN.name,
                     CodeStyleSettingsCustomizable.WrappingOrBraceOption.KEEP_LINE_BREAKS.name
                 )
             }
+
             SettingsType.LANGUAGE_SPECIFIC -> {
                 consumer.showStandardOptions()
             }
+
             else -> {}
         }
     }
@@ -60,8 +56,7 @@ class FluentLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvide
         indentOptions.CONTINUATION_INDENT_SIZE = indentOptions.INDENT_SIZE
     }
 
-    override fun getCodeSample(settingsType: SettingsType) =
-        """# References
+    override fun getCodeSample(settingsType: SettingsType) = """# References
 hello   = Hello, world!
 welcome = Welcome, { ${"$"}user }!
 time-elapsed = Time elapsed: { NUMBER(${"$"}duration, maximumFractionDigits: 0) }s.
