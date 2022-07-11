@@ -1,6 +1,6 @@
 package com.github.projectfluent
 
-import com.github.projectfluent.FluentLanguage.Companion.Bundle
+import com.github.projectfluent.FluentLanguage.Bundle
 import com.intellij.DynamicBundle
 import org.jetbrains.annotations.PropertyKey
 import java.util.function.Supplier

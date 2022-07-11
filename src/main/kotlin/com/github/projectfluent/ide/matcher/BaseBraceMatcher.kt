@@ -27,7 +27,7 @@ class BaseBraceMatcher : PairedBraceMatcher {
         )
 
         private val InsertPairBraceBefore = TokenSet.orSet(
-            FluentParserDefinition.COMMENTS,
+            FluentParserDefinition.commentTokens,
             TokenSet.create(
                 TokenType.WHITE_SPACE,
                 COMMA,
