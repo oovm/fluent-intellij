@@ -1,7 +1,7 @@
 package com.github.projectfluent.ide.matcher
 
 import com.github.projectfluent.FluentLanguage
-import com.github.projectfluent.ide.view.FluentFileType
+import com.github.projectfluent.language.file.FluentFileType
 
 import com.intellij.codeInsight.highlighting.PairedBraceMatcherAdapter
 import com.intellij.openapi.editor.highlighter.HighlighterIterator

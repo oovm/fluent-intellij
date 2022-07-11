@@ -1,6 +1,6 @@
 package com.github.projectfluent.ide.formatter
 
-import com.github.projectfluent.ide.view.FluentFile
+import com.github.projectfluent.language.file.FluentFile
 import com.intellij.lang.SmartEnterProcessorWithFixers
 import com.intellij.openapi.editor.Editor
 import com.intellij.openapi.project.Project

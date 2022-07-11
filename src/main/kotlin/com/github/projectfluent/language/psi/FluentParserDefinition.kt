@@ -2,7 +2,7 @@ package com.github.projectfluent.language.psi
 
 
 import com.github.projectfluent.FluentLanguage
-import com.github.projectfluent.ide.view.FluentFile
+import com.github.projectfluent.language.file.FluentFile
 import com.github.projectfluent.language.parser.FluentParser
 
 import com.intellij.lang.ASTNode

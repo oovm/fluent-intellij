@@ -1,7 +1,7 @@
 package com.github.projectfluent.ide.matcher
 
 
-import com.github.projectfluent.ide.view.FluentFile
+import com.github.projectfluent.language.file.FluentFile
 import com.intellij.lang.ASTNode
 import com.intellij.lang.folding.CustomFoldingBuilder
 import com.intellij.lang.folding.FoldingDescriptor

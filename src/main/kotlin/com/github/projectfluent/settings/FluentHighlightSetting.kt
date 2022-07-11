@@ -3,7 +3,7 @@ package com.github.projectfluent.settings
 import com.github.projectfluent.FluentBundle
 import com.github.projectfluent.ide.highlight.FluentHighlightColor
 import com.github.projectfluent.ide.highlight.FluentSyntaxHighlighter
-import com.github.projectfluent.ide.view.FluentIconProvider
+import com.github.projectfluent.language.file.FluentIconProvider
 
 import com.intellij.openapi.options.colors.ColorDescriptor
 import com.intellij.openapi.options.colors.ColorSettingsPage
