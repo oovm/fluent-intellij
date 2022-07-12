@@ -7,7 +7,7 @@
 
 # Selectors
 <SYM_MESSAGE>your-score</SYM_MESSAGE> = You scored {
-    NUMBER(<SYM_VARIABLE>$score</SYM_VARIABLE>, <SYM_VARIABLE>minimumFractionDigits</SYM_VARIABLE>: 1) ->
+    <SYM_FUNCTION>NUMBER</SYM_FUNCTION>(<SYM_VARIABLE>$score</SYM_VARIABLE>, <SYM_VARIABLE>minimumFractionDigits</SYM_VARIABLE>: 1) ->
         [0.0]   zero points. What happened?
        *[<SYM_TERM>other</SYM_TERM>] { <SYM_FUNCTION>NUMBER</SYM_FUNCTION>(<SYM_VARIABLE>$score</SYM_VARIABLE>, <SYM_VARIABLE>minimumFractionDigits</SYM_VARIABLE>: 1)} points.
     }

@@ -2,6 +2,11 @@
 
 # Fluent Intellij Changelog
 
+## [0.3.2]
+### Fixed
+- Fix missing api incompatible for (`223.*`) ([#9](https://github.com/oovm/fluent-intellij/issues/9))
+- Fix wrong highlight in code schema demo.
+
 ## [0.3.1]
 ### Fixed
 - Fix missing api incompatible for (`203.*`)
