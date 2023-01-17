@@ -8,10 +8,9 @@ import com.intellij.psi.PsiElement
 
 class InjectMarkdown : LanguageInjectionContributor {
     override fun getInjection(context: PsiElement): Injection? {
-        if (context.text.startsWith("```")) {
-            return SimpleInjection(FluentLanguage, "prefix", "suffix", "supportId")
-        }
+//        if (context is org.intellij.plugins.markdown.lang.psi.impl.MarkdownCodeFence) {
+//            return SimpleInjection(FluentLanguage, "", "", "ftl")
+//        }
         return null
-//        return SimpleInjection(FluentLanguage , "prefix", "suffix", "supportId" )
     }
 }
