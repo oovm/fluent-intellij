@@ -3,25 +3,25 @@ package com.github.projectfluent.ide.highlight
 import com.github.projectfluent.FluentLanguage
 import com.intellij.lang.injection.MultiHostInjector
 import com.intellij.lang.injection.MultiHostRegistrar
-import com.intellij.lang.injection.general.Injection
-import com.intellij.lang.injection.general.LanguageInjectionContributor
-import com.intellij.lang.injection.general.SimpleInjection
 import com.intellij.psi.PsiElement
+import com.intellij.psi.impl.source.xml.XmlTextImpl
 import com.intellij.psi.xml.XmlTag
+import com.intellij.psi.xml.XmlText
 
 class InjectVue : MultiHostInjector {
     override fun getLanguagesToInject(registrar: MultiHostRegistrar, context: PsiElement) {
-        println("getLanguagesToInject: $context")
-        if (context is XmlTag) {
-            println("context: " + context.name)
-            if (context.name == "fluent") {
+        if (context is XmlTextImpl) {
+            val tag = context.parent;
+            if (tag is XmlTag && tag.name == "fluent") {
+                val range = context.textRange.shiftLeft(context.startOffset);
                 registrar.startInjecting(FluentLanguage)
+                registrar.addPlace(null, null, context, range)
                 registrar.doneInjecting()
             }
         }
     }
 
     override fun elementsToInjectIn(): MutableList<out Class<out PsiElement>> {
-        return mutableListOf(XmlTag::class.java)
+        return mutableListOf(XmlText::class.java)
     }
 }
