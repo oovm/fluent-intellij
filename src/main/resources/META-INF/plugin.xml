@@ -82,6 +82,12 @@
 		<langCodeStyleSettingsProvider
 				implementation="com.github.projectfluent.ide.codeStyle.FluentLanguageCodeStyleSettingsProvider"
 		/>
+		<languageInjectionContributor
+			language="Fluent"
+			implementationClass="com.github.projectfluent.ide.highlight.InjectMarkdown"
+
+		/>
+<!--		<multiHostInjector	implementation=""/>-->
 
 	</extensions>
 	<actions>

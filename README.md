@@ -8,5 +8,6 @@
 - Syntax highlighting
 - Semantic highlighting
 - Structure view
+- [Markdown]()/[Vue]() Support
 
 <!-- Plugin description end -->

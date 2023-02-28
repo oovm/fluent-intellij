@@ -2,6 +2,11 @@
 
 # Fluent Intellij Changelog
 
+## [0.4.0]
+### Added
+- Support highlight block in markdown ([#10](https://github.com/oovm/fluent-intellij/issues/10))
+- Support highlight template in vue ([#10](https://github.com/oovm/fluent-intellij/issues/10)).
+
 ## [0.3.2]
 ### Fixed
 - Fix missing api incompatible for (`223.*`) ([#9](https://github.com/oovm/fluent-intellij/issues/9))
