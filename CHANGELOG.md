@@ -6,6 +6,8 @@
 ### Added
 - Support highlight block in markdown ([#10](https://github.com/oovm/fluent-intellij/issues/10))
 - Support highlight template in vue ([#10](https://github.com/oovm/fluent-intellij/issues/10)).
+### Removed
+- Drop 2020.3 support
 
 ## [0.3.2]
 ### Fixed
