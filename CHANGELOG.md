@@ -2,6 +2,8 @@
 
 # Fluent Intellij Changelog
 
+## [Unreleased]
+
 ## [0.4.0]
 ### Added
 - Support highlight block in markdown ([#10](https://github.com/oovm/fluent-intellij/issues/10))

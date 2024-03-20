@@ -97,9 +97,8 @@
 		<action id="NewFluentFile" class="com.github.projectfluent.ide.actions.FluentCreateFile">
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
-		<action id="jss.JssConvertJson"
-		        class="com.github.projectfluent.ide.actions.FluentConvertMo"/>
-		<group id="jss.JssGenerator" popup="true" text="JssGenerator">
+<!--		<action id="jss.JssConvertJson" class="com.github.projectfluent.ide.actions.FluentConvertMo"/>-->
+		<group id="fluent.FluentGenerator" popup="true" text="FluentGenerator">
 			<reference ref="NewFluentFile"/>
 			<!--			<reference ref="jss.JssConvertJson"/>-->
 			<add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="Github.Create.Gist"/>
