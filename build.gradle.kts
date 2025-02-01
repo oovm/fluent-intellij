@@ -11,7 +11,7 @@ fun environment(key: String) = providers.environmentVariable(key)
 plugins {
     idea
     java
-    kotlin("jvm") version "1.9.0"
+    kotlin("jvm") version "2.1.0"
 //    kotlin("plugin.serialization") version "1.9.0"
     id("org.jetbrains.intellij") version "1.17.2"
     id("org.jetbrains.changelog") version "2.2.0"
