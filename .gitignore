@@ -4,3 +4,5 @@
 build
 
 time-travel.*
+.intellijPlatform/
+.kotlin/
