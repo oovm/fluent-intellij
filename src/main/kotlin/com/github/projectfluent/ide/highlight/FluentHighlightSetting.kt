@@ -25,6 +25,10 @@ class FluentHighlightSetting : ColorSettingsPage {
 
     override fun getAdditionalHighlightingTagToDescriptorMap() = annotatorTags
 
-    override fun getDemoText() = javaClass.getResource("/fileTemplates/colorDemo.ftl")!!.readText()
+    private val demoTextContent by lazy {
+        javaClass.getResource("/fileTemplates/colorDemo.ftl")!!.readText()
+    }
+
+    override fun getDemoText() = demoTextContent
 
 }

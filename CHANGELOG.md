@@ -4,6 +4,14 @@
 
 ## [Unreleased]
 
+## [0.4.3]
+### Fixed
+- Fix missing api incompatible for (`261.*`)
+
+## [0.4.2]
+### Fixed
+- Fix missing api incompatible for (`251.*`)
+
 ## [0.4.1]
 ### Fixed
 - Fix missing api incompatible for (`241.*`)

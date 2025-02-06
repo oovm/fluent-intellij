@@ -56,7 +56,11 @@ class FluentLanguageCodeStyleSettingsProvider : LanguageCodeStyleSettingsProvide
         indentOptions.CONTINUATION_INDENT_SIZE = indentOptions.INDENT_SIZE
     }
 
-    override fun getCodeSample(settingsType: SettingsType) = javaClass.getResource("/fileTemplates/codeStyle.ftl")!!.readText()
+    private val codeSampleContent by lazy {
+        javaClass.getResource("/fileTemplates/codeStyle.ftl")!!.readText()
+    }
+
+    override fun getCodeSample(settingsType: SettingsType) = codeSampleContent
 
     companion object {
         const val DEFAULT_RIGHT_MARGIN = 100

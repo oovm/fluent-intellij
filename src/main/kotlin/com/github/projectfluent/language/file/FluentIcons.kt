@@ -16,6 +16,6 @@ class FluentIcons : IconProvider() {
     }
 
     companion object {
-        val FILE = IconLoader.getIcon("/icons/ftl.svg", FluentIcons::class.java)
+        var FILE: Icon? = IconLoader.getIcon("/icons/ftl.svg", FluentIcons::class.java)
     }
 }

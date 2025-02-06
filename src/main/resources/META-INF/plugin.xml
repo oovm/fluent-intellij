@@ -5,13 +5,12 @@
 	<!-- Product and plugin compatibility requirements -->
 	<!-- https://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html -->
 	<depends>com.intellij.modules.platform</depends>
-	<depends optional="true" config-file="plugin-with-rust.xml">org.rust.lang</depends>
 	<resource-bundle>messages.FluentBundle</resource-bundle>
 	<extensions defaultExtensionNs="com.intellij">
 		<fileType
 			name="Fluent"
 			language="Fluent"
-			extensions="ftl;"
+			extensions="ftl"
 			implementationClass="com.github.projectfluent.language.file.FluentFileType"
 			fieldName="INSTANCE"
 		/>
@@ -28,7 +27,7 @@
 		<additionalTextAttributes scheme="Default" file="colors/FluentDefault.xml"/>
 		<additionalTextAttributes scheme="Darcula" file="colors/FluentDarcula.xml"/>
 		<colorSettingsPage implementation="com.github.projectfluent.ide.highlight.FluentHighlightSetting"/>
-		<highlightVisitor implementation="com.github.projectfluent.ide.highlight.FluentHighlightVisitor"/>
+		<highlightVisitor implementation="com.github.projectfluent.ide.highlight.FluentSemanticHighlighter"/>
 		<lang.syntaxHighlighter
 			language="Fluent"
 			implementationClass="com.github.projectfluent.ide.highlight.FluentSyntaxHighlighter"
@@ -40,11 +39,11 @@
 		/>
 		<lang.commenter
 			language="Fluent"
-			implementationClass="com.github.projectfluent.ide.formatter.JssCommenter"
+			implementationClass="com.github.projectfluent.ide.formatter.FluentCommenter"
 		/>
 		<lang.smartEnterProcessor
 			language="Fluent"
-			implementationClass="com.github.projectfluent.ide.formatter.JssSmartEnter"
+			implementationClass="com.github.projectfluent.ide.formatter.FluentSmartEnter"
 		/>
 		<!-- Document -->
 		<!--documentationProvider implementation="com.github.projectfluent.ide.doc.JssDocumentationExtender"-->
@@ -85,16 +84,14 @@
 		<!--		<languageInjectionContributor-->
 		<!--			language="Fluent"-->
 		<!--			implementationClass="com.github.projectfluent.ide.highlight.InjectMarkdown"-->
-		<!--		/>-->
-		<languageInjectionContributor
-			language="Fluent"
-			implementationClass="com.github.projectfluent.ide.highlight.InjectVue"
-		/>
+		<!--		/-->
 		<multiHostInjector implementation="com.github.projectfluent.ide.highlight.InjectVue"/>
+
+		<psi.referenceContributor implementation="com.github.projectfluent.ide.reference.FluentReferenceContributor"/>
 
 	</extensions>
 	<actions>
-		<action id="NewFluentFile" class="com.github.projectfluent.ide.actions.FluentCreateFile">
+		<action id="NewFluentFile" class="com.github.projectfluent.ide.actions.FluentCreateFile" text="Create Fluent" description="Create fluent file" icon="com.github.projectfluent.language.file.FluentIcons.FILE">
 			<add-to-group group-id="NewGroup" anchor="before" relative-to-action="NewHtmlFile"/>
 		</action>
 <!--		<action id="jss.JssConvertJson" class="com.github.projectfluent.ide.actions.FluentConvertMo"/>-->
