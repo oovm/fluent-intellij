@@ -35,7 +35,7 @@ jobs:
 
       # Check out current repository
       - name: Fetch Sources
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.0
 
       # Validate wrapper
       - name: Gradle Wrapper Validation
@@ -83,7 +83,7 @@ jobs:
 
       # Cache Plugin Verifier IDEs
       - name: Setup Plugin Verifier IDEs Cache
-        uses: actions/cache@v5.0.4
+        uses: actions/cache@v6.1.0
         with:
           path: ${{ steps.properties.outputs.pluginVerifierHomeDir }}/ides
           key: plugin-verifier-${{ hashFiles('build/listProductsReleases.txt') }}
@@ -102,7 +102,7 @@ jobs:
 
       # Run Qodana inspections
       - name: Qodana - Code Inspection
-        uses: JetBrains/qodana-action@v2025.3.2
+        uses: JetBrains/qodana-action@v2026.1.3
 
       # Prepare plugin archive content for creating artifact
       - name: Prepare Plugin Artifact
@@ -133,7 +133,7 @@ jobs:
 
       # Check out current repository
       - name: Fetch Sources
-        uses: actions/checkout@v6.0.2
+        uses: actions/checkout@v7.0.0
 
       # Remove old release drafts by using the curl request for the available releases with draft flag
       - name: Remove Old Release Drafts

@@ -1,7 +1,7 @@
 package com.github.projectfluent.ide.formatter
 
 import com.github.projectfluent.FluentLanguage
-import com.github.projectfluent.language.psi.FluentTypes.*
+import com.github.projectfluent.language.psi.FluentTypes
 import com.intellij.formatting.SpacingBuilder
 import com.intellij.psi.codeStyle.CodeStyleSettings
 import com.intellij.psi.codeStyle.CommonCodeStyleSettings
@@ -18,40 +18,40 @@ data class FluentFormatSpace(
         }
 
         private val remove_space_before = TokenSet.create(
-            PARENTHESIS_R,
-            BRACKET_R,
-            COMMA,
-            SEMICOLON
+            FluentTypes.PARENTHESIS_R,
+            FluentTypes.BRACKET_R,
+            FluentTypes.BRACE_R,
+            FluentTypes.COMMA,
+            FluentTypes.SEMICOLON
         )
         private val remove_space_after = TokenSet.create(
-            PARENTHESIS_L,
-            BRACKET_L,
-            COLON,
+            FluentTypes.PARENTHESIS_L,
+            FluentTypes.BRACKET_L,
+            FluentTypes.BRACE_L,
+            FluentTypes.COLON,
         )
         private val remove_space_newline_after = TokenSet.create(
-            BRACKET_L,
-            DOT,
-            DOLLAR,
-            STAR,
-            HYPHEN
+            FluentTypes.BRACKET_L,
+            FluentTypes.DOT,
+            FluentTypes.DOLLAR,
+            FluentTypes.STAR,
+            FluentTypes.HYPHEN
         )
         private val remove_space_newline_before = TokenSet.create(
-            BRACKET_R
+            FluentTypes.BRACKET_R
         )
-        private val newline_indent_after = TokenSet.create(TO)
+        private val newline_indent_after = TokenSet.create(FluentTypes.TO)
 
-        private val separators = TokenSet.create(COMMA, SEMICOLON)
+        private val separators = TokenSet.create(FluentTypes.COMMA, FluentTypes.SEMICOLON)
 
         private fun createSpacingBuilder(commonSettings: CommonCodeStyleSettings): SpacingBuilder {
             val custom = SpacingBuilder(commonSettings)
                 // ,
                 .after(separators).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
                 // k: v
-                .after(COLON).spacing(1, 1, 0, false, 0)
+                .after(FluentTypes.COLON).spacing(1, 1, 0, false, 0)
                 // k = v
-                .around(EQ).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
-            // SpacingBuilder { }
-            // .before(PROPERTIES_BLOCK).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
+                .around(FluentTypes.EQ).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
 
             return custom
                 .before(remove_space_before).spaceIf(false)

@@ -1,6 +1,7 @@
 package com.github.projectfluent.ide.view
 
-import com.github.projectfluent.language.psi.FluentMessage
+import com.github.projectfluent.language.psi.nodes.FluentMessageNode
+import com.github.projectfluent.language.psi.nodes.FluentAttributeNode
 import com.intellij.ide.structureView.StructureViewModel
 import com.intellij.ide.structureView.StructureViewModelBase
 import com.intellij.ide.structureView.StructureViewTreeElement
@@ -19,7 +20,7 @@ class FluentStructureViewModel(psiFile: PsiFile?) :
     }
 
     override fun isAlwaysLeaf(element: StructureViewTreeElement): Boolean {
-        return element.value is FluentMessage
+        return element.value is FluentAttributeNode
     }
 }
 
