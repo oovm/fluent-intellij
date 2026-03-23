@@ -2,7 +2,7 @@ package com.github.projectfluent.ide.formatter
 
 import com.github.projectfluent.language.ast.computeSpacing
 import com.github.projectfluent.language.ast.isWhitespaceOrEmpty
-import com.github.projectfluent.language.psi.FluentMessage
+import com.github.projectfluent.language.psi.FluentTypes
 import com.intellij.formatting.*
 import com.intellij.lang.ASTNode
 import com.intellij.openapi.util.TextRange
@@ -63,17 +63,18 @@ class FluentFormatBlock(
     }
 
     private fun computeIndent(child: ASTNode): Indent? {
-        // val isCornerChild = node.firstChildNode == child || node.lastChildNode == child
-        val firstLine = node.firstChildNode == child;
-        return when (node.psi) {
-            is FluentMessage -> when {
+        val firstLine = node.firstChildNode == child
+        return when (node.elementType) {
+            FluentTypes.MESSAGE, FluentTypes.TERM, FluentTypes.ATTRIBUTE -> when {
                 firstLine -> Indent.getNoneIndent()
                 else -> Indent.getNormalIndent()
             }
-//        BRACE_BLOCK -> when {
-//            isCornerChild -> Indent.getNoneIndent()
-//            else -> Indent.getNormalIndent()
-//        }
+
+            FluentTypes.SELECT_EXPRESSION -> Indent.getNormalIndent()
+            FluentTypes.VARIANT -> Indent.getNormalIndent()
+            FluentTypes.PATTERN -> Indent.getNormalIndent()
+            FluentTypes.BLOCK_PLACEABLE -> Indent.getNormalIndent()
+            FluentTypes.CALL_ARGUMENTS -> Indent.getNormalIndent()
             else -> Indent.getNoneIndent()
         }
     }

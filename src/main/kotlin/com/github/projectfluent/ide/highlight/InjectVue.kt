@@ -13,9 +13,8 @@ class InjectVue : MultiHostInjector {
         if (context is XmlTextImpl) {
             val tag = context.parent;
             if (tag is XmlTag && tag.name == "fluent") {
-                val range = context.textRange.shiftLeft(context.startOffset);
                 registrar.startInjecting(FluentLanguage)
-                registrar.addPlace(null, null, context, range)
+                registrar.addPlace(null, null, context, com.intellij.openapi.util.TextRange(0, context.textLength))
                 registrar.doneInjecting()
             }
         }

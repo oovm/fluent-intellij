@@ -1,8 +1,29 @@
-.gradle
-.idea
-.qodana
-build
+# OS specific
+*.dll
+*.so
+*.dylib
 
-time-travel.*
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# IDE
 .intellijPlatform/
+.idea/
+.trae/
+
+# Kotlin
+.gradle/
 .kotlin/
+.qodana/
+build/
+
+# Logs
+*.log
+*.hprof
+
+# Temporary files
+*.tmp
+*.temp
+*.swp
+*~
