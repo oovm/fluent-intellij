@@ -1,8 +1,12 @@
-.gradle
-.idea
-.qodana
-build
-
-time-travel.*
+# IDE
 .intellijPlatform/
+.idea/
+.trae/
+
+# Kotlin
+.gradle/
 .kotlin/
+.qodana/
+build/
+
+*.dll

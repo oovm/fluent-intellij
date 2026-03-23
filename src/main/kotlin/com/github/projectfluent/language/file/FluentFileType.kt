@@ -10,9 +10,9 @@ class FluentFileType private constructor() : LanguageFileType(FluentLanguage) {
 
     override fun getDescription(): String = FluentBundle.message("filetype.description")
 
-    override fun getDefaultExtension(): String = "ftl;"
+    override fun getDefaultExtension(): String = "ftl"
 
-    override fun getIcon(): Icon = FluentIcons.FILE
+    override fun getIcon(): Icon = FluentIcons.FILE!!
 
     companion object {
         @JvmStatic

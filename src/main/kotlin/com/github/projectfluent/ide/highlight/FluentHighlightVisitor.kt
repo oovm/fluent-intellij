@@ -2,8 +2,8 @@ package com.github.projectfluent.ide.highlight
 
 
 import com.github.projectfluent.ide.highlight.FluentHighlightColor.*
-import com.github.projectfluent.language.file.FluentFile
-import com.github.projectfluent.language.psi.*
+import com.github.projectfluent.language.psi.FluentVisitor
+import com.github.projectfluent.language.psi.nodes.*
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
 import com.intellij.codeInsight.daemon.impl.HighlightInfoType
 import com.intellij.codeInsight.daemon.impl.HighlightVisitor
@@ -14,37 +14,25 @@ import com.intellij.psi.PsiFile
 class FluentHighlightVisitor : FluentVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
-    override fun visitMessageID(o: FluentMessageID) {
-        highlight(o, SYM_MESSAGE)
+    override fun visitMessageID(o: FluentMessageIDNode) {
+        highlight(o, KEY)
     }
 
-    override fun visitTermID(o: FluentTermID) {
-        highlight(o, SYM_TERM)
+    override fun visitTermID(o: FluentTermIDNode) {
+        highlight(o, KEY)
     }
 
-    override fun visitAttributeID(o: FluentAttributeID) {
-        highlight(o, SYM_ATTRIBUTE)
+    override fun visitAttributeID(o: FluentAttributeIDNode) {
+        highlight(o, KEY)
     }
 
-    override fun visitVariableID(o: FluentVariableID) {
+    override fun visitVariableID(o: FluentVariableIDNode) {
         highlight(o, SYM_VARIABLE)
     }
 
-    override fun visitFunctionID(o: FluentFunctionID) {
+    override fun visitFunctionID(o: FluentFunctionIDNode) {
         highlight(o, SYM_FUNCTION)
     }
-
-//    override fun visitSchemaStatement(o: JssSchemaStatement) {
-//        //
-//        val head = o.firstChild;
-//        highlight(head, FluentColor.KEYWORD)
-//        //
-//        val prop = head.nextLeaf { it.elementType == JssTypes.SYMBOL }!!
-//        highlight(prop, FluentColor.SYM_SCHEMA)
-//
-//        super.visitSchemaStatement(o)
-//    }
-
 
     private fun highlight(element: PsiElement, color: FluentHighlightColor) {
         val builder = HighlightInfo.newHighlightInfo(HighlightInfoType.INFORMATION)
@@ -54,12 +42,7 @@ class FluentHighlightVisitor : FluentVisitor(), HighlightVisitor {
         infoHolder?.add(builder.create())
     }
 
-    override fun analyze(
-        file: PsiFile,
-        updateWholeFile: Boolean,
-        holder: HighlightInfoHolder,
-        action: Runnable
-    ): Boolean {
+    override fun analyze(file: PsiFile, whole: Boolean, holder: HighlightInfoHolder, action: Runnable): Boolean {
         infoHolder = holder
         action.run()
 
@@ -68,7 +51,7 @@ class FluentHighlightVisitor : FluentVisitor(), HighlightVisitor {
 
     override fun clone(): HighlightVisitor = FluentHighlightVisitor()
 
-    override fun suitableForFile(file: PsiFile): Boolean = file is FluentFile
+    override fun suitableForFile(file: PsiFile): Boolean = file is FluentFileNode
 
     override fun visit(element: PsiElement) = element.accept(this)
 }
