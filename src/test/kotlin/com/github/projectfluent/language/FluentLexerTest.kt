@@ -52,4 +52,8 @@ class FluentLexerTest : LexerTestCase() {
     fun testInlinePlaceables() {
         doTest("inline-placeables.ftl")
     }
+
+    fun testStringEscapes() {
+        doTest("string-escapes.ftl")
+    }
 }

@@ -50,6 +50,7 @@ object FluentTypes {
     val FUNCTION_REFERENCE: IElementType = FluentElementType("FUNCTION_REFERENCE")
     val MESSAGE_REFERENCE: IElementType = FluentElementType("MESSAGE_REFERENCE")
     val TERM_REFERENCE: IElementType = FluentElementType("TERM_REFERENCE")
+    val VARIABLE_REFERENCE: IElementType = FluentElementType("VARIABLE_REFERENCE")
     val SELECT_EXPRESSION: IElementType = FluentElementType("SELECT_EXPRESSION")
     val VARIANT: IElementType = FluentElementType("VARIANT")
     val DEFAULT_VARIANT: IElementType = FluentElementType("DEFAULT_VARIANT")

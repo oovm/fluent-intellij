@@ -22,7 +22,11 @@ object FluentParserDefinition : ParserDefinition {
     override fun createParser(project: Project): PsiParser = FluentParser()
     override fun getFileNodeType(): IFileElementType = IFileElementType(FluentLanguage)
     override fun getCommentTokens(): TokenSet = TokenSet.create(FluentTypes.COMMENT_LINE)
-    override fun getStringLiteralElements(): TokenSet = TokenSet.create(FluentTypes.STRING_LITERAL)
+    override fun getStringLiteralElements(): TokenSet = TokenSet.create(
+        FluentTypes.STRING_QUOTE,
+        FluentTypes.STRING_CHAR,
+        FluentTypes.STRING_ESCAPE
+    )
     override fun getWhitespaceTokens(): TokenSet = TokenSet.create(TokenType.WHITE_SPACE)
     override fun createElement(node: ASTNode): PsiElement = FluentFactory.createElement(node)
     override fun createFile(viewProvider: FileViewProvider): PsiFile = FluentFileNode(viewProvider)

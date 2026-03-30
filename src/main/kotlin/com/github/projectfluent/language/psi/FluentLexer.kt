@@ -14,6 +14,7 @@ class FluentLexer : Lexer() {
     private var tokenEnd: Int = 0
     private var currentToken: IElementType? = null
     private var insideExpression: Boolean = false
+    private var insideString: Boolean = false
 
     override fun start(buffer: CharSequence, startOffset: Int, endOffset: Int, initialState: Int) {
         this.buffer = buffer
@@ -24,11 +25,12 @@ class FluentLexer : Lexer() {
         this.tokenEnd = startOffset
         this.currentToken = null
         this.insideExpression = false
+        this.insideString = false
         advance()
     }
 
     override fun getState(): Int {
-        return 0
+        return if (insideString) 1 else 0
     }
 
     override fun getTokenType(): IElementType? {
@@ -55,180 +57,159 @@ class FluentLexer : Lexer() {
 
             val c = buffer[currentOffset]
 
-            when {
-                c.isWhitespace() -> {
-                    consumeWhitespace()
-                }
-                c == '#' -> {
-                    consumeComment()
-                }
-                c == '"' -> {
-                    consumeString()
-                }
-                c.isLetter() || c == '_' -> {
-                    consumeSymbol()
-                }
-                c.isDigit() -> {
-                    if (insideExpression) {
-                        // Inside expressions, treat digits as numbers
-                        while (currentOffset < endOffset && buffer[currentOffset].isDigit()) {
-                            currentOffset++
-                        }
-                        if (currentOffset < endOffset && buffer[currentOffset] == '.') {
-                            currentOffset++ // Consume '.'
-                            while (currentOffset < endOffset && buffer[currentOffset].isDigit()) {
-                                currentOffset++
-                            }
-                            currentToken = FluentTypes.DECIMAL
+            if (insideString) {
+                consumeStringContent()
+            } else {
+                when {
+                    c.isWhitespace() -> {
+                        consumeWhitespace()
+                    }
+                    c == '#' -> {
+                        consumeComment()
+                    }
+                    c == '"' -> {
+                        currentToken = FluentTypes.STRING_QUOTE
+                        currentOffset++
+                        insideString = true
+                    }
+                    c.isLetter() || c == '_' -> {
+                        consumeSymbol()
+                    }
+                    c.isDigit() -> {
+                        if (insideExpression) {
+                            consumeNumberInExpression()
                         } else {
-                            currentToken = FluentTypes.INTEGER
-                        }
-                    } else {
-                        // Outside expressions, treat digits as text
-                        currentToken = FluentTypes.TEXT_LINE
-                        while (currentOffset < endOffset) {
-                            val nextC = buffer[currentOffset]
-                            when {
-                                nextC.isWhitespace() ||
-                                nextC == '#' ||
-                                nextC == '"' ||
-                                nextC.isLetter() ||
-                                nextC == '{' ||
-                                nextC == '}' ||
-                                nextC == '[' ||
-                                nextC == ']' ||
-                                nextC == '(' ||
-                                nextC == ')' ||
-                                nextC == '<' ||
-                                nextC == '>' ||
-                                nextC == '=' ||
-                                nextC == ':' ||
-                                nextC == ';' ||
-                                nextC == ',' ||
-                                nextC == '$' ||
-                                nextC == '.' ||
-                                nextC == '*' ||
-                                nextC == '-' ||
-                                nextC == '`' -> {
-                                    break
-                                }
-                                else -> {
-                                    currentOffset++
-                                }
-                            }
+                            consumeTextLine()
                         }
                     }
-                }
-                c == '{' -> {
-                    currentToken = FluentTypes.BRACE_L
-                    currentOffset++
-                    insideExpression = true
-                }
-                c == '}' -> {
-                    currentToken = FluentTypes.BRACE_R
-                    currentOffset++
-                    insideExpression = false
-                }
-                c == '[' -> {
-                    currentToken = FluentTypes.BRACKET_L
-                    currentOffset++
-                }
-                c == ']' -> {
-                    currentToken = FluentTypes.BRACKET_R
-                    currentOffset++
-                }
-                c == '(' -> {
-                    currentToken = FluentTypes.PARENTHESIS_L
-                    currentOffset++
-                }
-                c == ')' -> {
-                    currentToken = FluentTypes.PARENTHESIS_R
-                    currentOffset++
-                }
-                c == '<' -> {
-                    currentToken = FluentTypes.ANGLE_L
-                    currentOffset++
-                }
-                c == '>' -> {
-                    currentToken = FluentTypes.ANGLE_R
-                    currentOffset++
-                }
-                c == '=' -> {
-                    currentToken = FluentTypes.EQ
-                    currentOffset++
-                }
-                c == ':' -> {
-                    currentToken = FluentTypes.COLON
-                    currentOffset++
-                }
-                c == ';' -> {
-                    currentToken = FluentTypes.SEMICOLON
-                    currentOffset++
-                }
-                c == ',' -> {
-                    currentToken = FluentTypes.COMMA
-                    currentOffset++
-                }
-                c == '$' -> {
-                    currentToken = FluentTypes.DOLLAR
-                    currentOffset++
-                }
-                c == '.' -> {
-                    currentToken = FluentTypes.DOT
-                    currentOffset++
-                }
-                c == '*' -> {
-                    currentToken = FluentTypes.STAR
-                    currentOffset++
-                }
-                c == '-' -> {
-                    currentToken = FluentTypes.HYPHEN
-                    currentOffset++
-                }
-                c == '`' -> {
-                    currentToken = FluentTypes.ACCENT
-                    currentOffset++
-                }
-                else -> {
-                    // Handle other characters as text
-                    currentToken = FluentTypes.TEXT_LINE
-                    while (currentOffset < endOffset) {
-                        val nextC = buffer[currentOffset]
-                        when {
-                            nextC.isWhitespace() ||
-                            nextC == '#' ||
-                            nextC == '"' ||
-                            nextC.isLetter() ||
-                            nextC.isDigit() ||
-                            nextC == '{' ||
-                            nextC == '}' ||
-                            nextC == '[' ||
-                            nextC == ']' ||
-                            nextC == '(' ||
-                            nextC == ')' ||
-                            nextC == '<' ||
-                            nextC == '>' ||
-                            nextC == '=' ||
-                            nextC == ':' ||
-                            nextC == ';' ||
-                            nextC == ',' ||
-                            nextC == '$' ||
-                            nextC == '.' ||
-                            nextC == '*' ||
-                            nextC == '-' ||
-                            nextC == '`' -> {
-                                break
-                            }
-                            else -> {
-                                currentOffset++
-                            }
+                    c == '{' -> {
+                        currentToken = FluentTypes.BRACE_L
+                        currentOffset++
+                        insideExpression = true
+                    }
+                    c == '}' -> {
+                        currentToken = FluentTypes.BRACE_R
+                        currentOffset++
+                        insideExpression = false
+                    }
+                    c == '[' -> {
+                        currentToken = FluentTypes.BRACKET_L
+                        currentOffset++
+                    }
+                    c == ']' -> {
+                        currentToken = FluentTypes.BRACKET_R
+                        currentOffset++
+                    }
+                    c == '(' -> {
+                        currentToken = FluentTypes.PARENTHESIS_L
+                        currentOffset++
+                    }
+                    c == ')' -> {
+                        currentToken = FluentTypes.PARENTHESIS_R
+                        currentOffset++
+                    }
+                    c == '<' -> {
+                        currentToken = FluentTypes.ANGLE_L
+                        currentOffset++
+                    }
+                    c == '>' -> {
+                        currentToken = FluentTypes.ANGLE_R
+                        currentOffset++
+                    }
+                    c == '=' -> {
+                        currentToken = FluentTypes.EQ
+                        currentOffset++
+                    }
+                    c == ':' -> {
+                        currentToken = FluentTypes.COLON
+                        currentOffset++
+                    }
+                    c == ';' -> {
+                        currentToken = FluentTypes.SEMICOLON
+                        currentOffset++
+                    }
+                    c == ',' -> {
+                        currentToken = FluentTypes.COMMA
+                        currentOffset++
+                    }
+                    c == '$' -> {
+                        currentToken = FluentTypes.DOLLAR
+                        currentOffset++
+                    }
+                    c == '.' -> {
+                        currentToken = FluentTypes.DOT
+                        currentOffset++
+                    }
+                    c == '*' -> {
+                        currentToken = FluentTypes.STAR
+                        currentOffset++
+                    }
+                    c == '-' -> {
+                        currentToken = FluentTypes.HYPHEN
+                        currentOffset++
+                    }
+                    c == '`' -> {
+                        currentToken = FluentTypes.ACCENT
+                        currentOffset++
+                    }
+                    c == '\\' -> {
+                        currentToken = FluentTypes.STRING_ESCAPE
+                        currentOffset++
+                        if (currentOffset < endOffset) {
+                            currentOffset++
                         }
+                    }
+                    else -> {
+                        consumeTextLine()
                     }
                 }
             }
 
             tokenEnd = currentOffset
         } while (currentToken == null && currentOffset < endOffset)
+    }
+
+    private fun consumeStringContent() {
+        if (currentOffset >= endOffset) {
+            insideString = false
+            return
+        }
+
+        val c = buffer[currentOffset]
+
+        when {
+            c == '"' -> {
+                currentToken = FluentTypes.STRING_QUOTE
+                currentOffset++
+                insideString = false
+            }
+            c == '\\' -> {
+                currentToken = FluentTypes.STRING_ESCAPE
+                currentOffset++
+                if (currentOffset < endOffset) {
+                    currentOffset++
+                }
+            }
+            c == '{' -> {
+                insideString = false
+                currentToken = FluentTypes.BRACE_L
+                currentOffset++
+                insideExpression = true
+            }
+            else -> {
+                val start = currentOffset
+                while (currentOffset < endOffset) {
+                    val nextC = buffer[currentOffset]
+                    if (nextC == '"' || nextC == '\\' || nextC == '{') {
+                        break
+                    }
+                    currentOffset++
+                }
+                if (currentOffset > start) {
+                    currentToken = FluentTypes.STRING_CHAR
+                }
+            }
+        }
     }
 
     private fun consumeWhitespace() {
@@ -239,27 +220,11 @@ class FluentLexer : Lexer() {
     }
 
     private fun consumeComment() {
-        currentOffset++ // Consume '#'
+        currentOffset++
         while (currentOffset < endOffset && buffer[currentOffset] != '\n') {
             currentOffset++
         }
         currentToken = FluentTypes.COMMENT_LINE
-    }
-
-    private fun consumeString() {
-        currentOffset++ // Consume '"'
-        while (currentOffset < endOffset) {
-            val c = buffer[currentOffset]
-            if (c == '"') {
-                currentOffset++
-                break
-            }
-            if (c == '\\') {
-                currentOffset++ // Consume '\\'
-            }
-            currentOffset++
-        }
-        currentToken = FluentTypes.STRING_LITERAL
     }
 
     private fun consumeSymbol() {
@@ -273,15 +238,54 @@ class FluentLexer : Lexer() {
         currentToken = FluentTypes.SYMBOL
     }
 
-    private fun consumeNumber() {
-        // Always treat numbers as text to match user expectations
+    private fun consumeNumberInExpression() {
+        while (currentOffset < endOffset && buffer[currentOffset].isDigit()) {
+            currentOffset++
+        }
+        if (currentOffset < endOffset && buffer[currentOffset] == '.') {
+            currentOffset++
+            while (currentOffset < endOffset && buffer[currentOffset].isDigit()) {
+                currentOffset++
+            }
+            currentToken = FluentTypes.DECIMAL
+        } else {
+            currentToken = FluentTypes.INTEGER
+        }
+    }
+
+    private fun consumeTextLine() {
         currentToken = FluentTypes.TEXT_LINE
         while (currentOffset < endOffset) {
-            val c = buffer[currentOffset]
-            if (!c.isDigit() && c != '.') {
-                break
+            val nextC = buffer[currentOffset]
+            when {
+                nextC.isWhitespace() ||
+                nextC == '#' ||
+                nextC == '"' ||
+                nextC.isLetter() ||
+                nextC.isDigit() ||
+                nextC == '{' ||
+                nextC == '}' ||
+                nextC == '[' ||
+                nextC == ']' ||
+                nextC == '(' ||
+                nextC == ')' ||
+                nextC == '<' ||
+                nextC == '>' ||
+                nextC == '=' ||
+                nextC == ':' ||
+                nextC == ';' ||
+                nextC == ',' ||
+                nextC == '$' ||
+                nextC == '.' ||
+                nextC == '*' ||
+                nextC == '-' ||
+                nextC == '`' -> {
+                    break
+                }
+                else -> {
+                    currentOffset++
+                }
             }
-            currentOffset++
         }
     }
 
@@ -297,6 +301,7 @@ class FluentLexer : Lexer() {
         tokenStart = currentOffset
         tokenEnd = currentOffset
         currentToken = null
+        insideString = position.state == 1
         advance()
     }
 
@@ -307,5 +312,4 @@ class FluentLexer : Lexer() {
     override fun getBufferEnd(): Int {
         return endOffset
     }
-
 }

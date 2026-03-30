@@ -52,9 +52,9 @@ class FluentParser : PsiParser, LightPsiParser {
                     }
                 }
                 FluentTypes.SYMBOL -> {
-                    // Skip whitespace between symbol and EQ
+                    // Skip whitespace and comments between symbol and EQ
                     var lookAheadOffset = 1
-                    while (builder.lookAhead(lookAheadOffset) == TokenType.WHITE_SPACE) {
+                    while (builder.lookAhead(lookAheadOffset) == TokenType.WHITE_SPACE || builder.lookAhead(lookAheadOffset) == FluentTypes.COMMENT_LINE) {
                         lookAheadOffset++
                     }
                     
@@ -121,9 +121,9 @@ class FluentParser : PsiParser, LightPsiParser {
                     }
                 }
                     FluentTypes.SYMBOL -> {
-                        // Skip whitespace between symbol and EQ
+                        // Skip whitespace and comments between symbol and EQ
                         var lookAheadOffset = 1
-                        while (builder.lookAhead(lookAheadOffset) == TokenType.WHITE_SPACE) {
+                        while (builder.lookAhead(lookAheadOffset) == TokenType.WHITE_SPACE || builder.lookAhead(lookAheadOffset) == FluentTypes.COMMENT_LINE) {
                             lookAheadOffset++
                         }
                         
@@ -194,8 +194,22 @@ class FluentParser : PsiParser, LightPsiParser {
             
             // Check if this is a comment line
             if (builder.tokenType == FluentTypes.COMMENT_LINE) {
-                // This is a comment, which means the next content is a new message
-                break
+                // Consume the comment
+                val commentMarker = builder.mark()
+                builder.advanceLexer()
+                commentMarker.done(FluentTypes.COMMENT_LINE)
+                
+                // After a comment, check if the next token is a new message
+                while (builder.tokenType == TokenType.WHITE_SPACE) {
+                    val whitespaceMarker = builder.mark()
+                    builder.advanceLexer()
+                    whitespaceMarker.done(TokenType.WHITE_SPACE)
+                }
+                
+                if (builder.tokenType == FluentTypes.SYMBOL && builder.lookAhead(1) == FluentTypes.EQ) {
+                    // This is a new message, break and let the main parse loop handle it
+                    break
+                }
             }
             
             // Check if this is a new message
@@ -217,7 +231,8 @@ class FluentParser : PsiParser, LightPsiParser {
                     // (unless preceded by a blank line, which would have broken the pattern already)
                     parseAttribute(builder)
                 } else {
-                    // This is not an attribute, break
+                    // This is not an attribute, consume the dot and break
+                    builder.advanceLexer()
                     break
                 }
             } else {
@@ -348,87 +363,57 @@ class FluentParser : PsiParser, LightPsiParser {
             if (builder.eof()) break
             
             val tokenType = builder.tokenType
+            
+            // Check for end of pattern
             if (tokenType == FluentTypes.SYMBOL && builder.lookAhead(1) == FluentTypes.EQ) {
+                // New message start
                 break
-            }
-            
-            // Don't break on symbol followed by colon inside a pattern - it's probably part of the text
-            if (tokenType == FluentTypes.SYMBOL && builder.lookAhead(1) == FluentTypes.COLON) {
-                // Check if this is actually a term start by looking ahead for whitespace and EQ
-                var lookAheadOffset = 2
-                while (builder.lookAhead(lookAheadOffset) == TokenType.WHITE_SPACE) {
-                    lookAheadOffset++
-                }
-                if (builder.lookAhead(lookAheadOffset) == FluentTypes.EQ) {
-                    // This is a term start, break
-                    break
-                }
-            }
-            
-            // Check for attribute dot
-            if (tokenType == FluentTypes.DOT) {
-                // Only break if the dot is followed by a symbol (attribute ID)
+            } else if (tokenType == FluentTypes.HYPHEN) {
+                // Check if this is a term start
                 var lookAheadOffset = 1
-                while (builder.lookAhead(lookAheadOffset) == TokenType.WHITE_SPACE) {
-                    lookAheadOffset++
-                }
-                if (builder.lookAhead(lookAheadOffset) == FluentTypes.SYMBOL) {
-                    // Check if this is a comment line before the attribute
-                    var commentOffset = lookAheadOffset + 1
-                    while (builder.lookAhead(commentOffset) == TokenType.WHITE_SPACE) {
-                        commentOffset++
-                    }
-                    if (builder.lookAhead(commentOffset) == FluentTypes.COMMENT_LINE) {
-                        // This is a new message, not an attribute
-                        break
-                    }
-                    // If we encounter a dot followed by a symbol, it's the start of an attribute
-                    // Break the pattern parsing to allow the parent method to parse the attribute
-                    break
-                }
-            }
-            
-            // Check for term start (hyphen followed by symbol and =)
-            if (tokenType == FluentTypes.HYPHEN) {
-                var lookAheadOffset = 1
-                // Skip whitespace and comments when looking ahead
                 while (builder.lookAhead(lookAheadOffset) == TokenType.WHITE_SPACE || builder.lookAhead(lookAheadOffset) == FluentTypes.COMMENT_LINE) {
                     lookAheadOffset++
                 }
                 if (builder.lookAhead(lookAheadOffset) == FluentTypes.SYMBOL) {
                     var eqOffset = lookAheadOffset + 1
-                    // Skip whitespace and comments when looking ahead for EQ
                     while (builder.lookAhead(eqOffset) == TokenType.WHITE_SPACE || builder.lookAhead(eqOffset) == FluentTypes.COMMENT_LINE) {
                         eqOffset++
                     }
                     if (builder.lookAhead(eqOffset) == FluentTypes.EQ) {
-                        // If we encounter a hyphen followed by symbol and =, it's the start of a new term
-                        // Break the pattern parsing to allow the parent method to parse the term
+                        // Term start
                         break
                     }
                 }
+            } else if (tokenType == FluentTypes.DOT) {
+                // Check if this is an attribute
+                var lookAheadOffset = 1
+                while (builder.lookAhead(lookAheadOffset) == TokenType.WHITE_SPACE) {
+                    lookAheadOffset++
+                }
+                if (builder.lookAhead(lookAheadOffset) == FluentTypes.SYMBOL) {
+                    // Attribute start
+                    break
+                }
             }
             
+            // Parse the current token
             when (tokenType) {
                 FluentTypes.BRACE_L -> {
                     parseInlinePlaceable(builder)
                 }
-                FluentTypes.STRING_LITERAL, FluentTypes.TEXT_LINE, FluentTypes.COMMA, FluentTypes.COLON, FluentTypes.EQ, FluentTypes.SEMICOLON, FluentTypes.STAR, FluentTypes.TO, FluentTypes.INTEGER, FluentTypes.DECIMAL -> {
+                FluentTypes.STRING_QUOTE, FluentTypes.STRING_CHAR, FluentTypes.STRING_ESCAPE, FluentTypes.TEXT_LINE, FluentTypes.COMMA, FluentTypes.COLON, FluentTypes.EQ, FluentTypes.SEMICOLON, FluentTypes.STAR, FluentTypes.TO, FluentTypes.INTEGER, FluentTypes.DECIMAL, FluentTypes.DOT -> {
                     val textMarker = builder.mark()
                     builder.advanceLexer()
                     textMarker.done(FluentTypes.INLINE_TEXT)
                 }
                 FluentTypes.SYMBOL -> {
-                    // Wrap SYMBOL in INLINE_TEXT as expected
                     val inlineTextMarker = builder.mark()
                     val symbolElementMarker = builder.mark()
-                    builder.advanceLexer() // Consume symbol - it will be added as a child of symbolElementMarker as a token
+                    builder.advanceLexer()
                     symbolElementMarker.done(FluentTypes.SYMBOL)
                     inlineTextMarker.done(FluentTypes.INLINE_TEXT)
                 }
                 FluentTypes.HYPHEN -> {
-                    // If we reach here, it's not a term start (already checked above)
-                    // Treat as inline text
                     val textMarker = builder.mark()
                     builder.advanceLexer()
                     textMarker.done(FluentTypes.INLINE_TEXT)
@@ -535,7 +520,7 @@ class FluentParser : PsiParser, LightPsiParser {
             }
         }
         
-        variableMarker.done(FluentTypes.EXPRESSION)
+        variableMarker.done(FluentTypes.VARIABLE_REFERENCE)
     }
 
     private fun parseCallArguments(builder: PsiBuilder) {
