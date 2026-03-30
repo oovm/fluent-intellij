@@ -248,30 +248,21 @@ class FluentParser : PsiParser, LightPsiParser {
         val termMarker = builder.mark()
         
         // Parse term ID (HYPHEN + SYMBOL together as TERM_ID)
+        // No whitespace between HYPHEN and SYMBOL in valid Fluent syntax
         val idMarker = builder.mark()
         if (builder.tokenType == FluentTypes.HYPHEN) {
             builder.advanceLexer() // Consume hyphen as part of TERM_ID
         }
-        
-        // Skip whitespace and comments between hyphen and symbol
-        while (builder.tokenType == TokenType.WHITE_SPACE || builder.tokenType == FluentTypes.COMMENT_LINE) {
-            val marker = builder.mark()
-            val tokenType = builder.tokenType
-            builder.advanceLexer()
-            marker.done(if (tokenType == TokenType.WHITE_SPACE) TokenType.WHITE_SPACE else FluentTypes.COMMENT_LINE)
-        }
-        
         if (builder.tokenType == FluentTypes.SYMBOL) {
             builder.advanceLexer() // Consume symbol as part of TERM_ID
         }
         idMarker.done(FluentTypes.TERM_ID)
         
-        // Skip whitespace and comments between symbol and EQ
-        while (builder.tokenType == TokenType.WHITE_SPACE || builder.tokenType == FluentTypes.COMMENT_LINE) {
-            val marker = builder.mark()
-            val tokenType = builder.tokenType
+        // Skip whitespace between term ID and EQ
+        while (builder.tokenType == TokenType.WHITE_SPACE) {
+            val whitespaceMarker = builder.mark()
             builder.advanceLexer()
-            marker.done(if (tokenType == TokenType.WHITE_SPACE) TokenType.WHITE_SPACE else FluentTypes.COMMENT_LINE)
+            whitespaceMarker.done(TokenType.WHITE_SPACE)
         }
         
         // Consume EQ
