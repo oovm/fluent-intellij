@@ -20,12 +20,14 @@ data class FluentFormatSpace(
         private val remove_space_before = TokenSet.create(
             FluentTypes.PARENTHESIS_R,
             FluentTypes.BRACKET_R,
+            FluentTypes.BRACE_R,
             FluentTypes.COMMA,
             FluentTypes.SEMICOLON
         )
         private val remove_space_after = TokenSet.create(
             FluentTypes.PARENTHESIS_L,
             FluentTypes.BRACKET_L,
+            FluentTypes.BRACE_L,
             FluentTypes.COLON,
         )
         private val remove_space_newline_after = TokenSet.create(
@@ -50,15 +52,6 @@ data class FluentFormatSpace(
                 .after(FluentTypes.COLON).spacing(1, 1, 0, false, 0)
                 // k = v
                 .around(FluentTypes.EQ).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
-                // Function arguments
-                .around(FluentTypes.PARENTHESIS_L).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
-                .around(FluentTypes.PARENTHESIS_R).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
-                // Inline placeables
-                .around(FluentTypes.BRACE_L).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
-                .around(FluentTypes.BRACE_R).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
-                // Variant keys
-                .around(FluentTypes.BRACKET_L).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
-                .around(FluentTypes.BRACKET_R).spacing(1, 1, 0, commonSettings.KEEP_LINE_BREAKS, 0)
 
             return custom
                 .before(remove_space_before).spaceIf(false)

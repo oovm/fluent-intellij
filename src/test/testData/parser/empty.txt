@@ -1,3 +1,2 @@
 FluentFileNode(0,0)
-  FluentElement(FluentElement.FLUENT)(0,0)
-    <empty list>
+  <empty list>

@@ -5,8 +5,8 @@ welcome =
 
 # Message with attributes and placeables
 user-profile =
-    .name = { $userName }
-    .email = { $userEmail }
+    .name = {$userName}
+    .email = {$userEmail}
     .status = Active
 
 # Multiple attributes

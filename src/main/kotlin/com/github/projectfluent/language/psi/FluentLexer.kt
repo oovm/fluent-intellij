@@ -13,6 +13,7 @@ class FluentLexer : Lexer() {
     private var tokenStart: Int = 0
     private var tokenEnd: Int = 0
     private var currentToken: IElementType? = null
+    private var insideExpression: Boolean = false
 
     override fun start(buffer: CharSequence, startOffset: Int, endOffset: Int, initialState: Int) {
         this.buffer = buffer
@@ -22,6 +23,7 @@ class FluentLexer : Lexer() {
         this.tokenStart = startOffset
         this.tokenEnd = startOffset
         this.currentToken = null
+        this.insideExpression = false
         advance()
     }
 
@@ -67,15 +69,65 @@ class FluentLexer : Lexer() {
                     consumeSymbol()
                 }
                 c.isDigit() -> {
-                    consumeNumber()
+                    if (insideExpression) {
+                        // Inside expressions, treat digits as numbers
+                        while (currentOffset < endOffset && buffer[currentOffset].isDigit()) {
+                            currentOffset++
+                        }
+                        if (currentOffset < endOffset && buffer[currentOffset] == '.') {
+                            currentOffset++ // Consume '.'
+                            while (currentOffset < endOffset && buffer[currentOffset].isDigit()) {
+                                currentOffset++
+                            }
+                            currentToken = FluentTypes.DECIMAL
+                        } else {
+                            currentToken = FluentTypes.INTEGER
+                        }
+                    } else {
+                        // Outside expressions, treat digits as text
+                        currentToken = FluentTypes.TEXT_LINE
+                        while (currentOffset < endOffset) {
+                            val nextC = buffer[currentOffset]
+                            when {
+                                nextC.isWhitespace() ||
+                                nextC == '#' ||
+                                nextC == '"' ||
+                                nextC.isLetter() ||
+                                nextC == '{' ||
+                                nextC == '}' ||
+                                nextC == '[' ||
+                                nextC == ']' ||
+                                nextC == '(' ||
+                                nextC == ')' ||
+                                nextC == '<' ||
+                                nextC == '>' ||
+                                nextC == '=' ||
+                                nextC == ':' ||
+                                nextC == ';' ||
+                                nextC == ',' ||
+                                nextC == '$' ||
+                                nextC == '.' ||
+                                nextC == '*' ||
+                                nextC == '-' ||
+                                nextC == '`' -> {
+                                    break
+                                }
+                                else -> {
+                                    currentOffset++
+                                }
+                            }
+                        }
+                    }
                 }
                 c == '{' -> {
                     currentToken = FluentTypes.BRACE_L
                     currentOffset++
+                    insideExpression = true
                 }
                 c == '}' -> {
                     currentToken = FluentTypes.BRACE_R
                     currentOffset++
+                    insideExpression = false
                 }
                 c == '[' -> {
                     currentToken = FluentTypes.BRACKET_L
@@ -222,17 +274,14 @@ class FluentLexer : Lexer() {
     }
 
     private fun consumeNumber() {
-        while (currentOffset < endOffset && buffer[currentOffset].isDigit()) {
-            currentOffset++
-        }
-        if (currentOffset < endOffset && buffer[currentOffset] == '.') {
-            currentOffset++ // Consume '.'
-            while (currentOffset < endOffset && buffer[currentOffset].isDigit()) {
-                currentOffset++
+        // Always treat numbers as text to match user expectations
+        currentToken = FluentTypes.TEXT_LINE
+        while (currentOffset < endOffset) {
+            val c = buffer[currentOffset]
+            if (!c.isDigit() && c != '.') {
+                break
             }
-            currentToken = FluentTypes.DECIMAL
-        } else {
-            currentToken = FluentTypes.INTEGER
+            currentOffset++
         }
     }
 
