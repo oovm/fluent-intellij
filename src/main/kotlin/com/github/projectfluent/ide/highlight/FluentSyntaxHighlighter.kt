@@ -5,11 +5,12 @@ import com.github.projectfluent.language.psi.FluentLexer
 import com.github.projectfluent.language.psi.FluentTypes
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
-import com.intellij.openapi.fileTypes.SyntaxHighlighterBase
+import com.intellij.openapi.fileTypes.SyntaxHighlighter
+import com.intellij.openapi.fileTypes.SyntaxHighlighterBase.pack
 import com.intellij.psi.TokenType
 import com.intellij.psi.tree.IElementType
 
-class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
+class FluentSyntaxHighlighter : SyntaxHighlighter {
     override fun getHighlightingLexer(): Lexer {
         return FluentLexer()
     }
@@ -40,7 +41,9 @@ class FluentSyntaxHighlighter : SyntaxHighlighterBase() {
 //            STRING -> AwslColor.STRING
             FluentTypes.SYMBOL -> FluentHighlightColor.IDENTIFIER
             // Keys
-            FluentTypes.MESSAGE_ID, FluentTypes.TERM_ID, FluentTypes.ATTRIBUTE_ID -> FluentHighlightColor.KEY
+            FluentTypes.MESSAGE_ID -> FluentHighlightColor.SYM_MESSAGE
+            FluentTypes.TERM_ID, FluentTypes.ATTRIBUTE_ID -> FluentHighlightColor.SYM_TERM
+            FluentTypes.ATTRIBUTE_ID -> FluentHighlightColor.SYM_ATTRIBUTE
             // 注释
             FluentTypes.COMMENT_LINE -> FluentHighlightColor.LINE_COMMENT
 //            COMMENT_BLOCK -> AwslColor.BLOCK_COMMENT

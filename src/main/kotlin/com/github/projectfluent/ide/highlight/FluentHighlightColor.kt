@@ -13,7 +13,6 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as Default
 enum class FluentHighlightColor(humanName: Supplier<@AttributeDescriptor String>, default: TextAttributesKey? = null) {
     // 特殊关键词
     KEYWORD(OptionsBundle.messagePointer("options.language.defaults.keyword"), Default.KEYWORD),
-    KEY(OptionsBundle.messagePointer("options.language.defaults.keyword"), Default.KEYWORD),
     IDIOM_SYMBOL(FluentBundle.messagePointer("color.token.symbol.idiom"), Default.METADATA),
     IDIOM_MARK(FluentBundle.messagePointer("color.token.idiom_mark"), IDIOM_SYMBOL.textAttributesKey),
     PROP_MARK(FluentBundle.messagePointer("color.token.properties_mark"), KEYWORD.textAttributesKey),

@@ -1,7 +1,6 @@
 package com.github.projectfluent.ide.highlight
 
 
-import com.github.projectfluent.ide.highlight.FluentHighlightColor.*
 import com.github.projectfluent.language.psi.FluentVisitor
 import com.github.projectfluent.language.psi.nodes.*
 import com.intellij.codeInsight.daemon.impl.HighlightInfo
@@ -11,27 +10,28 @@ import com.intellij.codeInsight.daemon.impl.analysis.HighlightInfoHolder
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiFile
 
-class FluentHighlightVisitor : FluentVisitor(), HighlightVisitor {
+class FluentSemanticHighlighter : FluentVisitor(), HighlightVisitor {
     private var infoHolder: HighlightInfoHolder? = null
 
-    override fun visitMessageID(o: FluentMessageIDNode) {
-        highlight(o, KEY)
+
+    override fun visitMessageID(messageID: FluentMessageIDNode) {
+        highlight(messageID, FluentHighlightColor.SYM_MESSAGE)
     }
 
-    override fun visitTermID(o: FluentTermIDNode) {
-        highlight(o, KEY)
+    override fun visitTermID(termID: FluentTermIDNode) {
+        highlight(termID, FluentHighlightColor.SYM_TERM)
     }
 
-    override fun visitAttributeID(o: FluentAttributeIDNode) {
-        highlight(o, KEY)
+    override fun visitAttributeID(attributeID: FluentAttributeIDNode) {
+        highlight(attributeID, FluentHighlightColor.SYM_ATTRIBUTE)
     }
 
-    override fun visitVariableID(o: FluentVariableIDNode) {
-        highlight(o, SYM_VARIABLE)
+    override fun visitVariableID(variableID: FluentVariableIDNode) {
+
     }
 
-    override fun visitFunctionID(o: FluentFunctionIDNode) {
-        highlight(o, SYM_FUNCTION)
+    override fun visitFunctionID(functionID: FluentFunctionIDNode) {
+
     }
 
     private fun highlight(element: PsiElement, color: FluentHighlightColor) {
@@ -45,11 +45,12 @@ class FluentHighlightVisitor : FluentVisitor(), HighlightVisitor {
     override fun analyze(file: PsiFile, whole: Boolean, holder: HighlightInfoHolder, action: Runnable): Boolean {
         infoHolder = holder
         action.run()
+        visit(file)
 
         return true
     }
 
-    override fun clone(): HighlightVisitor = FluentHighlightVisitor()
+    override fun clone(): HighlightVisitor = FluentSemanticHighlighter()
 
     override fun suitableForFile(file: PsiFile): Boolean = file is FluentFileNode
 

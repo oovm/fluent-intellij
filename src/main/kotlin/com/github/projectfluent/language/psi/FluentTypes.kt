@@ -1,16 +1,5 @@
 package com.github.projectfluent.language.psi
 
-import com.github.projectfluent.language.psi.nodes.FluentAttributeIDNode
-import com.github.projectfluent.language.psi.nodes.FluentAttributeNode
-import com.github.projectfluent.language.psi.nodes.FluentFunctionIDNode
-import com.github.projectfluent.language.psi.nodes.FluentInlinePlaceableNode
-import com.github.projectfluent.language.psi.nodes.FluentMessageIDNode
-import com.github.projectfluent.language.psi.nodes.FluentMessageNode
-import com.github.projectfluent.language.psi.nodes.FluentTermIDNode
-import com.github.projectfluent.language.psi.nodes.FluentTermNode
-import com.github.projectfluent.language.psi.nodes.FluentVariableIDNode
-import com.intellij.lang.ASTNode
-import com.intellij.psi.PsiElement
 import com.intellij.psi.tree.IElementType
 
 object FluentTypes {
@@ -48,11 +37,9 @@ object FluentTypes {
     val WHITESPACE: IElementType = FluentTokenType("WHITESPACE")
 
     // Elements
-    val FLUENT: IElementType = FluentElementType("FLUENT")
-    val ENTRY: IElementType = FluentElementType("ENTRY")
     val MESSAGE: IElementType = FluentElementType("MESSAGE")
-    val TERM: IElementType = FluentElementType("TERM")
     val ATTRIBUTE: IElementType = FluentElementType("ATTRIBUTE")
+    val TERM: IElementType = FluentElementType("TERM")
     val PATTERN: IElementType = FluentElementType("PATTERN")
     val PATTERN_ELEMENT: IElementType = FluentElementType("PATTERN_ELEMENT")
     val INLINE_TEXT: IElementType = FluentElementType("INLINE_TEXT")
@@ -76,21 +63,5 @@ object FluentTypes {
     val VARIABLE_ID: IElementType = FluentElementType("VARIABLE_ID")
     val FUNCTION_ID: IElementType = FluentElementType("FUNCTION_ID")
 
-    // Factory
-    object Factory {
-        fun createElement(node: ASTNode): PsiElement {
-            return when (node.elementType) {
-                MESSAGE -> FluentMessageNode(node)
-                TERM -> FluentTermNode(node)
-                ATTRIBUTE -> FluentAttributeNode(node)
-                MESSAGE_ID -> FluentMessageIDNode(node)
-                TERM_ID -> FluentTermIDNode(node)
-                ATTRIBUTE_ID -> FluentAttributeIDNode(node)
-                VARIABLE_ID -> FluentVariableIDNode(node)
-                FUNCTION_ID -> FluentFunctionIDNode(node)
-                INLINE_PLACEABLE -> FluentInlinePlaceableNode(node)
-                else -> FluentElement(node)
-            }
-        }
-    }
 }
+

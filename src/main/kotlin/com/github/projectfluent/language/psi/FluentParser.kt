@@ -10,7 +10,6 @@ import com.intellij.psi.TokenType
 class FluentParser : PsiParser, LightPsiParser {
     override fun parse(root: IElementType, builder: PsiBuilder): ASTNode {
         val rootMarker = builder.mark()
-        val fluentMarker = builder.mark()
         
         while (!builder.eof()) {
             when (builder.tokenType) {
@@ -23,6 +22,33 @@ class FluentParser : PsiParser, LightPsiParser {
                     val commentMarker = builder.mark()
                     builder.advanceLexer()
                     commentMarker.done(FluentTypes.COMMENT_LINE)
+                }
+                FluentTypes.HYPHEN -> {
+                    // Check if this is a term (starts with - followed by symbol and =)
+                    var lookAheadOffset = 1
+                    while (builder.lookAhead(lookAheadOffset) == TokenType.WHITE_SPACE) {
+                        lookAheadOffset++
+                    }
+                    
+                    if (builder.lookAhead(lookAheadOffset) == FluentTypes.SYMBOL) {
+                        // Skip whitespace between symbol and EQ
+                        var eqOffset = lookAheadOffset + 1
+                        while (builder.lookAhead(eqOffset) == TokenType.WHITE_SPACE) {
+                            eqOffset++
+                        }
+                        
+                        if (builder.lookAhead(eqOffset) == FluentTypes.EQ) {
+                            parseTerm(builder)
+                        } else {
+                            val hyphenMarker = builder.mark()
+                            builder.advanceLexer()
+                            hyphenMarker.done(FluentTypes.INLINE_TEXT)
+                        }
+                    } else {
+                        val hyphenMarker = builder.mark()
+                        builder.advanceLexer()
+                        hyphenMarker.done(FluentTypes.INLINE_TEXT)
+                    }
                 }
                 FluentTypes.SYMBOL -> {
                     // Skip whitespace between symbol and EQ/COLON
@@ -47,7 +73,6 @@ class FluentParser : PsiParser, LightPsiParser {
             }
         }
         
-        fluentMarker.done(FluentTypes.FLUENT)
         rootMarker.done(root)
         return builder.treeBuilt
     }
@@ -55,7 +80,6 @@ class FluentParser : PsiParser, LightPsiParser {
     override fun parseLight(root: IElementType?, builder: PsiBuilder?) {
         if (root != null && builder != null) {
             val rootMarker = builder.mark()
-            val fluentMarker = builder.mark()
             
             while (!builder.eof()) {
                 when (builder.tokenType) {
@@ -68,6 +92,33 @@ class FluentParser : PsiParser, LightPsiParser {
                         val commentMarker = builder.mark()
                         builder.advanceLexer()
                         commentMarker.done(FluentTypes.COMMENT_LINE)
+                    }
+                    FluentTypes.HYPHEN -> {
+                        // Check if this is a term (starts with - followed by symbol and =)
+                        var lookAheadOffset = 1
+                        while (builder.lookAhead(lookAheadOffset) == TokenType.WHITE_SPACE) {
+                            lookAheadOffset++
+                        }
+                        
+                        if (builder.lookAhead(lookAheadOffset) == FluentTypes.SYMBOL) {
+                            // Skip whitespace between symbol and EQ
+                            var eqOffset = lookAheadOffset + 1
+                            while (builder.lookAhead(eqOffset) == TokenType.WHITE_SPACE) {
+                                eqOffset++
+                            }
+                            
+                            if (builder.lookAhead(eqOffset) == FluentTypes.EQ) {
+                                parseTerm(builder)
+                            } else {
+                                val hyphenMarker = builder.mark()
+                                builder.advanceLexer()
+                                hyphenMarker.done(FluentTypes.INLINE_TEXT)
+                            }
+                        } else {
+                            val hyphenMarker = builder.mark()
+                            builder.advanceLexer()
+                            hyphenMarker.done(FluentTypes.INLINE_TEXT)
+                        }
                     }
                     FluentTypes.SYMBOL -> {
                         // Skip whitespace between symbol and EQ/COLON
@@ -92,7 +143,6 @@ class FluentParser : PsiParser, LightPsiParser {
                 }
             }
             
-            fluentMarker.done(FluentTypes.FLUENT)
             rootMarker.done(root)
         }
     }
@@ -116,9 +166,13 @@ class FluentParser : PsiParser, LightPsiParser {
             whitespaceMarker.done(TokenType.WHITE_SPACE)
         }
         
-        // Consume EQ
+        // Parse EQ - wrap it in a FluentElement that contains the EQ token
         if (builder.tokenType == FluentTypes.EQ) {
+            val eqElementMarker = builder.mark()
+            val eqTokenMarker = builder.mark()
             builder.advanceLexer()
+            eqTokenMarker.done(FluentTypes.EQ)
+            eqElementMarker.done(FluentTypes.EQ)
         }
         
         // Skip whitespace after EQ
@@ -142,24 +196,38 @@ class FluentParser : PsiParser, LightPsiParser {
     private fun parseTerm(builder: PsiBuilder) {
         val termMarker = builder.mark()
         
-        // Parse term ID
-        val idMarker = builder.mark()
-        builder.advanceLexer() // Consume symbol
-        idMarker.done(FluentTypes.TERM_ID)
+        // Check if the term starts with a hyphen
+        if (builder.tokenType == FluentTypes.HYPHEN) {
+            builder.advanceLexer() // Consume hyphen
+        }
         
-        // Skip whitespace between symbol and COLON
+        // Skip whitespace between hyphen and symbol
         while (builder.tokenType == TokenType.WHITE_SPACE) {
             val whitespaceMarker = builder.mark()
             builder.advanceLexer()
             whitespaceMarker.done(TokenType.WHITE_SPACE)
         }
         
-        // Consume COLON
-        if (builder.tokenType == FluentTypes.COLON) {
+        // Parse term ID
+        val idMarker = builder.mark()
+        builder.advanceLexer() // Consume symbol
+        idMarker.done(FluentTypes.TERM_ID)
+        
+        // Skip whitespace between symbol and EQ
+        while (builder.tokenType == TokenType.WHITE_SPACE) {
+            val whitespaceMarker = builder.mark()
             builder.advanceLexer()
+            whitespaceMarker.done(TokenType.WHITE_SPACE)
         }
         
-        // Skip whitespace after COLON
+        // Consume EQ
+        if (builder.tokenType == FluentTypes.EQ) {
+            val eqMarker = builder.mark()
+            builder.advanceLexer()
+            eqMarker.done(FluentTypes.EQ)
+        }
+        
+        // Skip whitespace after EQ
         while (builder.tokenType == TokenType.WHITE_SPACE) {
             val whitespaceMarker = builder.mark()
             builder.advanceLexer()
@@ -180,16 +248,49 @@ class FluentParser : PsiParser, LightPsiParser {
     private fun parseAttribute(builder: PsiBuilder) {
         val attributeMarker = builder.mark()
         
-        // Consume DOT
-        builder.advanceLexer()
+        // Parse DOT - wrap it in a FluentElement that contains the DOT token
+        if (builder.tokenType == FluentTypes.DOT) {
+            val dotElementMarker = builder.mark()
+            val dotTokenMarker = builder.mark()
+            builder.advanceLexer()
+            dotTokenMarker.done(FluentTypes.DOT)
+            dotElementMarker.done(FluentTypes.DOT)
+        }
+        
+        // Skip whitespace between DOT and attribute ID
+        while (builder.tokenType == TokenType.WHITE_SPACE) {
+            val whitespaceMarker = builder.mark()
+            builder.advanceLexer()
+            whitespaceMarker.done(TokenType.WHITE_SPACE)
+        }
         
         // Parse attribute ID
         val idMarker = builder.mark()
         builder.advanceLexer() // Consume symbol
         idMarker.done(FluentTypes.ATTRIBUTE_ID)
         
-        // Consume EQ
-        builder.advanceLexer()
+        // Skip whitespace between attribute ID and EQ
+        while (builder.tokenType == TokenType.WHITE_SPACE) {
+            val whitespaceMarker = builder.mark()
+            builder.advanceLexer()
+            whitespaceMarker.done(TokenType.WHITE_SPACE)
+        }
+        
+        // Parse EQ - wrap it in a FluentElement that contains the EQ token
+        if (builder.tokenType == FluentTypes.EQ) {
+            val eqElementMarker = builder.mark()
+            val eqTokenMarker = builder.mark()
+            builder.advanceLexer()
+            eqTokenMarker.done(FluentTypes.EQ)
+            eqElementMarker.done(FluentTypes.EQ)
+        }
+        
+        // Skip whitespace after EQ
+        while (builder.tokenType == TokenType.WHITE_SPACE) {
+            val whitespaceMarker = builder.mark()
+            builder.advanceLexer()
+            whitespaceMarker.done(TokenType.WHITE_SPACE)
+        }
         
         // Parse pattern
         parsePattern(builder)
@@ -226,10 +327,20 @@ class FluentParser : PsiParser, LightPsiParser {
                 FluentTypes.BRACE_L -> {
                     parseInlinePlaceable(builder)
                 }
-                FluentTypes.STRING_LITERAL, FluentTypes.TEXT_LINE, FluentTypes.SYMBOL, FluentTypes.COMMA, FluentTypes.COLON, FluentTypes.EQ, FluentTypes.SEMICOLON, FluentTypes.STAR, FluentTypes.TO, FluentTypes.HYPHEN, FluentTypes.INTEGER, FluentTypes.DECIMAL -> {
+                FluentTypes.STRING_LITERAL, FluentTypes.TEXT_LINE, FluentTypes.COMMA, FluentTypes.COLON, FluentTypes.EQ, FluentTypes.SEMICOLON, FluentTypes.STAR, FluentTypes.TO, FluentTypes.HYPHEN, FluentTypes.INTEGER, FluentTypes.DECIMAL -> {
                     val textMarker = builder.mark()
                     builder.advanceLexer()
                     textMarker.done(FluentTypes.INLINE_TEXT)
+                }
+                FluentTypes.SYMBOL -> {
+                    // Wrap SYMBOL in INLINE_TEXT as expected
+                    val inlineTextMarker = builder.mark()
+                    val symbolElementMarker = builder.mark()
+                    val symbolTokenMarker = builder.mark()
+                    builder.advanceLexer() // Consume symbol - it will be added as a child of symbolTokenMarker as a token
+                    symbolTokenMarker.done(FluentTypes.SYMBOL)
+                    symbolElementMarker.done(FluentTypes.SYMBOL)
+                    inlineTextMarker.done(FluentTypes.INLINE_TEXT)
                 }
                 else -> {
                     builder.advanceLexer()
