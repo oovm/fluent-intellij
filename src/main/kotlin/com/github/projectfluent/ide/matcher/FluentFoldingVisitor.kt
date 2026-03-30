@@ -16,7 +16,7 @@ class FluentFoldingVisitor(private val descriptors: MutableList<FoldingDescripto
         val lastChild = inlinePlaceable.lastChild
         if (firstChild != null && lastChild != null && firstChild != lastChild) {
             val startOffset = firstChild.textRange.endOffset
-            val endOffset = lastChild.textRange.startOffset
+            val endOffset = lastChild.textRange.endOffset
             if (startOffset < endOffset) {
                 descriptors += FoldingDescriptor(
                     inlinePlaceable,

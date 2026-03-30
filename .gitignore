@@ -1,3 +1,12 @@
+# OS specific
+*.dll
+*.so
+*.dylib
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
 # IDE
 .intellijPlatform/
 .idea/
@@ -9,23 +18,12 @@
 .qodana/
 build/
 
-# Generated files
-src/main/gen/
-
-# OS specific
-*.dll
-*.so
-*.dylib
-
 # Logs
 *.log
+*.hprof
 
 # Temporary files
 *.tmp
 *.temp
 *.swp
 *~
-
-# OS generated files
-.DS_Store
-Thumbs.db
